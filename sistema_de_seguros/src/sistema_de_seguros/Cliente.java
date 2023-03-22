@@ -57,6 +57,15 @@ public class Cliente {
 		this.endereco = endereco;
 	}
 	
+	// Devolve uma representação da classe Cliente em String
+	public String toString() {
+		return "Nome: " + this.nome + "\n"
+			 + "CPF: " + this.cpf + "\n"
+	  	     + "Data de Nascimento : " + this.dataNascimento + "\n"
+		     + "Idade: " + Integer.toString(this.idade) + "\n"
+		     + "Endereço: " + this.endereco + "\n";
+	}
+	
 	// Recebe um CPF e retorna 'true' caso seja válido, caso contrário retorna 'false'
 	public boolean validarCPF(String cpf) {
 		cpf = cpf.replaceAll("[^0-9]", ""); // Apaga caracteres não numéricos

@@ -1,13 +1,14 @@
 package sistema_de_seguros;
 
 public class Sinistro {
+	private static int contador = 0; // Conta quantos sinistros estão registrados no sistema
 	private int id;
 	private String data;
 	private String endereco;
 	
 	// Construtor
 	public Sinistro(String data, String endereco) {
-		this.id = 0;
+		this.id = gerarID();
 		this.data = data;
 		this.endereco = endereco;
 	}
@@ -35,5 +36,11 @@ public class Sinistro {
 	
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
+	}
+	
+	// Gera uma nova ID
+	private int gerarID() {
+		contador++;
+		return contador;
 	}
 }
