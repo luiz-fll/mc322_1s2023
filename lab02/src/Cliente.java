@@ -1,5 +1,3 @@
-package sistema_de_seguros;
-
 public class Cliente {
 	private String nome;
 	private String cpf;

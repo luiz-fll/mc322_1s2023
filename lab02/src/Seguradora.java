@@ -1,5 +1,3 @@
-package sistema_de_seguros;
-
 public class Seguradora {
 	private String nome;
 	private String telefone;

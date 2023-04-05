@@ -1,5 +1,3 @@
-package sistema_de_seguros;
-
 public class Veiculo {
 	private String placa;
 	private String marca;

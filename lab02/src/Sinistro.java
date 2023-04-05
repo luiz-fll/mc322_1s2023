@@ -1,5 +1,3 @@
-package sistema_de_seguros;
-
 public class Sinistro {
 	private static int contador = 0; // Conta quantos sinistros estão registrados no sistema
 	private int id;
