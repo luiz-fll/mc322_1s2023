@@ -1,5 +1,4 @@
 import java.time.LocalDate;
-import java.util.List;
 
 public class ClientePF extends Cliente {
     private final String CPF;
@@ -9,8 +8,8 @@ public class ClientePF extends Cliente {
 	private String classeEconomica;
 
     // Construtor
-    public ClientePF(String nome, String endereco, LocalDate dataLicenca, String educacao, String genero, String classeEconomica, List<Veiculo> listaVeiculos, String CPF, LocalDate dataNascimento) {
-        super(nome, endereco, dataLicenca, listaVeiculos);
+    public ClientePF(String nome, String endereco, LocalDate dataLicenca, String educacao, String genero, String classeEconomica, String CPF, LocalDate dataNascimento) {
+        super(nome, endereco, dataLicenca);
         this.CPF = CPF;
         this.dataNascimento = dataNascimento;
 		this.genero = genero;
@@ -108,7 +107,6 @@ public class ClientePF extends Cliente {
 			" educacao: '" + getEducacao() + "'\n" +
 			" genero: '" + getGenero() + "'\n" +
 			" classeEconomica: '" + getClasseEconomica() + "'\n" +
-			" listaVeiculos: '" + getListaVeiculos() + "'\n" +
             " CPF: '" + getCPF() + "'\n" +
             " dataNascimento: '" + getDataNascimento() + "'\n";
 	}

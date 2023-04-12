@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Cliente {
 	protected String nome;
@@ -8,13 +9,12 @@ public class Cliente {
 	protected List<Veiculo> listaVeiculos;
 	
 	// Construtor
-	public Cliente(String nome, String endereco, LocalDate dataLicenca, List<Veiculo> listaVeiculos) {
+	public Cliente(String nome, String endereco, LocalDate dataLicenca) {
 		this.nome = nome;
 		this.endereco = endereco;
 		this.dataLicenca = dataLicenca;
-		this.listaVeiculos = listaVeiculos;
+		this.listaVeiculos = new ArrayList<Veiculo>();
 	}
-	
 	
 	// Getters e setters
 	public String getNome() {
@@ -49,6 +49,13 @@ public class Cliente {
 		this.listaVeiculos = listaVeiculos;
 	}
 	
+	public boolean cadastrarVeiculo(Veiculo veiculo) {
+		return listaVeiculos.add(veiculo);
+	}
+
+	public boolean removerVeiculo(String placaVeiculo) {
+		return listaVeiculos.removeIf(veiculo -> veiculo.getPlaca().equals(placaVeiculo));
+	}
 	
 	// Devolve uma representação da classe Cliente em String
 	@Override

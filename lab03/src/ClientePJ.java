@@ -1,13 +1,12 @@
 import java.time.LocalDate;
-import java.util.List;
 
 public class ClientePJ extends Cliente {
     private final String CNPJ;
     private LocalDate dataFundacao;
 
     // Construtor
-    public ClientePJ(String nome, String endereco, LocalDate dataLicenca, List<Veiculo> listaVeiculos, String CNPJ, LocalDate dataFundacao) {
-		super(nome, endereco, dataLicenca, listaVeiculos);
+    public ClientePJ(String nome, String endereco, LocalDate dataLicenca, String CNPJ, LocalDate dataFundacao) {
+		super(nome, endereco, dataLicenca);
         this.CNPJ = CNPJ;
         this.dataFundacao = dataFundacao;
 	}
