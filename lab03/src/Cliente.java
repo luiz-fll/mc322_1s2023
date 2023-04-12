@@ -1,4 +1,3 @@
-import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -8,7 +7,7 @@ public class Cliente {
 	protected List<Veiculo> listaVeiculos;
 	
 	// Construtor
-	public Cliente(String nome, String endereco, LocalDate dataLicenca) {
+	public Cliente(String nome, String endereco) {
 		this.nome = nome;
 		this.endereco = endereco;
 		this.listaVeiculos = new ArrayList<Veiculo>();

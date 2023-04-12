@@ -16,6 +16,8 @@ public class Seguradora {
 		this.telefone = telefone;
 		this.email = email;
 		this.endereco = endereco;
+		this.listaClientes = new ArrayList<Cliente>();
+		this.listaSinistros = new ArrayList<Sinistro>();
 	}
 	
 	// Getters e setters

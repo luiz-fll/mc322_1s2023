@@ -10,7 +10,7 @@ public class ClientePF extends Cliente {
 
     // Construtor
     public ClientePF(String nome, String endereco, LocalDate dataLicenca, String educacao, String genero, String classeEconomica, String CPF, LocalDate dataNascimento) {
-        super(nome, endereco, dataLicenca);
+        super(nome, endereco);
         this.CPF = CPF;
         this.dataNascimento = dataNascimento;
 		this.genero = genero;

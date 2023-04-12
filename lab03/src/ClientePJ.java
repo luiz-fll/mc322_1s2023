@@ -5,8 +5,8 @@ public class ClientePJ extends Cliente {
     private LocalDate dataFundacao;
 
     // Construtor
-    public ClientePJ(String nome, String endereco, LocalDate dataLicenca, String CNPJ, LocalDate dataFundacao) {
-		super(nome, endereco, dataLicenca);
+    public ClientePJ(String nome, String endereco, String CNPJ, LocalDate dataFundacao) {
+		super(nome, endereco);
         this.CNPJ = CNPJ;
         this.dataFundacao = dataFundacao;
 	}
