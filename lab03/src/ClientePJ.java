@@ -29,7 +29,6 @@ public class ClientePJ extends Cliente {
 		return
 			" nome: '" + getNome() + "'\n" +
 			" endereco: '" + getEndereco() + "'\n" +
-			" dataLicenca: '" + getDataLicenca() + "'\n" +
 			" listaVeiculos: '" + getListaVeiculos() + "'\n" +
             " CNPJ: '" + getCNPJ() + "'\n" +
             " dataFundacao: '" + getDataFundacao() + "'\n";

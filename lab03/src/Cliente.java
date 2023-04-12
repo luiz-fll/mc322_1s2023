@@ -5,14 +5,12 @@ import java.util.ArrayList;
 public class Cliente {
 	protected String nome;
 	protected String endereco;
-	protected LocalDate dataLicenca;
 	protected List<Veiculo> listaVeiculos;
 	
 	// Construtor
 	public Cliente(String nome, String endereco, LocalDate dataLicenca) {
 		this.nome = nome;
 		this.endereco = endereco;
-		this.dataLicenca = dataLicenca;
 		this.listaVeiculos = new ArrayList<Veiculo>();
 	}
 	
@@ -31,14 +29,6 @@ public class Cliente {
 
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
-	}
-
-	public LocalDate getDataLicenca() {
-		return this.dataLicenca;
-	}
-
-	public void setDataLicenca(LocalDate dataLicenca) {
-		this.dataLicenca = dataLicenca;
 	}
 
 	public List<Veiculo> getListaVeiculos() {
@@ -63,7 +53,6 @@ public class Cliente {
 		return
 			" nome: '" + getNome() + "'\n" +
 			" endereco: '" + getEndereco() + "'\n" +
-			" dataLicenca: '" + getDataLicenca() + "'\n" +
 			" listaVeiculos: '" + getListaVeiculos() + "'\n";
 	}
 }

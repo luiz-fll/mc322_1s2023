@@ -3,6 +3,7 @@ import java.time.LocalDate;
 public class ClientePF extends Cliente {
     private final String CPF;
     private LocalDate dataNascimento;
+	private LocalDate dataLicenca;
 	private String educacao;
 	private String genero;
 	private String classeEconomica;
@@ -15,11 +16,20 @@ public class ClientePF extends Cliente {
 		this.genero = genero;
 		this.educacao = educacao;
 		this.classeEconomica = classeEconomica;
+		this.dataLicenca = dataLicenca;
     }    
 
     // getters e setters
 	public String getCPF() {
 		return this.CPF;
+	}
+
+	public LocalDate getDataLicenca() {
+		return this.dataLicenca;
+	}
+
+	public void setDataLicenca(LocalDate dataLicenca) {
+		this.dataLicenca = dataLicenca;
 	}
 
 	public LocalDate getDataNascimento() {
