@@ -118,6 +118,7 @@ public class ClientePF extends Cliente {
 			" genero: '" + getGenero() + "'\n" +
 			" classeEconomica: '" + getClasseEconomica() + "'\n" +
             " CPF: '" + getCPF() + "'\n" +
+			" listaVeiculos: '" + getListaVeiculos() + "'\n" +
             " dataNascimento: '" + getDataNascimento() + "'\n";
 	}
 }
