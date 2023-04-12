@@ -98,10 +98,10 @@ public class Seguradora {
 	public boolean visualizarSinistro(String cliente) {
 		int i = 0;
 		for (Sinistro sinistro : this.listaSinistros) {
-			if (sinistro.getCliente().getNome() == cliente) {
+			if (sinistro.getCliente().getNome().equals(cliente)) {
 				i++;
 				System.out.println("### Sinistro " + i + " ###");
-				sinistro.toString();
+				System.out.println(sinistro.toString());
 			}
 		}
 		return true;
@@ -112,7 +112,7 @@ public class Seguradora {
 		for (Sinistro sinistro : this.listaSinistros) {
 			i++;
 			System.out.println("### Sinistro " + i + " ###");
-			sinistro.toString();
+			System.out.println(sinistro.toString());
 		}
 
 		return this.listaSinistros;
