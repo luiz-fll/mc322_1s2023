@@ -1,23 +1,17 @@
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Cliente {
-	private String nome;
-	private String endereco;
-	private Date dataLicenca;
-	private String educacao;
-	private String genero;
-	private String classeEconomica;
-	private List<Veiculo> listaVeiculos;
+	protected String nome;
+	protected String endereco;
+	protected LocalDate dataLicenca;
+	protected List<Veiculo> listaVeiculos;
 	
 	// Construtor
-	public Cliente(String nome, String endereco, Date dataLicenca, String educacao, String genero, String classeEconomica, List<Veiculo> listaVeiculos) {
+	public Cliente(String nome, String endereco, LocalDate dataLicenca, List<Veiculo> listaVeiculos) {
 		this.nome = nome;
 		this.endereco = endereco;
 		this.dataLicenca = dataLicenca;
-		this.educacao = educacao;
-		this.genero = genero;
-		this.classeEconomica = classeEconomica;
 		this.listaVeiculos = listaVeiculos;
 	}
 	
@@ -39,36 +33,12 @@ public class Cliente {
 		this.endereco = endereco;
 	}
 
-	public Date getDataLicenca() {
+	public LocalDate getDataLicenca() {
 		return this.dataLicenca;
 	}
 
-	public void setDataLicenca(Date dataLicenca) {
+	public void setDataLicenca(LocalDate dataLicenca) {
 		this.dataLicenca = dataLicenca;
-	}
-
-	public String getEducacao() {
-		return this.educacao;
-	}
-
-	public void setEducacao(String educacao) {
-		this.educacao = educacao;
-	}
-
-	public String getGenero() {
-		return this.genero;
-	}
-
-	public void setGenero(String genero) {
-		this.genero = genero;
-	}
-
-	public String getClasseEconomica() {
-		return this.classeEconomica;
-	}
-
-	public void setClasseEconomica(String classeEconomica) {
-		this.classeEconomica = classeEconomica;
 	}
 
 	public List<Veiculo> getListaVeiculos() {
@@ -87,9 +57,6 @@ public class Cliente {
 			" nome: '" + getNome() + "'\n" +
 			" endereco: '" + getEndereco() + "'\n" +
 			" dataLicenca: '" + getDataLicenca() + "'\n" +
-			" educacao: '" + getEducacao() + "'\n" +
-			" genero: '" + getGenero() + "'\n" +
-			" classeEconomica: '" + getClasseEconomica() + "'\n" +
 			" listaVeiculos: '" + getListaVeiculos() + "'\n";
 	}
 }

@@ -1,28 +1,58 @@
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class ClientePF extends Cliente {
     private final String CPF;
-    private Date dataNascimento;
+    private LocalDate dataNascimento;
+	private String educacao;
+	private String genero;
+	private String classeEconomica;
 
     // Construtor
-    public ClientePF(String nome, String endereco, Date dataLicenca, String educacao, String genero, String classeEconomica, List<Veiculo> listaVeiculos, String CPF, Date dataNascimento) {
-        super(nome, endereco, dataLicenca, educacao, genero, classeEconomica, listaVeiculos);
+    public ClientePF(String nome, String endereco, LocalDate dataLicenca, String educacao, String genero, String classeEconomica, List<Veiculo> listaVeiculos, String CPF, LocalDate dataNascimento) {
+        super(nome, endereco, dataLicenca, listaVeiculos);
         this.CPF = CPF;
         this.dataNascimento = dataNascimento;
+		this.genero = genero;
+		this.educacao = educacao;
+		this.classeEconomica = classeEconomica;
     }    
 
     // getters e setters
-    public String getCPF() {
-		return CPF;
+	public String getCPF() {
+		return this.CPF;
 	}
-	
-	public Date getDataNascimento() {
-		return dataNascimento;
+
+	public LocalDate getDataNascimento() {
+		return this.dataNascimento;
 	}
-	
-	public void setDataNascimento(Date dataNascimento) {
+
+	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
+	}
+
+	public String getEducacao() {
+		return this.educacao;
+	}
+
+	public void setEducacao(String educacao) {
+		this.educacao = educacao;
+	}
+
+	public String getGenero() {
+		return this.genero;
+	}
+
+	public void setGenero(String genero) {
+		this.genero = genero;
+	}
+
+	public String getClasseEconomica() {
+		return this.classeEconomica;
+	}
+
+	public void setClasseEconomica(String classeEconomica) {
+		this.classeEconomica = classeEconomica;
 	}
 
     // Recebe um CPF e retorna 'true' caso seja válido, caso contrário retorna 'false'
