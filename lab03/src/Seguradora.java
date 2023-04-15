@@ -108,13 +108,6 @@ public class Seguradora {
 	}
 
 	public List<Sinistro> listarSinistros() {
-		int i = 0;
-		for (Sinistro sinistro : this.listaSinistros) {
-			i++;
-			System.out.println("### Sinistro " + i + " ###");
-			System.out.println(sinistro.toString());
-		}
-
 		return this.listaSinistros;
 	}
 }

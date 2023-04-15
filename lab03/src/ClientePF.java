@@ -65,7 +65,7 @@ public class ClientePF extends Cliente {
 	}
 
     // Recebe um CPF e retorna 'true' caso seja válido, caso contrário retorna 'false'
-	public boolean validarCPF(String cpf) {
+	public static boolean validarCPF(String cpf) {
 		cpf = cpf.replaceAll("[^0-9]", ""); // Apaga caracteres não numéricos
 		
 		if (cpf.length() != 11) {
