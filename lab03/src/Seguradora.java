@@ -64,7 +64,7 @@ public class Seguradora {
 	}
 
 	public List<Cliente> listarClientes(String tipoCliente) {
-		if (tipoCliente.equals("PF")) {
+		if (tipoCliente.equals("7")) {
 			List<Cliente> clientesPF = new ArrayList<Cliente>();
 			for (Cliente cliente : this.listaClientes) {
 				if (cliente.getClass() == ClientePF.class) {
@@ -73,7 +73,7 @@ public class Seguradora {
 			}
 			return clientesPF;
 		}
-		else if (tipoCliente.equals("PJ")) {
+		else if (tipoCliente.equals("8")) {
 			List<Cliente> clientesPJ = new ArrayList<Cliente>();
 			for (Cliente cliente : this.listaClientes) {
 				if (cliente.getClass() == ClientePJ.class) {
