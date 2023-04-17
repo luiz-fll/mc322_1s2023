@@ -66,7 +66,7 @@ public class Main {
 		}
 	}
 
-	public static Cliente lerDadosCliente(Scanner sc, String tipoCliente) {
+	public static void lerDadosCliente(Scanner sc, String tipoCliente, Seguradora seguradora) {
 		String nome, endereco, educacao, genero, classeEconomica, CPF, CNPJ;
 		LocalDate dataLicenca, dataNascimento, dataFundacao;
 		Cliente cliente;
@@ -81,6 +81,10 @@ public class Main {
 				genero = sc.nextLine();
 				classeEconomica = sc.nextLine();
 				CPF = sc.nextLine();
+				if (!ClientePF.validarCPF(CPF)) {
+					System.out.println("CPF inválido.");
+					return;
+				}
 				dataNascimento = LocalDate.parse(sc.nextLine());
 				cliente = new ClientePF(nome, endereco, dataLicenca, educacao, genero, classeEconomica, CPF, dataNascimento);
 				break;
@@ -90,59 +94,48 @@ public class Main {
 				nome = sc.nextLine();
 				endereco = sc.nextLine();
 				CNPJ = sc.nextLine();
+				if (!ClientePJ.validarCNPJ(CNPJ)) {
+					System.out.println("CNPJ inválido.");
+					return;
+				}
 				dataFundacao = LocalDate.parse(sc.nextLine());
 				cliente = new ClientePJ(nome, endereco, CNPJ, dataFundacao);
 				break;
 			default:
-				return null;
+				return;
 		}
 		System.out.println("Insira o total de veiculos do cliente:");
 		int totalVeiculos = Integer.parseInt(sc.nextLine());
 		lerDadosVeiculos(sc, cliente, totalVeiculos);
-
-		return cliente;
+		seguradora.cadastrarCliente(cliente);
+		System.out.println("Cliente cadastrado!");
 	}
 
-	public static void menuFinalLoop(Seguradora seguradora, Scanner sc, String input) {
-		while (true) {
-			System.out.println("1 - Cadastrar Cliente");
-			System.out.println("2 - Gerar Sinistro");
-			System.out.println("3 - Listar clientes");
-			System.out.println("4 - Listar Sinistros");
-			System.out.println("Outras teclas - Sair");
+	public static void lerDadosSinistro(Scanner sc, Seguradora seguradora) {
+		System.out.println("Insira o Nome do cliente:");
 
-			input = sc.nextLine();
-
-			switch (input) {
-				case "1":
-					System.out.println("Selecione as opcoes:");
-					System.out.println("1 - Cadastrar Cliente Pessoa Física");
-					System.out.println("2 - Cadastrar Cliente Pessoa Jurídica");
-					System.out.println("Outras teclas - Sair");
-
-					input = sc.nextLine();
-
-					Cliente cliente = lerDadosCliente(sc, input);
-					if (cliente == null) {
-						break;
-					}
-					seguradora.cadastrarCliente(cliente);
-					System.out.println("Cliente cadastrado! Selecione as opcoes:");
-					break;
-				case "2":
-					System.out.println("kek");
-					break;
-				case "3":
-					System.out.println("lul");
-					break;
-				case "4":
-					System.out.println("pog");
-					break;
-				default:
-					return;
-			}
+		String nome = sc.nextLine();
+		Cliente cliente = seguradora.listarClientes("").stream().filter(c -> c.getNome().equals(nome)).findFirst().orElse(null);
+		if (cliente == null) {
+			System.out.println("Cliente inválido.");
+			return;
 		}
+
+		System.out.println("Selecione o veículo:");
+		int i = 1;
+		for (Veiculo v : cliente.listaVeiculos) {
+			System.out.println(i + " - " + v.getPlaca());
+			i++;
+		}
+		int placa = Integer.parseInt(sc.nextLine());
+		if (placa > cliente.listaVeiculos.size() || placa < 0) {
+			System.out.println("Veículo inválido.");
+			return;
+		}
+		seguradora.gerarSinistro(cliente, cliente.listaVeiculos.get(placa - 1));
+		System.out.println("Sinistro gerado!");
 	}
+
 	public static void main(String[] args) {
 		String input = new String();
 		Scanner sc = new Scanner(System.in);
@@ -185,10 +178,7 @@ public class Main {
 						System.out.println("Não há seguradora!");
 						break;
 					}
-
-					Cliente cliente = lerDadosCliente(sc, input);
-					seguradora.cadastrarCliente(cliente);
-					System.out.println("Cliente cadastrado!");
+					lerDadosCliente(sc, input, seguradora);
 					break;
 				case "5":
 					if (seguradora == null) {
@@ -199,6 +189,8 @@ public class Main {
 						System.out.println("Não há clientes!");
 						break;
 					}
+					lerDadosSinistro(sc, seguradora);
+					break;
 				case "6":
 				case "7":
 				case "8":
@@ -234,11 +226,23 @@ public class Main {
 					}
 					break;
 				case "10":
+					System.out.println("Insira o nome do cliente a ser removido:");
+					input = sc.nextLine();
+					if (seguradora.removerCliente(input)) {
+						System.out.println("Cliente " + input + " removido.");
+					} else {
+						System.out.println("Cliente " + input + " não encontrado.");
+					}
 					break;
 				case "11":
+					System.out.println("Insira o nome do cliente:");
+					input = sc.nextLine();
+					if (!seguradora.visualizarSinistro(input)) {
+						System.out.println("Não há sinistros com cliente " + input + ".");
+					}
 					break;
 				default:
-					break;
+					return;
 			}	
 		}
 	}

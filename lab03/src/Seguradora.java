@@ -104,7 +104,7 @@ public class Seguradora {
 				System.out.println(sinistro.toString());
 			}
 		}
-		return true;
+		return i != 0;
 	}
 
 	public List<Sinistro> listarSinistros() {
