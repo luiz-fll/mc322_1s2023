@@ -59,10 +59,12 @@ public class Seguradora {
 		return listaClientes.add(cliente);
 	}
 
+	// Remove um cliente e seus sinistros
 	public boolean removerCliente(String cliente) {
 		return listaClientes.removeIf(clienteEscolhido -> clienteEscolhido.getNome().equals(cliente)) && listaSinistros.removeIf(sinistrosDoCliente -> sinistrosDoCliente.getCliente().getNome().equals(cliente));
 	}
 
+	// Lista os clientes, podendo ser todos, somente os PF ou somente os PJ. O tipoCliente vem do input da função main.
 	public List<Cliente> listarClientes(String tipoCliente) {
 		if (tipoCliente.equals("7")) {
 			List<Cliente> clientesPF = new ArrayList<Cliente>();

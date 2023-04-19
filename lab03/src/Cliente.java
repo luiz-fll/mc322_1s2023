@@ -30,6 +30,7 @@ public class Cliente {
 		this.endereco = endereco;
 	}
 
+	// Operações sobre os veículos do cliente
 	public List<Veiculo> getListaVeiculos() {
 		return this.listaVeiculos;
 	}
