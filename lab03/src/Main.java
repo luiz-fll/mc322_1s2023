@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Main {
 
+	// Testa as funções de cada classe.
 	public static void testarPrograma() {
 		// Instanciando clientes
 		ClientePF clienteF = new ClientePF("Joao", "Campinas-SP", LocalDate.of(2022, 8, 13), "Ensino Superior", "Masculino", "BURGUÊS", "76293785", LocalDate.of(2001, 9, 11));
@@ -44,102 +45,190 @@ public class Main {
 		System.out.println("toString Sinistro");
 		System.out.println(seg.listarSinistros().get(0)); // Aqui tem o método listarSinistros
 	}
+
+	// Faz a leitura de uma data, garantindo que a entrada do usuário é válida
+	public static LocalDate lerLocalData(Scanner sc, String prompt) {
+		LocalDate data = null;
+		do {
+			try {
+				System.out.print(prompt);
+				data = LocalDate.parse(sc.nextLine());
+			} catch (Exception e) {
+				System.out.println("Formato inválido.");
+			}
+		} while (data == null);
+
+		return data;
+	}
 	
+	// Faz a leitura dos dados da seguradora a ser criada e retorna um objeto Seguradora
 	public static Seguradora lerDadosSeguradora(Scanner sc) {
 		System.out.println("Insira Nome, Telefone, E-mail e Endereco separados por 'Enter':");
+
+		System.out.print("Nome: ");
 		String nome = sc.nextLine();
-		String telefone = sc.nextLine();
-		String email = sc.nextLine();
+
+		System.out.print("Endereço: ");
 		String endereco = sc.nextLine();
+
+		System.out.print("E-mail: ");
+		String email = sc.nextLine();
+
+		System.out.print("Telefone: ");
+		String telefone = sc.nextLine();
 
 		return new Seguradora(nome, telefone, email, endereco); 
 	}
 
+	// Lê os dados dos veículos de um cliente
 	public static void lerDadosVeiculos(Scanner sc, Cliente cliente, int totalVeiculos) {
 		for (int i = 0; i < totalVeiculos; i++) {
-			System.out.println("Insira a Placa, Marca, Modelo e Ano de fabricacao do veiculo " + (i + 1) + ":");
+			int anoFabricacao = 0;
+			System.out.println("Insira os dados do veiculo " + (i + 1) + ".");
+			
+			System.out.print("Placa: ");
 			String placa = sc.nextLine();
+
+			System.out.print("Marca: ");
 			String marca = sc.nextLine();
+
+			System.out.print("Modelo: ");
 			String modelo = sc.nextLine();
-			int anoFabricacao = Integer.parseInt(sc.nextLine());
+
+			while (anoFabricacao == 0) {
+				System.out.print("Ano de fabricação: ");
+				try {
+					anoFabricacao = Integer.parseInt(sc.nextLine());
+				} catch (Exception e) {
+					System.out.println("Número inválido.");
+				}
+			}
+			
 			cliente.cadastrarVeiculo(new Veiculo(placa, marca, modelo, anoFabricacao));
 		}
 	}
 
+	// Lê os dados de um Cliente PJ ou PF e os cadastra em uma seguradora.
 	public static void lerDadosCliente(Scanner sc, String tipoCliente, Seguradora seguradora) {
 		String nome, endereco, educacao, genero, classeEconomica, CPF, CNPJ;
 		LocalDate dataLicenca, dataNascimento, dataFundacao;
 		Cliente cliente;
+		int totalVeiculos = 0;
 		switch (tipoCliente) {
 			case "3":
-				System.out.println("Insira Nome, Endereco, Data da Licenca, Educacao, Genero, Classe Economica, CPF e Data de Nascimento do Cliente:");
-				System.out.println("(Datas na forma AAAA-MM-DD)");
+				System.out.println("Insira os dados do Cliente.");
+
+				System.out.print("Nome: ");
 				nome = sc.nextLine();
+
+				System.out.print("Endereço: ");
 				endereco = sc.nextLine();
-				dataLicenca = LocalDate.parse(sc.nextLine());
+
+				dataLicenca = lerLocalData(sc, "Data da Licença (AAAA-MM-DD): ");
+
+				System.out.print("Educação: ");
 				educacao = sc.nextLine();
+
+				System.out.print("Gênero: ");
 				genero = sc.nextLine();
+
+				System.out.print("Classse Econômica: ");
 				classeEconomica = sc.nextLine();
+
+				System.out.print("CPF: ");
 				CPF = sc.nextLine();
-				if (!ClientePF.validarCPF(CPF)) {
-					System.out.println("CPF inválido.");
-					return;
+				while (!ClientePF.validarCPF(CPF)) {
+					System.out.println("CPF inválido, digite novamente.");
+					System.out.print("CPF: ");
+					CPF = sc.nextLine();
 				}
-				dataNascimento = LocalDate.parse(sc.nextLine());
+				dataNascimento = lerLocalData(sc, "Data de Nascimento (AAAA-MM-DD):");
+
 				cliente = new ClientePF(nome, endereco, dataLicenca, educacao, genero, classeEconomica, CPF, dataNascimento);
 				break;
 			case "4":
-				System.out.println("Insira Nome, Endereco, CNPJ e Data de fundacao do Cliente:");
-				System.out.println("(Datas na forma AAAA-MM-DD)");
+				System.out.println("Insira os dados do Cliente.");
+
+				System.out.print("Nome: ");
 				nome = sc.nextLine();
+
+				System.out.print("Endereço: ");
 				endereco = sc.nextLine();
+
+				System.out.print("CNPJ: ");
 				CNPJ = sc.nextLine();
-				if (!ClientePJ.validarCNPJ(CNPJ)) {
-					System.out.println("CNPJ inválido.");
-					return;
+				while (!ClientePJ.validarCNPJ(CNPJ)) {
+					System.out.println("CNPJ inválido, digite novamente.");
+					System.out.print("CNPJ: ");
+					CNPJ = sc.nextLine();
 				}
-				dataFundacao = LocalDate.parse(sc.nextLine());
+
+				dataFundacao = lerLocalData(sc, "Data de Fundação (AAAA-MM-DD): ");
+
 				cliente = new ClientePJ(nome, endereco, CNPJ, dataFundacao);
 				break;
 			default:
 				return;
 		}
-		System.out.println("Insira o total de veiculos do cliente:");
-		int totalVeiculos = Integer.parseInt(sc.nextLine());
+
+		while (totalVeiculos == 0) {
+			System.out.print("Insira o total de veiculos do cliente: ");
+			try {
+				totalVeiculos = Integer.parseInt(sc.nextLine());
+			} catch (Exception e) {
+				System.out.println("Número inválido.");
+			}
+		}
+
 		lerDadosVeiculos(sc, cliente, totalVeiculos);
 		seguradora.cadastrarCliente(cliente);
 		System.out.println("Cliente cadastrado!");
 	}
 
+	// Gera um sinistro com os dados informados.
 	public static void lerDadosSinistro(Scanner sc, Seguradora seguradora) {
-		System.out.println("Insira o Nome do cliente:");
+		Cliente cliente;
 
+		System.out.print("Insira o nome do cliente: ");
 		String nome = sc.nextLine();
-		Cliente cliente = seguradora.listarClientes("").stream().filter(c -> c.getNome().equals(nome)).findFirst().orElse(null);
+		cliente = seguradora.listarClientes("").stream().filter(c -> c.getNome().equals(nome)).findFirst().orElse(null);
 		if (cliente == null) {
 			System.out.println("Cliente inválido.");
 			return;
 		}
 
-		System.out.println("Selecione o veículo:");
-		int i = 1;
-		for (Veiculo v : cliente.listaVeiculos) {
-			System.out.println(i + " - " + v.getPlaca());
-			i++;
+		int placa = 0;
+		while (true) {
+			System.out.println("Selecione o veículo:");
+			int i = 1;
+			for (Veiculo v : cliente.listaVeiculos) {
+				System.out.println(i + " - " + v.getPlaca());
+				i++;
+			}
+			try {
+				placa = Integer.parseInt(sc.nextLine());
+			} catch (Exception e) {
+				System.out.println("Número inválido.");
+				continue;
+			}
+			if (placa > cliente.listaVeiculos.size() || placa <= 0) {
+				System.out.println("Veículo inválido.");
+				continue;
+			}
+			break;
 		}
-		int placa = Integer.parseInt(sc.nextLine());
-		if (placa > cliente.listaVeiculos.size() || placa < 0) {
-			System.out.println("Veículo inválido.");
-			return;
-		}
+
 		seguradora.gerarSinistro(cliente, cliente.listaVeiculos.get(placa - 1));
 		System.out.println("Sinistro gerado!");
 	}
 
+	// A main é meramente um menu de texto em loop. Através da variável input, nós recebemos a opção escolhida
+	// e executamos a ação selecionada através de um switch case.
 	public static void main(String[] args) {
 		String input = new String();
 		Scanner sc = new Scanner(System.in);
 		Seguradora seguradora = null;
+		int i;
 
 		while (true) {
 			System.out.println("### Programa Seguradora ###");
@@ -203,8 +292,12 @@ public class Main {
 						System.out.println("Não há clientes!");
 						break;
 					}
+					
+					i = 1;
 					for (Cliente c : listaClientes) {
+						System.out.println("### Cliente " + i + " ###");
 						System.out.println(c);
+						i++;
 					}
 					break;
 				case "9":
@@ -221,12 +314,16 @@ public class Main {
 						System.out.println("Não há Sinistros!");
 						break;
 					}
+					
+					i = 1;
 					for (Sinistro s : listaSinistros) {
+						System.out.println("### Sinistro " + i + " ###");
 						System.out.println(s);
+						i++;
 					}
 					break;
 				case "10":
-					System.out.println("Insira o nome do cliente a ser removido:");
+					System.out.print("Insira o nome do cliente a ser removido:");
 					input = sc.nextLine();
 					if (seguradora.removerCliente(input)) {
 						System.out.println("Cliente " + input + " removido.");
@@ -235,7 +332,7 @@ public class Main {
 					}
 					break;
 				case "11":
-					System.out.println("Insira o nome do cliente:");
+					System.out.print("Insira o nome do cliente: ");
 					input = sc.nextLine();
 					if (!seguradora.visualizarSinistro(input)) {
 						System.out.println("Não há sinistros com cliente " + input + ".");
