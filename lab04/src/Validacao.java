@@ -87,6 +87,6 @@ public class Validacao {
     }
 
     public static boolean validaNome(String nome) {
-        return !nome.matches("\\d");
+        return nome.matches("\\D*");
     }
 }
