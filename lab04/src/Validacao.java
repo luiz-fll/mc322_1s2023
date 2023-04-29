@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 public class Validacao {
     // Recebe um CPF e retorna 'true' caso seja válido, caso contrário retorna 'false'
 	public static boolean validaCPF(String cpf) {
@@ -88,5 +90,46 @@ public class Validacao {
 
     public static boolean validaNome(String nome) {
         return nome.matches("\\D*");
+    }
+
+    // Para não gastar a operação parse em vão, o parâmetro dataLocalDate recebe o valor parseado
+    public static boolean validaData(String dataString, LocalDate dataLocalDate) {
+        try {
+            dataLocalDate = LocalDate.parse(dataString);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // Para não gastar a operação parse em vão, o parâmetro qtdeInt recebe o valor parseado
+    public static boolean validaQtdeFuncionarios(String qtdeString, int qtdeInt) {
+        try {
+            qtdeInt = Integer.parseInt(qtdeString);
+            return qtdeInt > -1;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static boolean validaTelefone(String telefone) {
+        return telefone.matches("^\\(?[1-9]{2}\\)?[9]?[0-9]{4}-?[0-9]{4}$");
+    }
+
+    public static boolean validaEmail(String email) {
+        return email.matches(".*@.*\\..*");
+    }
+
+    public static boolean validaPlaca(String placa) {
+        return placa.matches("[A-Z]{3}-?[0-9][A-Z0-9][0-9]{2}");
+    }
+
+    public static boolean validaAno(String anoString, int anoInt) {
+        try {
+            anoInt = Integer.parseInt(anoString);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
