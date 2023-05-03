@@ -77,4 +77,19 @@ public class ClientePF extends Cliente {
 			" listaVeiculos: '" + getListaVeiculos() + "'\n" +
             " dataNascimento: '" + getDataNascimento() + "'\n";
 	}
+
+	public double calculaScore() {
+		int idadeCliente = LocalDate.now().getYear() - dataNascimento.getYear();
+		
+		if (18 <= idadeCliente && idadeCliente < 30) {
+			return CalcSeguro.VALOR_BASE.valor * CalcSeguro.FATOR_18_30.valor * listaVeiculos.size();
+		}
+		if (30 <= idadeCliente && idadeCliente < 60) {
+			return CalcSeguro.VALOR_BASE.valor * CalcSeguro.FATOR_30_60.valor * listaVeiculos.size();
+		}
+		if (60 <= idadeCliente && idadeCliente < 90) {
+			return CalcSeguro.VALOR_BASE.valor * CalcSeguro.FATOR_60_90.valor * listaVeiculos.size();
+		}
+		return 0;
+	}
 }

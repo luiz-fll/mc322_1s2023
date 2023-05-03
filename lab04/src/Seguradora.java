@@ -114,7 +114,10 @@ public class Seguradora {
 	}
 
 	public double calcularPrecoSeguroCliente(Cliente cliente) {
-		return cliente.calculaScore() * (1 + cliente.numSinistros());
+		// Filtrando sinistros do cliente
+		int qtdeSinistros = (int)listarSinistros().stream().filter(sinistro -> sinistro.getCliente() == cliente).count();
+
+		return cliente.calculaScore() * (1 + qtdeSinistros);
 	}
 
 	public double calcularReceita() {

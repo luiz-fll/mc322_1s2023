@@ -1,10 +1,11 @@
 import java.util.List;
 import java.util.ArrayList;
 
-public class Cliente {
+public abstract class Cliente {
 	protected String nome;
 	protected String endereco;
 	protected List<Veiculo> listaVeiculos;
+	protected double valorSeguro;
 	
 	// Construtor
 	public Cliente(String nome, String endereco) {
@@ -28,6 +29,14 @@ public class Cliente {
 
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
+	}
+
+	public double getValorSeguro() {
+		return this.valorSeguro;
+	}
+
+	public void setValorSeguro(double valorSeguro) {
+		this.valorSeguro = valorSeguro;
 	}
 
 	// Operações sobre os veículos do cliente
@@ -55,4 +64,6 @@ public class Cliente {
 			" endereco: '" + getEndereco() + "'\n" +
 			" listaVeiculos: '" + getListaVeiculos() + "'\n";
 	}
+
+	public abstract double calculaScore();
 }
