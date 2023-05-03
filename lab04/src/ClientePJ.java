@@ -41,7 +41,8 @@ public class ClientePJ extends Cliente {
 			" endereco: '" + getEndereco() + "'\n" +
 			" listaVeiculos: '" + getListaVeiculos() + "'\n" +
             " CNPJ: '" + getCNPJ() + "'\n" +
-            " dataFundacao: '" + getDataFundacao() + "'\n";
+            " dataFundacao: '" + getDataFundacao() + "'\n" +
+            " qtdeFuncionarios: '" + getQtdeFuncionarios() + "'\n";
 	}
 
     public double calculaScore() {
