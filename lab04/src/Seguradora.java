@@ -90,8 +90,8 @@ public class Seguradora {
 	}
 
 	// Operações com sinistros
-	public boolean gerarSinistro(Cliente cliente, Veiculo veiculo) {
-		Sinistro sinistro = new Sinistro(LocalDate.now(), endereco, this, cliente, veiculo);
+	public boolean gerarSinistro(Cliente cliente, Veiculo veiculo, LocalDate data) {
+		Sinistro sinistro = new Sinistro(data, endereco, this, cliente, veiculo);
 		listaSinistros.add(sinistro);
 		
 		return true;
@@ -111,5 +111,17 @@ public class Seguradora {
 
 	public List<Sinistro> listarSinistros() {
 		return this.listaSinistros;
+	}
+
+	public double calcularPrecoSeguroCliente(Cliente cliente) {
+		return cliente.calculaScore() * (1 + cliente.numSinistros());
+	}
+
+	public double calcularReceita() {
+		double receita = 0;
+		for (Cliente cliente : listaClientes) {
+			receita += calcularPrecoSeguroCliente(cliente);
+		}
+		return receita;
 	}
 }
