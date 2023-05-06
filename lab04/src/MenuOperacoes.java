@@ -34,7 +34,13 @@ public enum MenuOperacoes {
         this.operacao = operacao;
     }
 
-    public int getOperacao() {
-        return this.operacao;
+    public static MenuOperacoes getOperacao(int operacaoSelecionada) {
+        for (MenuOperacoes op : values()) {
+            if (op.operacao == operacaoSelecionada) {
+                return op;
+            }
+        }
+        return null;
     }
+
 }
