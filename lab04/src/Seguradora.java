@@ -66,7 +66,7 @@ public class Seguradora {
 
 	// Lista os clientes, podendo ser todos, somente os PF ou somente os PJ. O tipoCliente vem do input da função main.
 	public List<Cliente> listarClientes(String tipoCliente) {
-		if (tipoCliente.equals("7")) {
+		if (tipoCliente.equals("PF")) {
 			List<Cliente> clientesPF = new ArrayList<Cliente>();
 			for (Cliente cliente : this.listaClientes) {
 				if (cliente.getClass() == ClientePF.class) {
@@ -75,7 +75,7 @@ public class Seguradora {
 			}
 			return clientesPF;
 		}
-		else if (tipoCliente.equals("8")) {
+		else if (tipoCliente.equals("PJ")) {
 			List<Cliente> clientesPJ = new ArrayList<Cliente>();
 			for (Cliente cliente : this.listaClientes) {
 				if (cliente.getClass() == ClientePJ.class) {
