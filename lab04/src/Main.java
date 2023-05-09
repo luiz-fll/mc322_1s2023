@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -421,13 +422,43 @@ public class Main {
                         lerDadosSinistro(sc);
                         break;
                     case TRANSFERIR_SEGURO:
+                        if (seguradoraCadastrada == null) {
+                            System.out.println("Não há seguradora!");
+                            break;
+                        }
+                        if (seguradoraCadastrada.listarClientes("").size() < 2) {
+                            System.out.println("Não há clientes o suficiente!");
+                            break;
+                        }
+                        System.out.print("Insira o nome do cliente com os veículos: ");
+                        Cliente clienteVeiculos = seguradoraCadastrada.listarClientes("").stream().filter(c -> c.getNome().equals(sc.nextLine())).findFirst().orElse(null);
+                        if (clienteVeiculos == null) {
+                            System.out.println("Cliente inválido.");
+                            break;
+                        }
+                        System.out.print("Insira o nome do cliente da transferência: ");
+                        Cliente clienteTransferencia = seguradoraCadastrada.listarClientes("").stream().filter(c -> c.getNome().equals(sc.nextLine())).findFirst().orElse(null);
+                        if (clienteTransferencia == null) {
+                            System.out.println("Cliente inválido.");
+                            break;
+                        }
+                        List<Veiculo> veiculos = clienteTransferencia.getListaVeiculos();
+                        for (Veiculo veiculo : clienteVeiculos.listaVeiculos) {
+                            veiculos.add(veiculo);
+                        }
+                        clienteVeiculos.setListaVeiculos(null);
                         break;
                     case CALCULAR_RECEITA_SEGURADORA:
                         if (seguradoraCadastrada == null) {
                             System.out.println("Não há seguradora!");
                             break;
                         }
-                        System.out.println("Receita: R$ " + seguradoraCadastrada.calcularReceita());
+                        try {
+                            System.out.println("Receita: R$ " + seguradoraCadastrada.calcularReceita());    
+                        } catch (Exception e) {
+                            System.out.println(e);
+                        }
+                        
                         break;
                     case SAIR:
                         return;
@@ -440,7 +471,37 @@ public class Main {
             }
         }
     }
+
+    public static void testarPrograma() {
+        Seguradora seguradoraTeste = new Seguradora("TestSeguros", "(11)91111-2222", "email@example.com", "Lugar");
+        ClientePF fisica = new ClientePF("pf", "aqui", LocalDate.of(2020, 12, 3), "pouca", "a", "r", "018.730.580-39", LocalDate.of(2000, 10, 10));
+        ClientePJ juridica = new ClientePJ("pj", "lá", "20.868.879/0001-03", LocalDate.of(2002, 10, 10), 30);
+
+        seguradoraTeste.cadastrarCliente(juridica);
+        seguradoraTeste.cadastrarCliente(fisica);
+
+        Veiculo hyundai = new Veiculo("AAA-1234", "hyundai", "i30", 2017);
+        Veiculo honda = new Veiculo("ZZZ-9876", "Honda", "Civic", 2018);
+
+        fisica.cadastrarVeiculo(hyundai);
+        juridica.cadastrarVeiculo(honda);
+        
+        Sinistro sinistroFisica = new Sinistro(LocalDate.of(2022, 10, 12), "ali", seguradoraTeste, fisica, hyundai);
+        Sinistro sinistroJuridica = new Sinistro(LocalDate.of(2022, 10, 12), "ali", seguradoraTeste, juridica, honda);
+
+        seguradoraTeste.listarClientes("");
+        seguradoraTeste.visualizarSinistro();
+        seguradoraTeste.visualizarSinistro(fisica.getNome());
+        seguradoraTeste.listarSinistros();
+        
+        System.out.println(seguradoraTeste.calcularReceita());
+        seguradoraTeste.calcularPrecoSeguroCliente(juridica);
+        seguradoraTeste.calcularPrecoSeguroCliente(fisica);
+        
+        
+    }
 	public static void main(String args[]) {
+        testarPrograma();
         Scanner sc = new Scanner(System.in);
         menuPrincipal(sc);
 		sc.close();
