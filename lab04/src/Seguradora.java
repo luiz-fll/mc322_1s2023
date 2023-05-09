@@ -64,6 +64,20 @@ public class Seguradora {
 		return listaClientes.removeIf(clienteEscolhido -> clienteEscolhido.getNome().equals(cliente)) && listaSinistros.removeIf(sinistrosDoCliente -> sinistrosDoCliente.getCliente().getNome().equals(cliente));
 	}
 
+	public boolean removerSinistro(int index) {
+		if (index >= listaSinistros.size()) {
+			return false;
+		}
+		return listaSinistros.remove(index) != null;
+	}
+
+	public boolean removerVeiculo(Cliente cliente, int index) {
+		if (index >= cliente.listaVeiculos.size()) {
+			return false;
+		}
+		return cliente.listaVeiculos.remove(index) != null;
+	}
+
 	// Lista os clientes, podendo ser todos, somente os PF ou somente os PJ. O tipoCliente vem do input da função main.
 	public List<Cliente> listarClientes(String tipoCliente) {
 		if (tipoCliente.equals("PF")) {
@@ -109,13 +123,59 @@ public class Seguradora {
 		return i != 0;
 	}
 
+	public boolean visualizarSinistro() {
+		int i = 0;
+		for (Sinistro sinistro : this.listaSinistros) {
+			i++;
+			System.out.println("### Sinistro " + i + " ###");
+			System.out.println(sinistro.toString());
+		}
+		return i != 0;
+	}
+
+	public boolean visualizarClientes(String tipoCliente) {
+		int i = 0;
+		for (Cliente cliente : listarClientes(tipoCliente)) {
+			i++;
+			System.out.println("### Cliente " + i + " ###");
+			System.out.println(cliente.toString());
+		}
+		return i != 0;
+	}
+
+	public boolean visualizarVeiculo(String clienteString) {
+		int i = 0;
+		for (Cliente cliente : this.listaClientes) {
+			if (cliente.getNome().equals(clienteString)) {
+				for (Veiculo veiculo : cliente.listaVeiculos) {
+					i++;
+					System.out.println("### veiculo " + i + " ###");
+					System.out.println(veiculo.toString());
+				}
+			}
+		}
+		return i != 0;
+	}
+
+	public boolean visualizarVeiculo() {
+		int i = 0;
+		for (Cliente cliente : this.listaClientes) {
+			for (Veiculo veiculo : cliente.listaVeiculos) {
+				i++;
+				System.out.println("### veiculo " + i + " do cliente " + cliente.getNome() + " ###");
+				System.out.println(veiculo.toString());
+			}
+		}
+		return i != 0;
+	}
+
 	public List<Sinistro> listarSinistros() {
 		return this.listaSinistros;
 	}
 
 	public double calcularPrecoSeguroCliente(Cliente cliente) {
 		// Filtrando sinistros do cliente
-		int qtdeSinistros = (int)listarSinistros().stream().filter(sinistro -> sinistro.getCliente() == cliente).count();
+		int qtdeSinistros = listarSinistros().stream().filter(sinistro -> sinistro.getCliente() == cliente).toArray().length;
 
 		return cliente.calculaScore() * (1 + qtdeSinistros);
 	}

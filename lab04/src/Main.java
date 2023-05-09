@@ -2,6 +2,8 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Main {
+    public static Seguradora seguradoraCadastrada = null;
+
     // Faz a leitura de uma data, garantindo que a entrada do usuário é válida
 	public static LocalDate lerLocalData(Scanner sc, String prompt) {
         System.out.println(prompt);
@@ -39,7 +41,7 @@ public class Main {
 		String telefone = sc.nextLine();
         while (Validacao.validaTelefone(telefone) == false) {
             System.out.println("Formato inválido.");
-            System.out.print("E-mail: ");
+            System.out.print("Telefone: ");
 		    telefone = sc.nextLine();
         }
 
@@ -47,7 +49,7 @@ public class Main {
 	}
 
 	// Lê os dados dos veículos de um cliente
-	public static void lerDadosVeiculo(Scanner sc, Seguradora seguradoraCadastrada) {
+	public static void lerDadosVeiculo(Scanner sc) {
         System.out.println("Insira os dados do veiculo");
 
         System.out.print("Cliente proprietário: ");
@@ -85,7 +87,7 @@ public class Main {
 	}
 
 	// Lê os dados de um Cliente PJ ou PF e os cadastra em uma seguradora.
-	public static void lerDadosCliente(Scanner sc, Seguradora seguradora) {
+	public static void lerDadosCliente(Scanner sc) {
 		String nome, endereco, educacao, genero, classeEconomica, CPF, CNPJ, qtdeFuncionariosString, tipoCliente;
 		LocalDate dataLicenca, dataNascimento, dataFundacao;
 		Cliente cliente;
@@ -100,6 +102,11 @@ public class Main {
 
 				System.out.print("Nome: ");
 				nome = sc.nextLine();
+                while (!Validacao.validaNome(nome)) {
+					System.out.println("Nome inválido, digite novamente.");
+					System.out.print("Nome: ");
+					nome = sc.nextLine();
+				}
 
 				System.out.print("Endereço: ");
 				endereco = sc.nextLine();
@@ -160,17 +167,17 @@ public class Main {
                 System.out.println("Tipo inválido.");
 				return;
 		}
-		seguradora.cadastrarCliente(cliente);
+		seguradoraCadastrada.cadastrarCliente(cliente);
 		System.out.println("Cliente cadastrado!");
 	}
 
 	// Gera um sinistro com os dados informados.
-	public static void lerDadosSinistro(Scanner sc, Seguradora seguradora) {
+	public static void lerDadosSinistro(Scanner sc) {
 		Cliente cliente;
 
 		System.out.print("Insira o nome do cliente: ");
 		String nome = sc.nextLine();
-		cliente = seguradora.listarClientes("").stream().filter(c -> c.getNome().equals(nome)).findFirst().orElse(null);
+		cliente = seguradoraCadastrada.listarClientes("").stream().filter(c -> c.getNome().equals(nome)).findFirst().orElse(null);
 		if (cliente == null) {
 			System.out.println("Cliente inválido.");
 			return;
@@ -197,11 +204,11 @@ public class Main {
 			break;
 		}
         LocalDate dataSinistro = lerLocalData(sc, "Data do sinistro (AAAA-MM-DD): ");
-		seguradora.gerarSinistro(cliente, cliente.listaVeiculos.get(placa - 1), dataSinistro);
+		seguradoraCadastrada.gerarSinistro(cliente, cliente.listaVeiculos.get(placa - 1), dataSinistro);
 		System.out.println("Sinistro gerado!");
 	}
 
-    public static void MenuCadastrar(Seguradora seguradoraCadastrada, Scanner sc) {
+    public static void MenuCadastrar(Scanner sc) {
         int input;
 
         while (true) {
@@ -218,14 +225,18 @@ public class Main {
                             System.out.println("Não há seguradora!");
                             break;
                         }
-                        lerDadosCliente(sc, seguradoraCadastrada);
+                        lerDadosCliente(sc);
                         break;
                     case CADASTRAR_VEICULO:
                         if (seguradoraCadastrada == null) {
                             System.out.println("Não há seguradora!");
                             break;
                         }
-                        lerDadosVeiculo(sc, seguradoraCadastrada);
+                        if (seguradoraCadastrada.listarClientes("").size() == 0) {
+                            System.out.println("Não há clientes!");
+                            break;
+                        }
+                        lerDadosVeiculo(sc);
                         break;
                     case CADASTRAR_SEGURADORA:
                         seguradoraCadastrada = lerDadosSeguradora(sc);
@@ -242,8 +253,9 @@ public class Main {
         }
     }
 
-    public static void MenuListar(Seguradora seguradoraCadastrada, Scanner sc) {
+    public static void MenuListar(Scanner sc) {
         int input;
+        String nomeCliente;
 
         while (true) {
             System.out.println("21 - Listar Cliente (PF/PJ) por Seg.");
@@ -259,19 +271,26 @@ public class Main {
                     case LISTAR_CLIENTES_POR_SEGURADORA:
                         System.out.print("Tipo do cliente (PJ ou PJ ou ambos): ");
                         String tipoCliente = sc.nextLine();
-                        seguradoraCadastrada.listarClientes(tipoCliente);
+                        seguradoraCadastrada.visualizarClientes(tipoCliente);
                         break;
                     case LISTAR_SINISTROS_POR_SEGURADORA:
-                        seguradoraCadastrada.listarSinistros();
+                        for (Cliente cliente : seguradoraCadastrada.listarClientes("")) {
+                            System.out.println("Cliente " + cliente.nome + ":");
+                            seguradoraCadastrada.visualizarSinistro(cliente.nome);
+                        }
                         break;
                     case LISTAR_SINISTROS_POR_CLIENTE:
-                        // chato
+                        System.out.print("Insira o nome do cliente: ");
+                        nomeCliente = sc.nextLine();
+                        seguradoraCadastrada.visualizarSinistro(nomeCliente);
                         break;
                     case LISTAR_VEICULOS_POR_CLIENTE:
-                        // chato
+                        System.out.print("Insira o nome do cliente: ");
+                        nomeCliente = sc.nextLine();
+                        seguradoraCadastrada.visualizarVeiculo(nomeCliente);
                         break;
                     case LISTAR_VEICULOS_POR_SEGURADORA:
-                        // chato
+                        seguradoraCadastrada.visualizarVeiculo();
                         break;
                     case VOLTAR:
                         return;
@@ -285,8 +304,10 @@ public class Main {
         }
     }
 
-    public static void MenuExcluir(Seguradora seguradoraCadastrada, Scanner sc) {
-        int input;
+    public static void MenuExcluir(Scanner sc) {
+        int input, indiceSinistro, indiceVeiculo;
+        String nomeCliente;
+
         if (seguradoraCadastrada == null) {
             System.out.println("Não há seguradora!");
             return;
@@ -302,10 +323,38 @@ public class Main {
                 input = Integer.parseInt(sc.nextLine());
                 switch (MenuOperacoes.getOperacao(input)) {
                     case EXCLUIR_CLIENTE:
+                        System.out.print("Insira o nome do cliente: ");
+                        nomeCliente = sc.nextLine();
+                        seguradoraCadastrada.removerCliente(nomeCliente);
                         break;
                     case EXCLUIR_VEICULO:
+                        System.out.print("Insira o nome do cliente: ");
+                        Cliente cliente = seguradoraCadastrada.listarClientes("").stream().filter(c -> c.getNome().equals(sc.nextLine())).findFirst().orElse(null);
+                        if (cliente == null) {
+                            System.out.println("Cliente inválido.");
+                            break;
+                        }
+                        System.out.print("Selecione o número do sinistro: ");
+                        seguradoraCadastrada.visualizarSinistro(cliente.getNome());
+                        try {
+                            indiceVeiculo = Integer.parseInt(sc.nextLine()) - 1;
+                        } catch (Exception e) {
+                            System.out.println("Valor inválido.");
+                            break;
+                        }
+                        seguradoraCadastrada.removerVeiculo(cliente, indiceVeiculo);
                         break;
                     case EXCLUIR_SINISTRO:
+                        System.out.print("Selecione o número do sinistro: ");
+                        seguradoraCadastrada.visualizarSinistro();
+
+                        try {
+                            indiceSinistro = Integer.parseInt(sc.nextLine()) - 1;
+                        } catch (Exception e) {
+                            System.out.println("Valor inválido.");
+                            break;
+                        }
+                        seguradoraCadastrada.removerSinistro(indiceSinistro);
                         break;
                     case VOLTAR:
                         return;
@@ -319,7 +368,7 @@ public class Main {
         }
     }
 
-    public static void menuPrincipal(Seguradora seguradoraCadastrada, Scanner sc) {
+    public static void menuPrincipal(Scanner sc) {
         int input;
 
         while (true) {
@@ -336,28 +385,40 @@ public class Main {
                 input = Integer.parseInt(sc.nextLine());
                 switch (MenuOperacoes.getOperacao(input)) {
                     case CADASTROS:
-                        MenuCadastrar(seguradoraCadastrada, sc);
+                        MenuCadastrar(sc);
                         break;
                     case LISTAR:
                         if (seguradoraCadastrada == null) {
                             System.out.println("Não há seguradora!");
                             break;
                         }
-                        MenuListar(seguradoraCadastrada, sc);
+                        if (seguradoraCadastrada.listarClientes("").size() == 0) {
+                            System.out.println("Não há clientes!");
+                            break;
+                        }
+                        MenuListar(sc);
                         break;
                     case EXCLUIR:
                         if (seguradoraCadastrada == null) {
                             System.out.println("Não há seguradora!");
                             break;
                         }
-                        MenuExcluir(seguradoraCadastrada, sc);
+                        if (seguradoraCadastrada.listarClientes("").size() == 0) {
+                            System.out.println("Não há clientes!");
+                            break;
+                        }
+                        MenuExcluir(sc);
                         break;
                     case GERAR_SINISTRO:
                         if (seguradoraCadastrada == null) {
                             System.out.println("Não há seguradora!");
                             break;
                         }
-                        lerDadosSinistro(sc, seguradoraCadastrada);
+                        if (seguradoraCadastrada.listarClientes("").size() == 0) {
+                            System.out.println("Não há clientes!");
+                            break;
+                        }
+                        lerDadosSinistro(sc);
                         break;
                     case TRANSFERIR_SEGURO:
                         break;
@@ -380,9 +441,8 @@ public class Main {
         }
     }
 	public static void main(String args[]) {
-		Seguradora seguradoraCadastrada = null;
         Scanner sc = new Scanner(System.in);
-        menuPrincipal(seguradoraCadastrada, sc);
+        menuPrincipal(sc);
 		sc.close();
 	}
 }
