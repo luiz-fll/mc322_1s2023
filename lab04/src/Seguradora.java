@@ -103,7 +103,6 @@ public class Seguradora {
 		}
 	}
 
-	// Operações com sinistros
 	public boolean gerarSinistro(Cliente cliente, Veiculo veiculo, LocalDate data) {
 		Sinistro sinistro = new Sinistro(data, endereco, this, cliente, veiculo);
 		listaSinistros.add(sinistro);
@@ -111,6 +110,8 @@ public class Seguradora {
 		return true;
 	}
 
+	// funções visualizar possuem overload: se passar um cliente ela mostra só do cliente, caso contrário mostra
+	// da seguradora inteira
 	public boolean visualizarSinistro(String cliente) {
 		int i = 0;
 		for (Sinistro sinistro : this.listaSinistros) {
@@ -143,6 +144,8 @@ public class Seguradora {
 		return i != 0;
 	}
 
+	// funções visualizar possuem overload: se passar um cliente ela mostra só do cliente, caso contrário mostra
+	// da seguradora inteira
 	public boolean visualizarVeiculo(String clienteString) {
 		int i = 0;
 		for (Cliente cliente : this.listaClientes) {

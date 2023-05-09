@@ -92,44 +92,51 @@ public class Validacao {
         return nome.matches("\\D*");
     }
 
-    // Para não gastar a operação parse em vão, o parâmetro dataLocalDate recebe o valor parseado
-    public static boolean validaData(String dataString, LocalDate dataLocalDate) {
+    // Para não gastar a operação parse em vão, a função retorna o valor parseado
+    public static LocalDate validaData(String dataString) {
+        LocalDate dataLocalDate;
         try {
             dataLocalDate = LocalDate.parse(dataString);
-            return true;
+            return dataLocalDate;
         } catch (Exception e) {
-            return false;
+            return null;
         }
     }
 
-    // Para não gastar a operação parse em vão, o parâmetro qtdeInt recebe o valor parseado
-    public static boolean validaQtdeFuncionarios(String qtdeString, int qtdeInt) {
+    // Para não gastar a operação parse em vão, a função retorna o valor parseado
+    public static int validaQtdeFuncionarios(String qtdeString) {
+        int qtdeInt;
         try {
             qtdeInt = Integer.parseInt(qtdeString);
-            return qtdeInt > -1;
+            return qtdeInt;
         } catch (Exception e) {
-            return false;
+            return -1;
         }
     }
 
+    // Aceita telefone apenas em dígitos ou no formato (XX)9XXXX-XXXX, 9 opcional
     public static boolean validaTelefone(String telefone) {
         return telefone.matches("^\\(?[1-9]{2}\\)?[9]?[0-9]{4}-?[0-9]{4}$");
     }
 
+    // Aceita qualquer coisa da forma xxx@xxxx.xxx
     public static boolean validaEmail(String email) {
         return email.matches(".*@.*\\..*");
     }
 
+    // Aceita placas novas ou antigas, letras maiúsculas
     public static boolean validaPlaca(String placa) {
         return placa.matches("[A-Z]{3}-?[0-9][A-Z0-9][0-9]{2}");
     }
 
-    public static boolean validaAno(String anoString, int anoInt) {
+    // Para não gastar a operação parse em vão, a função retorna o valor parseado
+    public static int validaAno(String anoString) {
+        int anoInt;
         try {
             anoInt = Integer.parseInt(anoString);
-            return true;
+            return anoInt;
         } catch (Exception e) {
-            return false;
+            return -1;
         }
     }
 }
