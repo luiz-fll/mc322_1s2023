@@ -1,51 +1,26 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class ClientePF extends Cliente {
     private final String CPF;
-    private LocalDate dataNascimento;
-	private LocalDate dataLicenca;
-	private String educacao;
 	private String genero;
-	private String classeEconomica;
+	private String educacao;
+    private LocalDate dataNascimento;
+	private ArrayList<Veiculo> listaVeiculos = new ArrayList<Veiculo>();
 
     // Construtor
-    public ClientePF(String nome, String endereco, LocalDate dataLicenca, String educacao, String genero, String classeEconomica, String CPF, LocalDate dataNascimento) {
-        super(nome, endereco);
-        this.CPF = CPF;
-        this.dataNascimento = dataNascimento;
+
+	public ClientePF(String nome, String telefone, String endereco, String email, String CPF, String genero, String educacao, LocalDate dataNascimento) {
+		super(nome, telefone, endereco, email);
+		this.CPF = CPF;
 		this.genero = genero;
 		this.educacao = educacao;
-		this.classeEconomica = classeEconomica;
-		this.dataLicenca = dataLicenca;
-    }    
-
+		this.dataNascimento = dataNascimento;
+	}
+        
     // getters e setters
 	public String getCPF() {
 		return this.CPF;
-	}
-
-	public LocalDate getDataLicenca() {
-		return this.dataLicenca;
-	}
-
-	public void setDataLicenca(LocalDate dataLicenca) {
-		this.dataLicenca = dataLicenca;
-	}
-
-	public LocalDate getDataNascimento() {
-		return this.dataNascimento;
-	}
-
-	public void setDataNascimento(LocalDate dataNascimento) {
-		this.dataNascimento = dataNascimento;
-	}
-
-	public String getEducacao() {
-		return this.educacao;
-	}
-
-	public void setEducacao(String educacao) {
-		this.educacao = educacao;
 	}
 
 	public String getGenero() {
@@ -56,40 +31,35 @@ public class ClientePF extends Cliente {
 		this.genero = genero;
 	}
 
-	public String getClasseEconomica() {
-		return this.classeEconomica;
+	public String getEducacao() {
+		return this.educacao;
 	}
 
-	public void setClasseEconomica(String classeEconomica) {
-		this.classeEconomica = classeEconomica;
+	public void setEducacao(String educacao) {
+		this.educacao = educacao;
 	}
 
-    @Override
-	public String toString() {
-		return
-			" nome: '" + getNome() + "'\n" +
-			" endereco: '" + getEndereco() + "'\n" +
-			" dataLicenca: '" + getDataLicenca() + "'\n" +
-			" educacao: '" + getEducacao() + "'\n" +
-			" genero: '" + getGenero() + "'\n" +
-			" classeEconomica: '" + getClasseEconomica() + "'\n" +
-            " CPF: '" + getCPF() + "'\n" +
-			" listaVeiculos: '" + getListaVeiculos() + "'\n" +
-            " dataNascimento: '" + getDataNascimento() + "'\n";
+	public LocalDate getDataNascimento() {
+		return this.dataNascimento;
 	}
 
-	public double calculaScore() {
-		int idadeCliente = LocalDate.now().getYear() - dataNascimento.getYear();
-		
-		if (18 <= idadeCliente && idadeCliente < 30) {
-			return CalcSeguro.VALOR_BASE.valor * CalcSeguro.FATOR_18_30.valor * listaVeiculos.size();
-		}
-		if (30 <= idadeCliente && idadeCliente < 60) {
-			return CalcSeguro.VALOR_BASE.valor * CalcSeguro.FATOR_30_60.valor * listaVeiculos.size();
-		}
-		if (60 <= idadeCliente && idadeCliente < 90) {
-			return CalcSeguro.VALOR_BASE.valor * CalcSeguro.FATOR_60_90.valor * listaVeiculos.size();
-		}
-		return 0;
+	public void setDataNascimento(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+
+	public ArrayList<Veiculo> getListaVeiculos() {
+		return this.listaVeiculos;
+	}
+
+	public void setListaVeiculos(ArrayList<Veiculo> listaVeiculos) {
+		this.listaVeiculos = listaVeiculos;
+	}
+
+	public boolean cadastrarVeiculo() {
+		return true;
+	}
+
+	public boolean removerVeiculo() {
+		return true;
 	}
 }
