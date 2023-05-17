@@ -72,12 +72,12 @@ public abstract class Seguro {
         this.valorMensal = valorMensal;
     }
 
-    public void desautorizarCondutor() {
-
+    public boolean desautorizarCondutor() {
+        return true;
     }
 
-    public void autorizarCondutor() {
-
+    public boolean autorizarCondutor() {
+        return true;
     }
 
     public void calcularValor() {
@@ -85,6 +85,6 @@ public abstract class Seguro {
     }
 
     public void gerarSinistro() {
-        
+
     }
 }
