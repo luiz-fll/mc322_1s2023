@@ -3,6 +3,13 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+    public static String lerString(String prompt, Scanner sc) {
+        System.out.print(prompt);
+        String dado = sc.nextLine();
+
+        return dado;
+    }
+
     public static Seguradora seguradoraCadastrada = null;
 
     // Faz a leitura de uma data, garantindo que a entrada do usuário é válida
@@ -24,22 +31,16 @@ public class Main {
 	public static Seguradora lerDadosSeguradora(Scanner sc) {
 		System.out.println("Insira Nome, Telefone, E-mail e Endereco separados por 'Enter':");
 
-		System.out.print("Nome: ");
-		String nome = sc.nextLine();
+        String nome = lerString("Nome: ", sc);
+		String endereco = lerString("Endereço: ", sc);
 
-		System.out.print("Endereço: ");
-		String endereco = sc.nextLine();
-
-		System.out.print("E-mail: ");
-		String email = sc.nextLine();
+        String email = lerString("E-mail: ", sc);
         while (Validacao.validaEmail(email) == false) {
             System.out.println("Formato inválido.");
-            System.out.print("E-mail: ");
-		    email = sc.nextLine();
+            email = lerString("E-mail: ", sc);
         }
 
-		System.out.print("Telefone: ");
-		String telefone = sc.nextLine();
+		String telefone = lerString("Telefone: ", sc);
         while (Validacao.validaTelefone(telefone) == false) {
             System.out.println("Formato inválido.");
             System.out.print("Telefone: ");
@@ -53,35 +54,28 @@ public class Main {
 	public static void lerDadosVeiculo(Scanner sc) {
         System.out.println("Insira os dados do veiculo");
 
-        System.out.print("Cliente proprietário: ");
-        String clienteNome = sc.nextLine();
+        String clienteNome = lerString("Cliente proprietário:", sc); 
         Cliente cliente = seguradoraCadastrada.listarClientes("").stream().filter(c -> c.getNome().equals(clienteNome)).findFirst().orElse(null);
         if (cliente == null) {
             System.out.println("Cliente não existe.");
             return;
         }
 			
-		System.out.print("Placa: ");
-		String placa = sc.nextLine();
+		String placa = lerString("Placa: ", sc);
         while (Validacao.validaPlaca(placa) == false) {
             System.out.println("Formato inválido.");
-            System.out.print("Placa: ");
-		    placa = sc.nextLine();
+		    placa = lerString("Placa: ", sc);
         }
 
-		System.out.print("Marca: ");
-		String marca = sc.nextLine();
 
-		System.out.print("Modelo: ");
-		String modelo = sc.nextLine();
+        String marca = lerString("Marca: ", sc);
+        String modelo = lerString("Modelo: ", sc);
 
         int anoFabricacaoInt = -1;
-        System.out.print("Ano de Fabriacação: ");
-		String anoFabricacaoString = sc.nextLine();
+		String anoFabricacaoString = lerString("Ano de Fabriacação: ", sc);
         while (Validacao.validaAno(anoFabricacaoString, anoFabricacaoInt) == false) {
             System.out.println("Formato inválido.");
-            System.out.print("Ano de Fabricação: ");
-		    anoFabricacaoString = sc.nextLine();
+            anoFabricacaoString = lerString("Ano de Fabriacação: ", sc);
         }
         
         cliente.cadastrarVeiculo(new Veiculo(placa, marca, modelo, anoFabricacaoInt));
@@ -94,41 +88,28 @@ public class Main {
 		Cliente cliente;
 		int qtdeFuncionariosInt = -1;
         
-        System.out.print("Tipo do cliente (PJ ou PF): ");
-		tipoCliente = sc.nextLine();
+        tipoCliente = lerString("Tipo do cliente (PJ ou PF): ", sc);
 
 		switch (tipoCliente) {
 			case "PF":
 				System.out.println("Insira os dados do Cliente.");
 
-				System.out.print("Nome: ");
-				nome = sc.nextLine();
+                nome = lerString("Nome: ", sc);
                 while (!Validacao.validaNome(nome)) {
 					System.out.println("Nome inválido, digite novamente.");
-					System.out.print("Nome: ");
-					nome = sc.nextLine();
+					nome = lerString("Nome: ", sc);
 				}
 
-				System.out.print("Endereço: ");
-				endereco = sc.nextLine();
-
+				endereco = lerString("Endereço: ", sc);
 				dataLicenca = lerLocalData(sc, "Data da Licença (AAAA-MM-DD): ");
+				educacao = lerString("Educação: ", sc);
+				genero = lerString("Gênero: ", sc);
+                classeEconomica = lerString("Classe Econômica: ", sc);
 
-				System.out.print("Educação: ");
-				educacao = sc.nextLine();
-
-				System.out.print("Gênero: ");
-				genero = sc.nextLine();
-
-				System.out.print("Classse Econômica: ");
-				classeEconomica = sc.nextLine();
-
-				System.out.print("CPF: ");
-				CPF = sc.nextLine();
+				CPF = lerString("CPF: ", sc);
 				while (!Validacao.validaCPF(CPF)) {
 					System.out.println("CPF inválido, digite novamente.");
-					System.out.print("CPF: ");
-					CPF = sc.nextLine();
+					CPF = lerString("CPF: ", sc);
 				}
 
 				dataNascimento = lerLocalData(sc, "Data de Nascimento (AAAA-MM-DD):");
@@ -138,28 +119,22 @@ public class Main {
 			case "PJ":
 				System.out.println("Insira os dados do Cliente.");
 
-				System.out.print("Nome: ");
-				nome = sc.nextLine();
+				nome = lerString("Nome: ", sc);
+				endereco = lerString("Endereço: ", sc);
 
-				System.out.print("Endereço: ");
-				endereco = sc.nextLine();
-
-				System.out.print("CNPJ: ");
-				CNPJ = sc.nextLine();
+				CNPJ = lerString("CNPJ: ", sc);
 				while (!Validacao.validaCNPJ(CNPJ)) {
 					System.out.println("CNPJ inválido, digite novamente.");
-					System.out.print("CNPJ: ");
-					CNPJ = sc.nextLine();
+					CNPJ = lerString("CNPJ: ", sc);
 				}
 
 				dataFundacao = lerLocalData(sc, "Data de Fundação (AAAA-MM-DD): ");
 
                 System.out.print("Quantidade de Funcionários: ");
-				qtdeFuncionariosString = sc.nextLine();
+				qtdeFuncionariosString = lerString("Quantidade de Funcionários: ", sc);
 				while (!Validacao.validaQtdeFuncionarios(qtdeFuncionariosString, qtdeFuncionariosInt)) {
 					System.out.println("Formato Inválido.");
-					System.out.print("Quantidade de Funcionários: ");
-					qtdeFuncionariosString = sc.nextLine();
+					qtdeFuncionariosString = lerString("Quantidade de Funcionários: ", sc);
 				}
 
 				cliente = new ClientePJ(nome, endereco, CNPJ, dataFundacao, qtdeFuncionariosInt);
@@ -176,8 +151,7 @@ public class Main {
 	public static void lerDadosSinistro(Scanner sc) {
 		Cliente cliente;
 
-		System.out.print("Insira o nome do cliente: ");
-		String nome = sc.nextLine();
+		String nome = lerString("Nome do cliente:", sc);
 		cliente = seguradoraCadastrada.listarClientes("").stream().filter(c -> c.getNome().equals(nome)).findFirst().orElse(null);
 		if (cliente == null) {
 			System.out.println("Cliente inválido.");
