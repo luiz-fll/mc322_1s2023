@@ -1,6 +1,9 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import javax.naming.NameAlreadyBoundException;
+import javax.naming.NameNotFoundException;
+
 public class ClientePF extends Cliente {
     private final String CPF;
 	private String genero;
@@ -55,11 +58,27 @@ public class ClientePF extends Cliente {
 		this.listaVeiculos = listaVeiculos;
 	}
 
-	public boolean cadastrarVeiculo() {
-		return true;
+	public Veiculo procurarVeiculo(String placa) 
+	throws NameNotFoundException {
+		return listaVeiculos
+		.stream()
+		.filter(veiculo -> veiculo.getPlaca().equals(placa))
+		.findAny()
+		.orElseThrow(() -> new NameNotFoundException("Veículo não encontrado: " + placa));
 	}
 
-	public boolean removerVeiculo() {
-		return true;
+	public boolean cadastrarVeiculo(String placa, String marca, String modelo, int anoFabricacao) 
+	throws NameAlreadyBoundException {
+		try {
+			procurarVeiculo(placa);
+			throw new NameAlreadyBoundException("Veículo já  existe: " + placa);
+		} catch (NameNotFoundException e) {
+			return listaVeiculos.add(new Veiculo(placa, marca, modelo, anoFabricacao));
+		}
+	}
+
+	public boolean removerVeiculo(String placa) {
+		return listaVeiculos
+		.removeIf(veiculo -> veiculo.getPlaca().equals(placa));
 	}
 }
