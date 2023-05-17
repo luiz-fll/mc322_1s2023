@@ -72,8 +72,19 @@ public abstract class Seguro {
         this.valorMensal = valorMensal;
     }
 
-    public Seguro valorMensal(int valorMensal) {
-        setValorMensal(valorMensal);
-        return this;
+    public void desautorizarCondutor() {
+
+    }
+
+    public void autorizarCondutor() {
+
+    }
+
+    public void calcularValor() {
+
+    }
+
+    public void gerarSinistro() {
+        
     }
 }

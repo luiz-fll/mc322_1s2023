@@ -24,5 +24,4 @@ public class Frota {
     public void setListaVeiculos(ArrayList<Veiculo> listaVeiculos) {
         this.listaVeiculos = listaVeiculos;
     }
-
 }
