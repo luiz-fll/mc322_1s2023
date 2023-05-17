@@ -1,26 +1,23 @@
 import java.time.LocalDate;
 
 public class Sinistro {
-	private static int contador = 0; // Conta quantos sinistros estão registrados no sistema
 	private final int id;
 	private LocalDate data;
 	private String endereco;
-	private Seguradora seguradora;
-	private Cliente cliente;
-	private Veiculo veiculo;
+	private Condutor condutor;
+	private Seguro seguro;
 	
 	// Construtor
-	public Sinistro(LocalDate data, String endereco, Seguradora seguradora, Cliente cliente, Veiculo veiculo) {
-		this.id = gerarID();
+	public Sinistro(int id, LocalDate data, String endereco, Condutor condutor, Seguro seguro) {
+		this.id = id;
 		this.data = data;
 		this.endereco = endereco;
-		this.seguradora = seguradora;
-		this.cliente = cliente;
-		this.veiculo = veiculo;
+		this.condutor = condutor;
+		this.seguro = seguro;
 	}
 	
 	// getters e setters
-	public int getID() {
+	public int getId() {
 		return this.id;
 	}
 
@@ -40,43 +37,19 @@ public class Sinistro {
 		this.endereco = endereco;
 	}
 
-	public Seguradora getSeguradora() {
-		return this.seguradora;
+	public Condutor getCondutor() {
+		return this.condutor;
 	}
 
-	public void setSeguradora(Seguradora seguradora) {
-		this.seguradora = seguradora;
+	public void setCondutor(Condutor condutor) {
+		this.condutor = condutor;
 	}
 
-	public Cliente getCliente() {
-		return this.cliente;
+	public Seguro getSeguro() {
+		return this.seguro;
 	}
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
-	public Veiculo getVeiculo() {
-		return this.veiculo;
-	}
-
-	public void setVeiculo(Veiculo veiculo) {
-		this.veiculo = veiculo;
-	}
-
-	// Gera uma nova ID
-	private int gerarID() {
-		contador++;
-		return contador;
-	}
-
-	@Override
-	public String toString() {
-		return
-			" id: '" + getID() + "'\n" +
-			" cliente: '" + getCliente().getNome() + "'\n" +
-			" endereco: '" + getEndereco() + "'\n" +
-			" data: '" + getData() + "'\n" +
-			" veiculo: '" + getVeiculo().getPlaca() + "'\n";
+	public void setSeguro(Seguro seguro) {
+		this.seguro = seguro;
 	}
 }
