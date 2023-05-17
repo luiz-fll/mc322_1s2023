@@ -1,17 +1,18 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class ClientePJ extends Cliente {
     private final String CNPJ;
     private LocalDate dataFundacao;
-    private int qtdeFuncionarios;
+    private ArrayList<Frota> listaFrota = new ArrayList<Frota>();
 
     // Construtor
-    public ClientePJ(String nome, String endereco, String CNPJ, LocalDate dataFundacao, int qtdeFuncionarios) {
-		super(nome, endereco);
+
+    public ClientePJ(String nome, String telefone, String endereco, String email, String CNPJ, LocalDate dataFundacao) {
+        super(nome, telefone, endereco, email);
         this.CNPJ = CNPJ;
         this.dataFundacao = dataFundacao;
-        this.qtdeFuncionarios = qtdeFuncionarios;
-	}
+    }
 
     // getters e setters
     public String getCNPJ() {
@@ -26,26 +27,23 @@ public class ClientePJ extends Cliente {
         this.dataFundacao = dataFundacao;
     }
 
-    public int getQtdeFuncionarios() {
-        return this.qtdeFuncionarios;
+    public ArrayList<Frota> getListaFrota() {
+        return this.listaFrota;
     }
 
-    public void setQtdeFuncionarios(int qtdeFuncionarios) {
-        this.qtdeFuncionarios = qtdeFuncionarios;
+    public void setListaFrota(ArrayList<Frota> listaFrota) {
+        this.listaFrota = listaFrota;
+    }
+    
+    public boolean cadastrarFrota() {
+        return true;
     }
 
-    @Override
-	public String toString() {
-		return
-			" nome: '" + getNome() + "'\n" +
-			" endereco: '" + getEndereco() + "'\n" +
-			" listaVeiculos: '" + getListaVeiculos() + "'\n" +
-            " CNPJ: '" + getCNPJ() + "'\n" +
-            " dataFundacao: '" + getDataFundacao() + "'\n" +
-            " qtdeFuncionarios: '" + getQtdeFuncionarios() + "'\n";
-	}
+    public boolean atualizarFrota() {
+        return true;
+    }
 
-    public double calculaScore() {
-        return CalcSeguro.VALOR_BASE.valor * (1 + (qtdeFuncionarios)) * listaVeiculos.size(); 
+    public boolean getVeiculosporFrota() {
+        return true;
     }
 }
