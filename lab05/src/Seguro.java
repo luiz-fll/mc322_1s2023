@@ -1,7 +1,7 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Seguro {
+public abstract class Seguro {
     private final int id;
     private LocalDate dataInicio;
     private LocalDate dataFim;
