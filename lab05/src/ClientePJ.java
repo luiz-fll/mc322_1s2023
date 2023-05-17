@@ -1,6 +1,9 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import javax.naming.NameAlreadyBoundException;
+import javax.naming.NameNotFoundException;
+
 public class ClientePJ extends Cliente {
     private final String CNPJ;
     private LocalDate dataFundacao;
@@ -34,12 +37,27 @@ public class ClientePJ extends Cliente {
     public void setListaFrota(ArrayList<Frota> listaFrota) {
         this.listaFrota = listaFrota;
     }
+
+    public Frota procurarFrota(String code) 
+    throws NameNotFoundException {
+        return listaFrota
+        .stream()
+        .filter(frota -> frota.getCode().equals(code))
+        .findAny()
+        .orElseThrow(() -> new NameNotFoundException("Frota não encontrada: " + code));
+    }
     
-    public boolean cadastrarFrota() {
-        return true;
+    public boolean cadastrarFrota(Frota frota) 
+    throws NameAlreadyBoundException {
+        try {
+            procurarFrota(frota.getCode());
+            throw new NameAlreadyBoundException("Frota com mesmo code encontrada: " + frota.getCode());
+        } catch (NameNotFoundException e) {
+            return listaFrota.add(frota);
+        }
     }
 
-    public boolean atualizarFrota() {
+    public boolean atualizarFrota(Frota frota) {
         return true;
     }
 
