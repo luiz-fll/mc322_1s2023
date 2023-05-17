@@ -23,7 +23,23 @@ public class SeguroPF extends Seguro {
         return this.clientePF;
     }
 
-    public void setClientePJ(ClientePF clientePF) {
+    public void setClientePF(ClientePF clientePF) {
         this.clientePF = clientePF;
+    }
+
+    public boolean autorizarCondutor() {
+        return true;
+    }
+
+    public boolean desautorizarCondutor() {
+        return true;
+    }
+
+    public void gerarSinistro() {
+
+    }
+
+    public void calcularValor() {
+        
     }
 }
