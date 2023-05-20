@@ -57,11 +57,68 @@ public class ClientePJ extends Cliente {
         }
     }
 
-    public boolean atualizarFrota(Frota frota) {
+    // Remove a frota a partir do code
+    public boolean atualizarFrota(String code) 
+    throws NameNotFoundException {
+        Frota frota = procurarFrota(code);
+        return listaFrota.remove(frota);
+    }
+
+    // Seleciona uma frota a partir do code, se o veículo informado estiver na frota ele é removido, se não tiver ele é adicionado
+    public boolean atualizarFrota(String code, Veiculo veiculo) 
+    throws NameNotFoundException {
+        Frota frota = procurarFrota(code);
+        ArrayList<Veiculo> listaVeiculosFrota = frota.getListaVeiculos();
+        
+        if (listaVeiculosFrota.contains(veiculo)) {
+            return listaVeiculosFrota.remove(veiculo);  
+        }
+        else {
+            return listaVeiculosFrota.add(veiculo);
+        }
+    }
+
+    // Seleciona uma frota e recebe uma lista de veículos. Os veículos que estiverem na frota
+    // serão removidos e os que não estiverem serão adicionados
+    public boolean atualizarFrota(String code, ArrayList<Veiculo> listaVeiculosAtualizados) 
+    throws NameNotFoundException {
+        for (Veiculo veiculo : listaVeiculosAtualizados) {
+            if (!atualizarFrota(code, veiculo)) {
+                return false;
+            }
+        }
         return true;
     }
 
-    public boolean getVeiculosporFrota() {
+    public boolean getVeiculosporFrota(String code) 
+    throws NameNotFoundException {
+        Frota frota = procurarFrota(code);
+        ArrayList<Veiculo> listaVeiculos = frota.getListaVeiculos();
+        int i = 0;
+
+        if (listaVeiculos.isEmpty()) {
+            return false;
+        }
+
+        System.out.println("Veículos da frota '" + code + "':");
+        for (Veiculo veiculo : listaVeiculos) {
+            i++;
+            System.out.println(i + ": " + veiculo);
+        }
+
         return true;
+    }
+
+    @Override
+    public String toString() {
+        ArrayList<String> listaCode = new ArrayList<String>();
+        for (Frota frota : getListaFrota()) {
+            listaCode.add(frota.getCode());
+        }
+        
+        return super.toString() +
+        "-> CNPJ: '" + getCNPJ() + "'\n" +
+        "-> Data de Fundação: '" + getDataFundacao() + "'\n" +
+        "-> Frotas: " + listaCode;
     }
 }
