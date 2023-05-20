@@ -1,8 +1,6 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import javax.naming.NameNotFoundException;
-
 public class Condutor {
     private final String CPF;
     private String nome;
