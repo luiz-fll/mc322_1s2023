@@ -1,6 +1,8 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import javax.naming.NameNotFoundException;
+
 public class Condutor {
     private final String CPF;
     private String nome;
@@ -71,7 +73,7 @@ public class Condutor {
         this.listaSinistros = listaSinistros;
     }
 
-    public void adicionarSinistro() {
-        
+    public void adicionarSinistro(Sinistro sinistro) {
+        listaSinistros.add(sinistro);
     }
 }

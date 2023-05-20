@@ -8,8 +8,8 @@ public class Sinistro {
 	private Seguro seguro;
 	
 	// Construtor
-	public Sinistro(int id, LocalDate data, String endereco, Condutor condutor, Seguro seguro) {
-		this.id = id;
+	public Sinistro(LocalDate data, String endereco, Condutor condutor, Seguro seguro) {
+		id = 0;
 		this.data = data;
 		this.endereco = endereco;
 		this.condutor = condutor;

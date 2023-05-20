@@ -1,4 +1,7 @@
 import java.util.List;
+
+import javax.naming.NameNotFoundException;
+
 import java.util.ArrayList;
 import java.time.LocalDate;
 
@@ -86,6 +89,15 @@ public class Seguradora {
 
 	public boolean cancelarSeguro() {
 		return true;
+	}
+
+	public Seguro procurarSeguro(int id) 
+	throws NameNotFoundException {
+		return listaSeguros
+        .stream()
+        .filter(seguro -> seguro.getId() == id)
+        .findAny()
+        .orElseThrow(() -> new NameNotFoundException("Seguro não encontrado: " + id));
 	}
 
 	// Operações com clientes

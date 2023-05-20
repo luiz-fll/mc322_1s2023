@@ -1,6 +1,8 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import javax.naming.NameNotFoundException;
+
 public abstract class Seguro {
     private final int id;
     private LocalDate dataInicio;
@@ -84,7 +86,20 @@ public abstract class Seguro {
 
     }
 
-    public void gerarSinistro() {
+    public Condutor procurarCondutor(String CPF) 
+    throws NameNotFoundException {
+        return listaCondutores
+        .stream()
+        .filter(condutor -> condutor.getCPF().equals(CPF))
+        .findAny()
+        .orElseThrow(() -> new NameNotFoundException("Condutor não encontrado: " + CPF));
+    }
 
+    public void gerarSinistro(LocalDate data, String endereco, String condutorCPF) 
+    throws NameNotFoundException {
+        Condutor condutor = procurarCondutor(condutorCPF);
+        Sinistro sinistro = new Sinistro(data, endereco, condutor, this);
+        listaSinistros.add(sinistro);
+        condutor.adicionarSinistro(sinistro);
     }
 }
