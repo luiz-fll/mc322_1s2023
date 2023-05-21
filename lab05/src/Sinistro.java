@@ -1,7 +1,7 @@
 import java.time.LocalDate;
 
 public class Sinistro {
-	private final int id;
+	private final int id = gerarID();
 	private LocalDate data;
 	private String endereco;
 	private Condutor condutor;
@@ -9,7 +9,6 @@ public class Sinistro {
 	
 	// Construtor
 	public Sinistro(LocalDate data, String endereco, Condutor condutor, Seguro seguro) {
-		id = 0;
 		this.data = data;
 		this.endereco = endereco;
 		this.condutor = condutor;
@@ -51,5 +50,14 @@ public class Sinistro {
 
 	public void setSeguro(Seguro seguro) {
 		this.seguro = seguro;
+	}
+
+	// Gera uma ID baseada no tempo em milissegundos. Gerar IDs em menos de 1ms provavelmente gerará duplicatas.
+	private static int gerarID() {
+		long tempoMilissegundos1970 = System.currentTimeMillis(); // Sempre positivo (ACHO)
+		
+		// Os long positivo possuem o mesmo tanto de bit que os int (ACHO)
+		// Logo, eu posso fazer casting a partir do mínimo int sem risco de overflow (ACHO)
+		return (int)(Integer.MIN_VALUE + tempoMilissegundos1970); 
 	}
 }

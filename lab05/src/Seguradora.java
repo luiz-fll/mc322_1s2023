@@ -1,9 +1,6 @@
-import java.util.List;
+import java.util.ArrayList;
 
 import javax.naming.NameNotFoundException;
-
-import java.util.ArrayList;
-import java.time.LocalDate;
 
 public class Seguradora {
 	private final String CNPJ;
@@ -11,8 +8,8 @@ public class Seguradora {
 	private String telefone;
 	private String endereco;
 	private String email;
-	private List<Cliente> listaClientes;
-	private List<Seguro> listaSeguros;
+	private ArrayList<Cliente> listaClientes;
+	private ArrayList<Seguro> listaSeguros;
 	
 	// Construtor
 	public Seguradora (String CNPJ, String nome, String telefone, String email, String endereco) {
@@ -26,42 +23,63 @@ public class Seguradora {
 	}
 	
 	// Getters e setters
-	public String getNome () {
-		return nome;
+	public String getCNPJ() {
+		return this.CNPJ;
 	}
-	
-	public void setNome (String nome) {
+
+	public String getNome() {
+		return this.nome;
+	}
+
+	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-	public String getTelefone () {
-		return telefone;
+
+	public String getTelefone() {
+		return this.telefone;
 	}
-	
-	public void setTelefone (String telefone) {
+
+	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	
-	public String getEmail () {
-		return email;
+
+	public String getEndereco() {
+		return this.endereco;
 	}
-	
-	public void setEmail (String email) {
-		this.email = email;
-	}
-	
-	public String getEndereco () {
-		return endereco;
-	}
-	
-	public void setEndereco (String endereco) {
+
+	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
 
+	public String getEmail() {
+		return this.email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public ArrayList<Cliente> getListaClientes() {
+		return this.listaClientes;
+	}
+
+	public void setListaClientes(ArrayList<Cliente> listaClientes) {
+		this.listaClientes = listaClientes;
+	}
+
+	public ArrayList<Seguro> getListaSeguros() {
+		return this.listaSeguros;
+	}
+
+	public void setListaSeguros(ArrayList<Seguro> listaSeguros) {
+		this.listaSeguros = listaSeguros;
+	}
+	
+
 	// Lista os clientes, podendo ser todos, somente os PF ou somente os PJ. O tipoCliente vem do input da função main.
-	public List<Cliente> listarClientes(String tipoCliente) {
+	public ArrayList<Cliente> listarClientes(String tipoCliente) {
 		if (tipoCliente.equals("PF")) {
-			List<Cliente> clientesPF = new ArrayList<Cliente>();
+			ArrayList<Cliente> clientesPF = new ArrayList<Cliente>();
 			for (Cliente cliente : this.listaClientes) {
 				if (cliente.getClass() == ClientePF.class) {
 					clientesPF.add(cliente);
@@ -70,7 +88,7 @@ public class Seguradora {
 			return clientesPF;
 		}
 		else if (tipoCliente.equals("PJ")) {
-			List<Cliente> clientesPJ = new ArrayList<Cliente>();
+			ArrayList<Cliente> clientesPJ = new ArrayList<Cliente>();
 			for (Cliente cliente : this.listaClientes) {
 				if (cliente.getClass() == ClientePJ.class) {
 					clientesPJ.add(cliente);

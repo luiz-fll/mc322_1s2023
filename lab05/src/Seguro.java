@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import javax.naming.NameNotFoundException;
 
 public abstract class Seguro {
-    private final int id;
+    private final int id = gerarID();
     private LocalDate dataInicio;
     private LocalDate dataFim;
     private Seguradora seguradora;
@@ -14,8 +14,7 @@ public abstract class Seguro {
 
 
 
-    public Seguro(int id, LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, int valorMensal) {
-        this.id = id;
+    public Seguro(LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, int valorMensal) {
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
         this.seguradora = seguradora;
@@ -102,4 +101,13 @@ public abstract class Seguro {
         listaSinistros.add(sinistro);
         condutor.adicionarSinistro(sinistro);
     }
+
+    // Gera uma ID baseada no tempo em milissegundos. Gerar IDs em menos de 1ms provavelmente gerará duplicatas.
+    private static int gerarID() {
+		long tempoMilissegundos1970 = System.currentTimeMillis(); // Sempre positivo (ACHO)
+		
+		// Os long positivo possuem o mesmo tanto de bit que os int (ACHO)
+		// Logo, eu posso fazer casting a partir do mínimo int sem risco de overflow (ACHO)
+		return (int)(Integer.MIN_VALUE + tempoMilissegundos1970); 
+	}
 }
