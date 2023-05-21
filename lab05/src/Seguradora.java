@@ -8,18 +8,16 @@ public class Seguradora {
 	private String telefone;
 	private String endereco;
 	private String email;
-	private ArrayList<Cliente> listaClientes;
-	private ArrayList<Seguro> listaSeguros;
+	private ArrayList<Cliente> listaClientes = new ArrayList<Cliente>();
+	private ArrayList<Seguro> listaSeguros = new ArrayList<Seguro>();
 	
 	// Construtor
-	public Seguradora (String CNPJ, String nome, String telefone, String email, String endereco) {
+	public Seguradora(String CNPJ, String nome, String telefone, String email, String endereco) {
 		this.CNPJ = CNPJ;
 		this.nome = nome;
 		this.telefone = telefone;
 		this.email = email;
 		this.endereco = endereco;
-		this.listaClientes = new ArrayList<Cliente>();
-		this.listaSeguros = new ArrayList<Seguro>();
 	}
 	
 	// Getters e setters
@@ -74,7 +72,6 @@ public class Seguradora {
 	public void setListaSeguros(ArrayList<Seguro> listaSeguros) {
 		this.listaSeguros = listaSeguros;
 	}
-	
 
 	// Lista os clientes, podendo ser todos, somente os PF ou somente os PJ. O tipoCliente vem do input da função main.
 	public ArrayList<Cliente> listarClientes(String tipoCliente) {
