@@ -2,12 +2,10 @@ import java.time.LocalDate;
 
 public class SeguroPJ extends Seguro {
     private Frota frota;
-    private ClientePJ clientePJ;
 
     public SeguroPJ(LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, int valorMensal, Frota frota, ClientePJ clientePJ) {
-        super(dataInicio, dataFim, seguradora, valorMensal);
+        super(dataInicio, dataFim, seguradora, valorMensal, clientePJ);
         this.frota = frota;
-        this.clientePJ = clientePJ;
     }
 
     public Frota getFrota() {
@@ -16,14 +14,6 @@ public class SeguroPJ extends Seguro {
 
     public void setFrota(Frota frota) {
         this.frota = frota;
-    }
-
-    public ClientePJ getClientePJ() {
-        return this.clientePJ;
-    }
-
-    public void setClientePJ(ClientePJ clientePJ) {
-        this.clientePJ = clientePJ;
     }
 
     public boolean autorizarCondutor() {

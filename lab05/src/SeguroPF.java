@@ -2,13 +2,10 @@ import java.time.LocalDate;
 
 public class SeguroPF extends Seguro {
     private Veiculo veiculo;
-    private ClientePF clientePF;
-
 
     public SeguroPF(LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, int valorMensal, Veiculo veiculo, ClientePF clientePF) {
-        super(dataInicio, dataFim, seguradora, valorMensal);
+        super(dataInicio, dataFim, seguradora, valorMensal, clientePF);
         this.veiculo = veiculo;
-        this.clientePF = clientePF;
     }
 
     public Veiculo getVeiculo() {
@@ -17,14 +14,6 @@ public class SeguroPF extends Seguro {
 
     public void setveiculo(Veiculo veiculo) {
         this.veiculo = veiculo;
-    }
-
-    public ClientePF getClientePF() {
-        return this.clientePF;
-    }
-
-    public void setClientePF(ClientePF clientePF) {
-        this.clientePF = clientePF;
     }
 
     public boolean autorizarCondutor() {

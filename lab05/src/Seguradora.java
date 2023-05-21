@@ -117,7 +117,6 @@ public class Seguradora {
 
 	// Operações com clientes
 	public boolean cadastrarCliente(Cliente cliente) {
-		
 		return listaClientes.add(cliente);
 	}
 
@@ -126,12 +125,21 @@ public class Seguradora {
 		return false;
 	}
 
-	public ArrayList<Seguro> getSegurosPorCliente() {
-		return null;
+	public ArrayList<Seguro> getSegurosPorCliente(Cliente cliente) {
+		return new ArrayList<Seguro>(listaSeguros
+		                             .stream()
+									 .filter(seguro -> seguro.getCliente().equals(cliente))
+									 .toList());
 	}
 
-	public ArrayList<Seguro> getSinistrosPorCliente() {
-		return null;
+	public ArrayList<Sinistro> getSinistrosPorCliente(Cliente cliente) {
+		ArrayList<Seguro> segurosCliente = getSegurosPorCliente(cliente);
+		ArrayList<Sinistro> sinistrosCliente = new ArrayList<Sinistro>();
+		for (Seguro seguro : segurosCliente) {
+			sinistrosCliente.addAll(seguro.getListaSinistros());
+		}
+
+		return sinistrosCliente;
 	}
 
 	public double calcularReceita() {

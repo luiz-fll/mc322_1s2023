@@ -11,14 +11,15 @@ public abstract class Seguro {
     private ArrayList<Sinistro> listaSinistros = new ArrayList<Sinistro>();
     private ArrayList<Condutor> listaCondutores = new ArrayList<Condutor>();
     private int valorMensal;
+    private Cliente cliente;
 
 
-
-    public Seguro(LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, int valorMensal) {
+    public Seguro(LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, int valorMensal, Cliente cliente) {
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
         this.seguradora = seguradora;
         this.valorMensal = valorMensal;
+        this.cliente = cliente;
     }
 
     public int getId() {
@@ -57,12 +58,12 @@ public abstract class Seguro {
         this.listaSinistros = listaSinistros;
     }
 
-    public ArrayList<Condutor> getListacondutores() {
+    public ArrayList<Condutor> getListaCondutores() {
         return this.listaCondutores;
     }
 
-    public void setListacondutores(ArrayList<Condutor> listacondutores) {
-        this.listaCondutores = listacondutores;
+    public void setListaCondutores(ArrayList<Condutor> listaCondutores) {
+        this.listaCondutores = listaCondutores;
     }
 
     public int getValorMensal() {
@@ -72,6 +73,14 @@ public abstract class Seguro {
     public void setValorMensal(int valorMensal) {
         this.valorMensal = valorMensal;
     }
+
+    public Cliente getCliente() {
+        return this.cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }    
 
     public boolean desautorizarCondutor() {
         return true;
