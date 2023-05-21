@@ -36,6 +36,17 @@ public class Frota {
         .orElseThrow(() -> new NameNotFoundException("Veículo não encontrado: " + placa));
     }
 
+    public boolean addVeiculo(String placa, String marca, String modelo, int anoFabricacao) {
+        Veiculo v = new Veiculo(placa, marca, modelo, anoFabricacao);
+        return listaVeiculos.add(v);
+    }
+
+    public boolean removeVeiculo(String placa) 
+    throws NameNotFoundException {
+        Veiculo v = procurarVeiculo(placa);
+        return listaVeiculos.remove(v);
+    }
+
     @Override
     public String toString() {
         ArrayList<String> listaPlacas = new ArrayList<String>();
