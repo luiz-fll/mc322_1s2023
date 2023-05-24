@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.naming.NameNotFoundException;
 
@@ -126,10 +128,10 @@ public class Seguradora {
 	}
 
 	public ArrayList<Seguro> getSegurosPorCliente(Cliente cliente) {
-		return new ArrayList<Seguro>(listaSeguros
+		return new ArrayList<Seguro>((listaSeguros
 		                             .stream()
-									 .filter(seguro -> seguro.getCliente().equals(cliente))
-									 .toList());
+									 .filter(seguro -> seguro.getCliente().equals(cliente)))
+									 .collect(Collectors.toList()));
 	}
 
 	public ArrayList<Sinistro> getSinistrosPorCliente(Cliente cliente) {
