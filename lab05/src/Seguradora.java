@@ -144,7 +144,8 @@ public class Seguradora {
 	}
 
 	public double calcularReceita() {
-
-		return -1;
+		return listaSeguros
+			   .stream()
+			   .collect(Collectors.summingDouble(seguro -> seguro.calcularValor()));
 	}
 }
