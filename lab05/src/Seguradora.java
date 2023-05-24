@@ -148,10 +148,20 @@ public class Seguradora {
 	public ArrayList<Sinistro> getSinistrosPorCliente(Cliente cliente) {
 		ArrayList<Seguro> segurosCliente = getSegurosPorCliente(cliente);
 		ArrayList<Sinistro> sinistrosCliente = new ArrayList<Sinistro>();
+
+		/*
+		 * Stream API
+		 * ArrayList<Sinistro> sinistrosCliente = new ArrayList<Sinistro>(segurosCliente
+		 *										  .stream()
+		 *										  .flatMap(seguro -> seguro.getListaSinistros().stream())
+		 *										  .collect(Collectors.toList()));
+		 */
+
 		for (Seguro seguro : segurosCliente) {
 			sinistrosCliente.addAll(seguro.getListaSinistros());
 		}
 
+		
 		return sinistrosCliente;
 	}
 
