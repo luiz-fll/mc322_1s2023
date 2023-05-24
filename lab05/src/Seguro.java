@@ -7,19 +7,17 @@ public abstract class Seguro {
     private final int id = gerarID();
     private LocalDate dataInicio;
     private LocalDate dataFim;
-    private Seguradora seguradora;
+    protected Seguradora seguradora;
     private ArrayList<Sinistro> listaSinistros = new ArrayList<Sinistro>();
-    private ArrayList<Condutor> listaCondutores = new ArrayList<Condutor>();
-    private int valorMensal;
-    private Cliente cliente;
+    protected ArrayList<Condutor> listaCondutores = new ArrayList<Condutor>();
+    private double valorMensal;
 
 
-    public Seguro(LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, int valorMensal, Cliente cliente) {
+    public Seguro(LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora) {
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
         this.seguradora = seguradora;
-        this.valorMensal = valorMensal;
-        this.cliente = cliente;
+        this.valorMensal = calcularValor();
     }
 
     public int getId() {
@@ -66,21 +64,15 @@ public abstract class Seguro {
         this.listaCondutores = listaCondutores;
     }
 
-    public int getValorMensal() {
+    public double getValorMensal() {
         return this.valorMensal;
     }
 
-    public void setValorMensal(int valorMensal) {
+    public void setValorMensal(double valorMensal) {
         this.valorMensal = valorMensal;
     }
 
-    public Cliente getCliente() {
-        return this.cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }    
+    public abstract Cliente getCliente();
 
     public boolean desautorizarCondutor() {
         return true;
@@ -90,9 +82,7 @@ public abstract class Seguro {
         return true;
     }
 
-    public void calcularValor() {
-
-    }
+    public abstract double calcularValor();
 
     public Condutor procurarCondutor(String CPF) 
     throws NameNotFoundException {

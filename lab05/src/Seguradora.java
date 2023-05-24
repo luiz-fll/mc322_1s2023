@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.naming.NameNotFoundException;
@@ -145,6 +144,7 @@ public class Seguradora {
 	}
 
 	public double calcularReceita() {
+
 		return -1;
 	}
 }

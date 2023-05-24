@@ -1,11 +1,15 @@
 import java.time.LocalDate;
+import java.time.Period;
+import java.util.stream.Collectors;
 
 public class SeguroPF extends Seguro {
     private Veiculo veiculo;
+    private ClientePF cliente;
 
-    public SeguroPF(LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, int valorMensal, Veiculo veiculo, ClientePF clientePF) {
-        super(dataInicio, dataFim, seguradora, valorMensal, clientePF);
+    public SeguroPF(LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, Veiculo veiculo, ClientePF clientePF) {
+        super(dataInicio, dataFim, seguradora);
         this.veiculo = veiculo;
+        this.cliente = clientePF;
     }
 
     public Veiculo getVeiculo() {
@@ -14,6 +18,10 @@ public class SeguroPF extends Seguro {
 
     public void setveiculo(Veiculo veiculo) {
         this.veiculo = veiculo;
+    }
+
+    public Cliente getCliente() {
+        return this.cliente;
     }
 
     public boolean autorizarCondutor() {
@@ -28,7 +36,17 @@ public class SeguroPF extends Seguro {
 
     }
 
-    public void calcularValor() {
-        
+    public double calcularValor() {
+        int idade = Period.between(cliente.getDataNascimento(), LocalDate.now()).getYears();
+        int quantidadeSinistrosCondutor = listaCondutores
+                                          .stream()
+                                          .collect(Collectors.summingInt(condutor -> condutor.getListaSinistros().size()));
+        int quantidadeSinistrosCliente = seguradora.getSinistrosPorCliente(cliente).size();
+
+        return (CalcSeguro.VALOR_BASE() * 
+                CalcSeguro.FATOR_IDADE(idade) * 
+                (1 + 1 / (cliente.getListaVeiculos().size() + 2)) *
+                (2 + quantidadeSinistrosCliente / 10) *
+                (5 + quantidadeSinistrosCondutor /10));
     }
 }
