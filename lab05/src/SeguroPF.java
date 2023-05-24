@@ -38,10 +38,11 @@ public class SeguroPF extends Seguro {
 
     public double calcularValor() {
         int idade = Period.between(cliente.getDataNascimento(), LocalDate.now()).getYears();
+        int quantidadeSinistrosCliente = seguradora.getSinistrosPorCliente(cliente).size();
+        
         int quantidadeSinistrosCondutor = listaCondutores
                                           .stream()
                                           .collect(Collectors.summingInt(condutor -> condutor.getListaSinistros().size()));
-        int quantidadeSinistrosCliente = seguradora.getSinistrosPorCliente(cliente).size();
 
         return (CalcSeguro.VALOR_BASE() * 
                 CalcSeguro.FATOR_IDADE(idade) * 

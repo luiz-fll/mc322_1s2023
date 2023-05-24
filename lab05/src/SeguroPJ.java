@@ -37,14 +37,16 @@ public class SeguroPJ extends Seguro {
     }
 
     public double calcularValor() {
+        int AnosPosFundacao = Period.between(cliente.getDataFundacao(), LocalDate.now()).getYears();
+        int quantidadeSinistrosCliente = seguradora.getSinistrosPorCliente(cliente).size();
+        
         int quantidadeVeiculos = cliente.getListaFrota()
                                  .stream()
                                  .collect(Collectors.summingInt(frota -> frota.getListaVeiculos().size()));
-        int AnosPosFundacao = Period.between(cliente.getDataFundacao(), LocalDate.now()).getYears();
+
         int quantidadeSinistrosCondutor = listaCondutores
                                           .stream()
                                           .collect(Collectors.summingInt(condutor -> condutor.getListaSinistros().size()));
-        int quantidadeSinistrosCliente = seguradora.getSinistrosPorCliente(cliente).size();
         
         return (CalcSeguro.VALOR_BASE() *
                (1 + 1 / (quantidadeVeiculos + 2)) *
