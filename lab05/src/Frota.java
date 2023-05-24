@@ -54,7 +54,6 @@ public class Frota {
             listaPlacas.add(veiculo.getPlaca());
         }
 
-        return 
-        "Frota '" + getCode() + "' com veículos: " + listaPlacas;
+        return "Frota '" + getCode() + "' com veículos: " + listaPlacas;
     }
 }

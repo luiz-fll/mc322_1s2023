@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -99,12 +100,23 @@ public class Seguradora {
 		}
 	}
 
-	public boolean gerarSeguro() {
-		return true;
+	public boolean gerarSeguro(LocalDate dataInicio, LocalDate dataFim, Veiculo veiculo, ClientePF cliente) {
+		if (!listaClientes.contains(cliente)) {
+			listaClientes.add(cliente);
+		}
+		return listaSeguros.add(new SeguroPF(dataInicio, dataFim, this, veiculo, cliente));
 	}
 
-	public boolean cancelarSeguro() {
-		return true;
+	public boolean gerarSeguro(LocalDate dataInicio, LocalDate dataFim, Frota frota, ClientePJ cliente) {
+		if (!listaClientes.contains(cliente)) {
+			listaClientes.add(cliente);
+		}
+		return listaSeguros.add(new SeguroPJ(dataInicio, dataFim, this, frota, cliente));
+	}
+
+	public boolean cancelarSeguro(int id) 
+	throws NameNotFoundException {
+		return listaSeguros.remove(procurarSeguro(id));
 	}
 
 	public Seguro procurarSeguro(int id) 
@@ -128,9 +140,9 @@ public class Seguradora {
 
 	public ArrayList<Seguro> getSegurosPorCliente(Cliente cliente) {
 		return new ArrayList<Seguro>((listaSeguros
-		                             .stream()
-									 .filter(seguro -> seguro.getCliente().equals(cliente)))
-									 .collect(Collectors.toList()));
+		                              .stream()
+									  .filter(seguro -> seguro.getCliente().equals(cliente)))
+									  .collect(Collectors.toList()));
 	}
 
 	public ArrayList<Sinistro> getSinistrosPorCliente(Cliente cliente) {
