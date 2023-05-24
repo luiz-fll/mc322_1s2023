@@ -24,18 +24,6 @@ public class SeguroPF extends Seguro {
         return this.cliente;
     }
 
-    public boolean autorizarCondutor() {
-        return true;
-    }
-
-    public boolean desautorizarCondutor() {
-        return true;
-    }
-
-    public void gerarSinistro() {
-
-    }
-
     public double calcularValor() {
         int idade = Period.between(cliente.getDataNascimento(), LocalDate.now()).getYears();
         int quantidadeSinistrosCliente = seguradora.getSinistrosPorCliente(cliente).size();

@@ -71,19 +71,15 @@ public abstract class Seguro {
     public void setValorMensal(double valorMensal) {
         this.valorMensal = valorMensal;
     }
-
-    public abstract Cliente getCliente();
-
-    public boolean desautorizarCondutor() {
-        return true;
+    
+    public boolean autorizarCondutor(Condutor condutor) {
+        return listaCondutores.add(condutor);
     }
 
-    public boolean autorizarCondutor() {
-        return true;
+    public boolean desautorizarCondutor(Condutor condutor) {
+        return listaCondutores.remove(condutor);
     }
-
-    public abstract double calcularValor();
-
+    
     public Condutor procurarCondutor(String CPF) 
     throws NameNotFoundException {
         return listaCondutores
@@ -92,7 +88,7 @@ public abstract class Seguro {
         .findAny()
         .orElseThrow(() -> new NameNotFoundException("Condutor não encontrado: " + CPF));
     }
-
+    
     public void gerarSinistro(LocalDate data, String endereco, String condutorCPF) 
     throws NameNotFoundException {
         Condutor condutor = procurarCondutor(condutorCPF);
@@ -100,13 +96,17 @@ public abstract class Seguro {
         listaSinistros.add(sinistro);
         condutor.adicionarSinistro(sinistro);
     }
-
+    
     // Gera uma ID baseada no tempo em milissegundos. Gerar IDs em menos de 1ms provavelmente gerará duplicatas.
     private static int gerarID() {
-		long tempoMilissegundos1970 = System.currentTimeMillis(); // Sempre positivo (ACHO)
+        long tempoMilissegundos1970 = System.currentTimeMillis(); // Sempre positivo (ACHO)
 		
 		// Os long positivo possuem o mesmo tanto de bit que os int (ACHO)
 		// Logo, eu posso fazer casting a partir do mínimo int sem risco de overflow (ACHO)
 		return (int)(Integer.MIN_VALUE + tempoMilissegundos1970); 
 	}
+
+    public abstract Cliente getCliente();
+    
+    public abstract double calcularValor();
 }
