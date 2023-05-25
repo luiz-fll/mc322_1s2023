@@ -24,6 +24,14 @@ public class SeguroPJ extends Seguro {
         return this.cliente;
     }
 
+    public ClientePJ getClientePJ() {
+        return this.cliente;
+    }
+
+    public void setClientePJ(ClientePJ cliente) {
+        this.cliente = cliente;
+    }
+
     public double calcularValor() {
         int AnosPosFundacao = Period.between(cliente.getDataFundacao(), LocalDate.now()).getYears();
         int quantidadeSinistrosCliente = getSeguradora().getSinistrosPorCliente(cliente).size();

@@ -12,7 +12,6 @@ public abstract class Seguro {
     private ArrayList<Condutor> listaCondutores = new ArrayList<Condutor>();
     private double valorMensal;
 
-
     public Seguro(LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora) {
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
@@ -73,6 +72,9 @@ public abstract class Seguro {
     }
     
     public boolean autorizarCondutor(Condutor condutor) {
+        if (condutor.getValidadeCNH().isBefore(LocalDate.now())) {
+            return false;
+        }
         return listaCondutores.add(condutor);
     }
 
@@ -83,10 +85,10 @@ public abstract class Seguro {
     public Condutor procurarCondutor(String CPF) 
     throws NameNotFoundException {
         return listaCondutores
-        .stream()
-        .filter(condutor -> condutor.getCPF().equals(CPF))
-        .findAny()
-        .orElseThrow(() -> new NameNotFoundException("Condutor não encontrado: " + CPF));
+               .stream()
+               .filter(condutor -> condutor.getCPF().equals(CPF))
+               .findAny()
+               .orElseThrow(() -> new NameNotFoundException("Condutor não encontrado: " + CPF));
     }
     
     public void gerarSinistro(LocalDate data, String endereco, String condutorCPF) 

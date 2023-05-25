@@ -8,15 +8,17 @@ public class Condutor {
     private String endereco;
     private String email;
     private LocalDate dataNasc;
+    private LocalDate validadeCNH;
     private ArrayList<Sinistro> listaSinistros = new ArrayList<Sinistro>();
 
-    public Condutor(String CPF, String nome, String telefone, String endereco, String email, LocalDate dataNasc) {
+    public Condutor(String CPF, String nome, String telefone, String endereco, String email, LocalDate dataNasc, LocalDate validadeCNH) {
         this.CPF = CPF;
         this.nome = nome;
         this.telefone = telefone;
         this.endereco = endereco;
         this.email = email;
         this.dataNasc = dataNasc;
+        this.validadeCNH = validadeCNH;
     }
 
     public String getCPF() {
@@ -61,6 +63,14 @@ public class Condutor {
 
     public void setDataNasc(LocalDate dataNasc) {
         this.dataNasc = dataNasc;
+    }
+
+    public LocalDate getValidadeCNH() {
+        return this.validadeCNH;
+    }
+
+    public void setValidadeCNH(LocalDate validadeCNH) {
+        this.validadeCNH = validadeCNH;
     }
 
     public ArrayList<Sinistro> getListaSinistros() {

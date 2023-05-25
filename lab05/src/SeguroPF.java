@@ -24,6 +24,14 @@ public class SeguroPF extends Seguro {
         return this.cliente;
     }
 
+    public ClientePF getClientePF() {
+        return this.cliente;
+    }
+
+    public void setClientePF(ClientePF cliente) {
+        this.cliente = cliente;
+    }
+
     public double calcularValor() {
         int idade = Period.between(cliente.getDataNascimento(), LocalDate.now()).getYears();
         int quantidadeSinistrosCliente = getSeguradora().getSinistrosPorCliente(cliente).size();

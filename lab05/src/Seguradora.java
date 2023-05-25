@@ -122,10 +122,10 @@ public class Seguradora {
 	public Seguro procurarSeguro(int id) 
 	throws NameNotFoundException {
 		return listaSeguros
-        .stream()
-        .filter(seguro -> seguro.getId() == id)
-        .findAny()
-        .orElseThrow(() -> new NameNotFoundException("Seguro não encontrado: " + id));
+			   .stream()
+			   .filter(seguro -> seguro.getId() == id)
+			   .findAny()
+			   .orElseThrow(() -> new NameNotFoundException("Seguro não encontrado: " + id));
 	}
 
 	// Operações com clientes
