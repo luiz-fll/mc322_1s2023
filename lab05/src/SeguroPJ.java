@@ -26,13 +26,13 @@ public class SeguroPJ extends Seguro {
 
     public double calcularValor() {
         int AnosPosFundacao = Period.between(cliente.getDataFundacao(), LocalDate.now()).getYears();
-        int quantidadeSinistrosCliente = seguradora.getSinistrosPorCliente(cliente).size();
+        int quantidadeSinistrosCliente = getSeguradora().getSinistrosPorCliente(cliente).size();
         
         int quantidadeVeiculos = cliente.getListaFrota()
                                  .stream()
                                  .collect(Collectors.summingInt(frota -> frota.getListaVeiculos().size()));
 
-        int quantidadeSinistrosCondutor = listaCondutores
+        int quantidadeSinistrosCondutor = getListaCondutores()
                                           .stream()
                                           .collect(Collectors.summingInt(condutor -> condutor.getListaSinistros().size()));
         

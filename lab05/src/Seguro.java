@@ -7,9 +7,9 @@ public abstract class Seguro {
     private final int id = gerarID();
     private LocalDate dataInicio;
     private LocalDate dataFim;
-    protected Seguradora seguradora;
+    private Seguradora seguradora;
     private ArrayList<Sinistro> listaSinistros = new ArrayList<Sinistro>();
-    protected ArrayList<Condutor> listaCondutores = new ArrayList<Condutor>();
+    private ArrayList<Condutor> listaCondutores = new ArrayList<Condutor>();
     private double valorMensal;
 
 

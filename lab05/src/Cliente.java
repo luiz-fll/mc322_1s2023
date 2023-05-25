@@ -1,8 +1,8 @@
 public abstract class Cliente {
-	protected String nome;
-	protected String telefone;
-	protected String endereco;
-	protected String email;
+	private String nome;
+	private String telefone;
+	private String endereco;
+	private String email;
 	
 	// Construtor
 	public Cliente(String nome, String telefone, String endereco, String email) {
