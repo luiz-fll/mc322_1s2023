@@ -19,9 +19,10 @@ public enum Operacao {
     PAINEL_CONDUTOR,
     AUTORIZAR,
     DESAUTORIZAR,
-    PAINEL_SINISTRO;
+    PAINEL_SINISTRO,
+    VOLTAR;
 
-    public static void executar(Operacao operacao, Scanner sc, ArrayList<Seguradora> seguradoras) {
+    public static boolean executar(Operacao operacao, Scanner sc, ArrayList<Seguradora> seguradoras) {
         switch (operacao) {
         case CRIAR_SEGURADORA:
             System.out.println("Insira os dados da Seguradora...");
@@ -42,5 +43,6 @@ public enum Operacao {
         default:
             break;
         }
+        return true;
     }
 }

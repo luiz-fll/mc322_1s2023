@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Menu {
     private ArrayList<Opcao> opcoes = new ArrayList<Opcao>();
@@ -68,5 +69,71 @@ public class Menu {
         menu.novaOpcao("<Criar Seguradora>", Operacao.CRIAR_SEGURADORA);
 
         return menu;
+    }
+
+    public static Menu PainelSeguradora(Seguradora seguradora) {
+        Menu menu = new Menu(seguradora.toString());
+        
+        menu.novaOpcao("Criar Cliente PF", Operacao.CRIAR_CLIENTE_PF);
+        menu.novaOpcao("Criar Seguro PF", Operacao.CRIAR_SEGURO_PF);
+        menu.novaOpcao("Criar Cliente PJ", Operacao.CRIAR_CLIENTE_PJ);
+        menu.novaOpcao("Criar Seguro PF", Operacao.CRIAR_SEGURO_PJ);
+        menu.novaOpcao("Painel Cliente", Operacao.PAINEL_CLEINTE);
+        menu.novaOpcao("Painel Seguro", Operacao.PAINEL_SEGURO);
+
+        return menu;
+    }
+
+    public static Menu PainelClientePF(ClientePF cliente) {
+        Menu menu = new Menu(cliente.toString());
+        
+        menu.novaOpcao("Cadastrar Veículo", Operacao.CADASTRAR_VEICULO);
+        menu.novaOpcao("Remover Veículo", Operacao.REMOVER_VEICULO);
+        menu.novaOpcao("Remover Cliente", Operacao.REMOVER_CLIENTE);
+        menu.novaOpcao("Sinistros do Cliente", Operacao.PAINEL_SINISTRO);
+
+        return menu;
+    }
+
+    public static Menu PainelClientePJ(ClientePJ cliente) {
+        Menu menu = new Menu(cliente.toString());
+        
+        menu.novaOpcao("Cadastrar Frota", Operacao.CADASTRAR_FROTA);
+        menu.novaOpcao("Remover Frota", Operacao.REMOVER_FROTA);
+        menu.novaOpcao("Alterar Frota", Operacao.ALTERAR_FROTA);
+        menu.novaOpcao("Remover Cliente", Operacao.REMOVER_CLIENTE);
+        menu.novaOpcao("Sinistros do Cliente", Operacao.PAINEL_SINISTRO);
+
+        return menu;
+    }
+    
+    public static Menu PainelSeguro(Seguro seguro) {
+        Menu menu = new Menu(seguro.toString());
+        
+        menu.novaOpcao("Condutores", Operacao.PAINEL_CONDUTOR);
+        menu.novaOpcao("Sinistros do Seguro", Operacao.PAINEL_SINISTRO);
+
+        return menu;
+    }
+
+    public static Menu PainelCondutor(Seguro seguro) {
+        Menu menu = new Menu(seguro.getListaCondutores().toString());
+        
+        menu.novaOpcao("Autorizar Condutor...", Operacao.AUTORIZAR);
+        menu.novaOpcao("Desautorizar Condutor...", Operacao.DESAUTORIZAR);
+
+        return menu;
+    }
+
+    public static Operacao selecionarOperacao(Scanner sc, Menu menu) {
+        String input = sc.nextLine();
+        try {
+            int codigo = Integer.parseInt(input);
+            return menu.opcoes.get(codigo - 1).getOperacao();
+        } catch (NumberFormatException e) {
+            return Operacao.VOLTAR;
+        } catch (IndexOutOfBoundsException e) {
+            return Operacao.VOLTAR;
+        }
     }
 }
