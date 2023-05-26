@@ -111,4 +111,13 @@ public abstract class Seguro {
     public abstract Cliente getCliente();
     
     public abstract double calcularValor();
+
+    @Override
+    public String toString() {
+        return "[Seguro '" + getId() + "']\n" +
+			   "Início: " + getDataInicio() + "\n" +
+			   "Fim: " + getDataFim() + "\n" +
+			   "Seguradora: " + getSeguradora() + "\n" +
+               "Valor Mensal: " + getValorMensal();
+    }
 }

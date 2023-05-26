@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import javax.naming.NameNotFoundException;
 
@@ -49,11 +50,7 @@ public class Frota {
 
     @Override
     public String toString() {
-        ArrayList<String> listaPlacas = new ArrayList<String>();
-        for (Veiculo veiculo : getListaVeiculos()) {
-            listaPlacas.add(veiculo.getPlaca());
-        }
-
-        return "Frota '" + getCode() + "' com veículos: " + listaPlacas;
+        return "[Frota '" + getCode() + "']\n" +
+			   "Veículos: " + getListaVeiculos().stream().map(Veiculo::getPlaca).collect(Collectors.toList());
     }
 }

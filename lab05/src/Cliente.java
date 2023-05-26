@@ -44,4 +44,12 @@ public abstract class Cliente {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	@Override
+	public String toString() {
+		return "[Cliente '" + getNome() + "']\n" +
+			   "Telefone: " + getTelefone() + "\n" +
+			   "Endereço: " + getEndereco() + "\n" +
+			   "E-mail: " + getEmail();
+	}
 }

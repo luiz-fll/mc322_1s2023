@@ -170,4 +170,14 @@ public class Seguradora {
 			   .stream()
 			   .collect(Collectors.summingDouble(seguro -> seguro.calcularValor()));
 	}
+
+	@Override
+	public String toString() {
+		return "[Seguradora '" + getNome() + "']\n" +
+			   "CNPJ: " + getCNPJ() + "\n" + 
+			   "Telefone: " + getTelefone() + "\n" +
+			   "Endereço: " + getEndereco() + "\n" +
+			   "E-mail: " + getEmail() + "\n" +
+			   "Receita: " + calcularReceita();
+	}
 }

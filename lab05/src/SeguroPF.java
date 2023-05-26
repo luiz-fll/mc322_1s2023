@@ -46,4 +46,11 @@ public class SeguroPF extends Seguro {
                 (2 + quantidadeSinistrosCliente / 10) *
                 (5 + quantidadeSinistrosCondutor /10));
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\n" +
+               "Veículo: " + veiculo.getPlaca() + "\n" +
+               "Cliente: " + cliente.getCPF();
+    }
 }

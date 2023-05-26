@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import javax.naming.NameAlreadyBoundException;
 import javax.naming.NameNotFoundException;
@@ -108,17 +109,11 @@ public class ClientePJ extends Cliente {
 
         return true;
     }
-
     @Override
-    public String toString() {
-        ArrayList<String> listaCode = new ArrayList<String>();
-        for (Frota frota : getListaFrota()) {
-            listaCode.add(frota.getCode());
-        }
-        
-        return super.toString() +
-        "-> CNPJ: '" + getCNPJ() + "'\n" +
-        "-> Data de Fundação: '" + getDataFundacao() + "'\n" +
-        "-> Frotas: " + listaCode;
-    }
+	public String toString() {
+		return super.toString() + "\n" +
+			   "CNPJ: " + getCNPJ() + "\n" +
+			   "Data de Fundação: " + getDataFundacao() + "\n" +
+			   "Frotas: " + getListaFrota().stream().map(Frota::getCode).collect(Collectors.toList());
+	}
 }

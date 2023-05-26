@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import javax.naming.NameAlreadyBoundException;
 import javax.naming.NameNotFoundException;
@@ -80,5 +81,15 @@ public class ClientePF extends Cliente {
 	public boolean removerVeiculo(String placa) {
 		return listaVeiculos
 		.removeIf(veiculo -> veiculo.getPlaca().equals(placa));
+	}
+
+	@Override
+	public String toString() {
+		return super.toString() + "\n" +
+			   "CPF: " + getCPF() + "\n" +
+			   "Educação: " + getEducacao() + "\n" +
+			   "Gênero: " + getGenero() + "\n" +
+			   "Data de Nascimento: " + getDataNascimento() + "\n" +
+			   "Veículos: " + getListaVeiculos().stream().map(Veiculo::getPlaca).collect(Collectors.toList());
 	}
 }

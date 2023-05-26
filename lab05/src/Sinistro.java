@@ -60,4 +60,13 @@ public class Sinistro {
 		// Logo, eu posso fazer casting a partir do mínimo int sem risco de overflow (ACHO)
 		return (int)(Integer.MIN_VALUE + tempoMilissegundos1970); 
 	}
+
+	@Override
+	public String toString() {
+		return "[Snistro '" + getId() + "']\n" +
+			   "Data: " + getData() + "\n" +
+			   "Endereço: " + getEndereco() + "\n" +
+			   "Condutor: " + condutor.getCPF() + "\n" +
+			   "Seguro: " + seguro.getId();
+	}
 }

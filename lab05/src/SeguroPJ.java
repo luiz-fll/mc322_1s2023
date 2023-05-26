@@ -50,4 +50,11 @@ public class SeguroPJ extends Seguro {
                (2 + quantidadeSinistrosCliente /10) *
                (5 + quantidadeSinistrosCondutor /10));
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\n" +
+               "Frota: " + frota.getCode() +
+               "Cliente: " + cliente.getCNPJ();
+    }
 }

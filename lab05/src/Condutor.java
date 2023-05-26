@@ -84,4 +84,15 @@ public class Condutor {
     public void adicionarSinistro(Sinistro sinistro) {
         listaSinistros.add(sinistro);
     }
+
+    @Override
+    public String toString() {
+        return "[Condutor '" + getNome() + "']\n" +
+			   "CPF: " + getCPF() + "\n" +
+			   "Telefone: " + getTelefone() + "\n" +
+			   "E-mail: " + getEmail() + "\n" +
+			   "Endereço: " + getEndereco() + "\n" +
+			   "Data de Nascimento: " + getDataNasc() + "\n" +
+			   "Validade da CNH: " + getValidadeCNH();
+    }
 }
