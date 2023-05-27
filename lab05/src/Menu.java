@@ -78,7 +78,6 @@ public class Menu {
         menu.novaOpcao("Criar Seguro PF", Operacao.CRIAR_SEGURO_PF);
         menu.novaOpcao("Criar Cliente PJ", Operacao.CRIAR_CLIENTE_PJ);
         menu.novaOpcao("Criar Seguro PF", Operacao.CRIAR_SEGURO_PJ);
-        menu.novaOpcao("Painel Cliente", Operacao.PAINEL_CLEINTE);
         menu.novaOpcao("Painel Seguro", Operacao.PAINEL_SEGURO);
 
         return menu;
@@ -112,6 +111,7 @@ public class Menu {
         
         menu.novaOpcao("Condutores", Operacao.PAINEL_CONDUTOR);
         menu.novaOpcao("Sinistros do Seguro", Operacao.PAINEL_SINISTRO);
+        menu.novaOpcao("Painel Cliente", Operacao.PAINEL_CLIENTE);
 
         return menu;
     }
@@ -145,15 +145,15 @@ public class Menu {
         return menu;
     }
 
-    public static Operacao selecionarOperacao(Scanner sc, Menu menu) {
+    public Operacao selecionarOperacao(Scanner sc) {
         String input = sc.nextLine();
         try {
             int codigo = Integer.parseInt(input);
-            return menu.opcoes.get(codigo - 1).getOperacao();
+            return opcoes.get(codigo - 1).getOperacao();
         } catch (NumberFormatException e) {
-            return Operacao.VOLTAR;
+            return origem == null ? Operacao.SAIR : Operacao.VOLTAR;
         } catch (IndexOutOfBoundsException e) {
-            return Operacao.VOLTAR;
+            return origem == null ? Operacao.SAIR : Operacao.VOLTAR;
         }
     }
 }
