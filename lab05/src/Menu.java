@@ -116,6 +116,26 @@ public class Menu {
         return menu;
     }
 
+    public static Menu PainelSinistro(Seguro seguro) {
+        Menu menu = new Menu(seguro.getListaSinistros().toString());
+        
+        menu.novaOpcao("Gerar Sinistro", Operacao.PAINEL_SINISTRO);
+
+        return menu;
+    }
+
+    public static Menu PainelSinistro(Cliente cliente, Seguradora seguradora) {
+        Menu menu = new Menu(seguradora.getSinistrosPorCliente(cliente).toString());
+
+        return menu;
+    }
+
+    public static Menu PainelSinistro(Condutor condutor) {
+        Menu menu = new Menu(condutor.getListaSinistros().toString());
+
+        return menu;
+    }
+
     public static Menu PainelCondutor(Seguro seguro) {
         Menu menu = new Menu(seguro.getListaCondutores().toString());
         
