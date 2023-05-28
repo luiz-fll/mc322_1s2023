@@ -85,6 +85,7 @@ public abstract class Seguro {
     }
 
     public boolean desautorizarCondutor(Condutor condutor) {
+        listaSinistros.removeIf(sinistro -> sinistro.getCondutor().equals(condutor));
         return listaCondutores.remove(condutor);
     }
     

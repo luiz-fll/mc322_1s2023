@@ -143,9 +143,10 @@ public class Seguradora {
 		return listaClientes.add(cliente);
 	}
 
-	// Remove um cliente e seus sinistros
-	public boolean removerCliente(String cliente) {
-		return false;
+	// Remove um cliente e seus seguros
+	public boolean removerCliente(Cliente cliente) {
+		listaSeguros.removeIf(seguro -> seguro.getCliente().equals(cliente));
+		return listaClientes.remove(cliente);
 	}
 
 	public ArrayList<Seguro> getSegurosPorCliente(Cliente cliente) {
@@ -188,6 +189,6 @@ public class Seguradora {
 			   "Telefone: " + getTelefone() + "\n" +
 			   "Endereço: " + getEndereco() + "\n" +
 			   "E-mail: " + getEmail() + "\n" +
-			   "Receita: " + calcularReceita();
+			   "Receita: R$ " + calcularReceita();
 	}
 }

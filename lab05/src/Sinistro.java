@@ -63,10 +63,10 @@ public class Sinistro {
 
 	@Override
 	public String toString() {
-		return "[Snistro '" + getId() + "']\n" +
-			   "Data: " + getData() + "\n" +
-			   "Endereço: " + getEndereco() + "\n" +
-			   "Condutor: " + condutor.getCPF() + "\n" +
-			   "Seguro: " + seguro.getId();
+		return "[Sinistro " + getId() + 
+			   " / " + getData() +
+			   " / " + getEndereco() + 
+			   " / Condutor " + condutor.getCPF() +
+			   " / Seguro id " + seguro.getId() + "]";
 	}
 }

@@ -111,8 +111,10 @@ public class Menu {
 
     public static Menu selecaoSeguro(ArrayList<Seguro> seguros) {
         Menu menu = new Menu("Selecione o Seguro");
+        String descricao;
         for (Seguro seguro : seguros) {
-            menu.novaOpcao(seguro.toString(), Operacao.SELECIONAR);
+            descricao = "[Seguro id " + seguro.getId() + " / Seg. " + seguro.getSeguradora().getNome() + " / Mensalidade "+ seguro.getValorMensal() + "]";
+            menu.novaOpcao(descricao, Operacao.SELECIONAR);
         }
 
         return menu;
@@ -201,8 +203,8 @@ public class Menu {
         return menu;
     }
 
-    public static Menu painelFrota(Frota frota, String titulo) {
-        Menu menu = new Menu(titulo);
+    public static Menu painelFrota(Frota frota) {
+        Menu menu = new Menu(frota.toString());
         for (Veiculo veiculo : frota.getListaVeiculos()) {
             menu.novaOpcao("Remover " + veiculo.toString(), Operacao.REMOVER_VEICULO);
         }

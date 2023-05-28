@@ -47,9 +47,8 @@ public class Veiculo {
 
 	@Override
 	public String toString() {
-		return "[Veículo '" + getPlaca() + "']\n" +
-			"Marca: " + getMarca() + "\n" +
-			"Modelo: " + getModelo() + "\n" +
-			"Ano de Fabricação: " + getAnoFabricacao() + "\n";
+		return "[Veículo '" + getPlaca() + "' / " + getMarca() 
+									 	 + " " + getModelo() 
+										 + " " + getAnoFabricacao() + "]";
 	}
 }

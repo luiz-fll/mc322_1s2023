@@ -55,7 +55,9 @@ public class Frota {
 
     @Override
     public String toString() {
-        return "[Frota '" + getCode() + "']\n" +
-			   "Veículos: " + getListaVeiculos().stream().map(Veiculo::getPlaca).collect(Collectors.toList());
+        return "[Frota '" + getCode() + "' / Veículos '" + getListaVeiculos()
+                                                .stream()
+                                                .map(Veiculo::getPlaca)
+                                                .collect(Collectors.toList()) + "']";
     }
 }

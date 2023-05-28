@@ -112,11 +112,7 @@ public class Main {
 		System.out.print("Code da frota: ");
 		String code = sc.nextLine();
 		try {
-			if (cliente.atualizarFrota(code)) {
-				System.out.println(code + "removida com sucesso.");
-			} else {
-				System.out.println("Não foi possível remover " + code);
-			}
+			cliente.atualizarFrota(code);
 		} catch (NameNotFoundException e) {
 			System.out.println(code + "Não encontrada");
 		}
@@ -166,6 +162,7 @@ public class Main {
 	throws IndexOutOfBoundsException {
 		ArrayList<Seguro> segurosDoCliente = seguradora.getSegurosPorCliente(cliente);
 		Menu menu = Menu.selecaoSeguro(segurosDoCliente);
+		menu.mostrar();
 		Opcao opcaoSelecionada = menu.selecionarOpcao(sc);
 		for (Opcao opcao : menu.getOpcoes()) {
 			if (opcao == opcaoSelecionada) {
@@ -219,11 +216,25 @@ public class Main {
 		throw new IndexOutOfBoundsException();
 	}
 
+	public static Condutor selecionarCondutor(Scanner sc, Seguro seguro) 
+	throws IndexOutOfBoundsException {
+		Menu painel = Menu.selecaoCondutores(seguro, "Selecione o condutor");
+		painel.mostrar();
+		Opcao opcaoSelecionada = painel.selecionarOpcao(sc);
+		for (Opcao opcao : painel.getOpcoes()) {
+			if (opcao == opcaoSelecionada) {
+				Condutor c = seguro.getListaCondutores().get(opcao.getCodigo() - 1);
+				return c;
+			}
+		}
+		throw new IndexOutOfBoundsException();
+	}
+
 	public static void abrirPainelFrota(Scanner sc, Frota frota) {
 		Menu painel;
 		Opcao opcaoSelecionada;
 		while (true) {
-			painel = Menu.painelFrota(frota, "Painel frota");
+			painel = Menu.painelFrota(frota);
 			painel.mostrar();
 			opcaoSelecionada = painel.selecionarOpcao(sc);
 			switch(opcaoSelecionada.getOperacao()) {
@@ -234,7 +245,7 @@ public class Main {
 					try {
 						cadastrarVeiculo(sc, frota);
 					} catch (Exception e) {
-						System.out.println(e);
+						System.out.println(e.getMessage());
 					}
 					break;
 				default:
@@ -256,7 +267,7 @@ public class Main {
 					try {
 						autorizarCondutor(sc, seguro);
 					} catch (Exception e) {
-						System.out.println(e);
+						System.out.println(e.getMessage());
 					}
 					break;
 				case DESAUTORIZAR:
@@ -267,8 +278,14 @@ public class Main {
 				}
 					break;
 				case PAINEL_SINISTRO:
-					sinistros = Menu.painelSinistro(seguro);
-					sinistros.mostrar();
+					try {
+						Condutor c = selecionarCondutor(sc, seguro);
+						sinistros = Menu.painelSinistro(c);
+						sinistros.mostrar();
+						sc.nextLine();
+					} catch (IndexOutOfBoundsException e) {
+						
+					}
 					break;
 				default:
 					return;
@@ -297,7 +314,7 @@ public class Main {
 					} catch (IndexOutOfBoundsException e) {
 						
 					} catch (Exception e) {
-						System.out.println(e);
+						System.out.println(e.getMessage());
 					}
 					break;
 				default:
@@ -331,14 +348,14 @@ public class Main {
 						try {
 							cadastrarVeiculo(sc, (ClientePF)cliente);
 						} catch (Exception e) {
-							System.out.println(e);
+							System.out.println(e.getMessage());
 						}
 						break;
 					case CADASTRAR_FROTA:
 						try {
 							cadastrarFrota(sc, (ClientePJ)cliente);
 						} catch (Exception e) {
-							System.out.println(e);
+							System.out.println(e.getMessage());
 						}
 						break;
 					case REMOVER_VEICULO:
@@ -352,7 +369,7 @@ public class Main {
 							SeguroPF s = criarSeguroPF(sc, seguradora, (ClientePF)cliente);
 							abrirPainelSeguro(sc, s);
 						} catch (Exception e) {
-							System.out.println(e);
+							System.out.println(e.getMessage());
 						}
 						break;
 					case CRIAR_SEGURO_PJ:
@@ -360,7 +377,7 @@ public class Main {
 							SeguroPJ s = criarSeguroPJ(sc, seguradora, (ClientePJ)cliente);
 							abrirPainelSeguro(sc, s);
 						} catch (Exception e) {
-							System.out.println(e);
+							System.out.println(e.getMessage());
 						}
 						break;
 					case PAINEL_SEGURO:
@@ -379,12 +396,15 @@ public class Main {
 						Frota f = selecionarFrota(sc, (ClientePJ)cliente);
 						abrirPainelFrota(sc, f);
 						break;
+					case REMOVER_CLIENTE:
+						seguradora.removerCliente(cliente);
+						return;
 					default:
 						return;
 				}
 			}
 		} catch (NameNotFoundException e) {
-			System.out.println(e);
+			System.out.println(e.getMessage());
 			return;
 		}
 	}
@@ -402,7 +422,7 @@ public class Main {
 						ClientePF c = criarClientePF(sc, seguradora);
 						abrirPainelCliente(sc, seguradora, c.getCPF());
 					} catch (InputMismatchException e) {
-						System.out.println(e);
+						System.out.println(e.getMessage());
 					}
 					break;
 				case CRIAR_CLIENTE_PJ:
@@ -410,7 +430,7 @@ public class Main {
 						ClientePJ c = criarClientePJ(sc, seguradora);
 						abrirPainelCliente(sc, seguradora, c.getCNPJ());
 					} catch (InputMismatchException e) {
-						System.out.println(e);
+						System.out.println(e.getMessage());
 					}
 					break;
 				case PAINEL_CLIENTE:
@@ -443,7 +463,7 @@ public class Main {
 								Seguradora s = criarSeguradora(sc, seguradoras);
 								abrirPainelSeguradora(sc, s);
 							} catch (InputMismatchException e) {
-								System.out.println(e);
+								System.out.println(e.getMessage());
 							}
 							continue execucao;
 						}
@@ -459,7 +479,7 @@ public class Main {
 	
 			sc.close();
 		} catch (FileNotFoundException e) {
-			System.out.println(e);
+			System.out.println(e.getMessage());
 			return;
 		}
 	}
