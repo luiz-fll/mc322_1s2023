@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 public class Validacao {
     // Recebe um CPF e retorna 'true' caso seja válido, caso contrário retorna 'false'
@@ -93,11 +94,11 @@ public class Validacao {
     }
 
     // Para não gastar a operação parse em vão, o parâmetro dataLocalDate recebe o valor parseado
-    public static boolean validaData(String dataString, LocalDate dataLocalDate) {
+    public static boolean validaData(String dataString) {
         try {
-            dataLocalDate = LocalDate.parse(dataString);
+            LocalDate.parse(dataString);
             return true;
-        } catch (Exception e) {
+        } catch (DateTimeParseException e) {
             return false;
         }
     }

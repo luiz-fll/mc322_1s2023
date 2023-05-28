@@ -8,84 +8,68 @@ import javax.naming.NameNotFoundException;
 
 public class Main {
 	public static void main(String args[]) throws NameAlreadyBoundException {
-		ClientePJ c = new ClientePJ("A", "a", "null", "null", "null", null);
-		c.cadastrarFrota(new Frota("a"));
-		c.cadastrarFrota(new Frota("b"));
-		System.out.println(c);
+		executarMenuInterativo();
 	}
 
 	public static ClientePF criarClientePF(Scanner sc, Seguradora seguradora) 
 	throws InputMismatchException {
 		System.out.println("Insira os dados do Cliente...");
-            try {
-                String cpf = Leitura.lerCPF(sc);
-                String nome = Leitura.lerNome(sc);
-                String telefone = Leitura.lerTelefone(sc);
-                String endereco = Leitura.lerString(sc, "Endereço");
-				String genero = Leitura.lerString(sc, "Gênero");
-                String email = Leitura.lerEmail(sc);
-				String educacao = Leitura.lerString(sc, "Educação");
-				LocalDate dataNasc = Leitura.lerData(sc, "Data de Nascimento");
+		String cpf = Leitura.lerCPF(sc);
+		String nome = Leitura.lerNome(sc);
+		String telefone = Leitura.lerTelefone(sc);
+		String endereco = Leitura.lerString(sc, "Endereço");
+		String genero = Leitura.lerString(sc, "Gênero");
+		String email = Leitura.lerEmail(sc);
+		String educacao = Leitura.lerString(sc, "Educação");
+		LocalDate dataNasc = Leitura.lerData(sc, "Data de Nascimento");
 
-				ClientePF c = new ClientePF(nome, telefone, endereco, email, cpf, genero, educacao, dataNasc);
-				seguradora.cadastrarCliente(c);
-                return c;
-            } catch (Exception e) {
-                throw new InputMismatchException(e.getMessage());
-            }
+		ClientePF c = new ClientePF(nome, telefone, endereco, email, cpf, genero, educacao, dataNasc);
+		seguradora.cadastrarCliente(c);
+
+		return c;
 	}
 	
 	public static ClientePJ criarClientePJ(Scanner sc, Seguradora seguradora) 
 	throws InputMismatchException {
 		System.out.println("Insira os dados do Cliente...");
-		try {
-			String cnpj = Leitura.lerCNPJ(sc);
-			String nome = Leitura.lerNome(sc);
-			String telefone = Leitura.lerTelefone(sc);
-			String endereco = Leitura.lerString(sc, "Endereço");
-			String email = Leitura.lerEmail(sc);
-			LocalDate dataFund = Leitura.lerData(sc, "Data de Fundação");
-			
-			ClientePJ c = new ClientePJ(nome, telefone, endereco, email, cnpj, dataFund);
-			seguradora.cadastrarCliente(c);
-			return c;
-		} catch (Exception e) {
-			throw new InputMismatchException(e.getMessage());
-		}
+		String cnpj = Leitura.lerCNPJ(sc);
+		String nome = Leitura.lerNome(sc);
+		String telefone = Leitura.lerTelefone(sc);
+		String endereco = Leitura.lerString(sc, "Endereço");
+		String email = Leitura.lerEmail(sc);
+		LocalDate dataFund = Leitura.lerData(sc, "Data de Fundação");
+		
+		ClientePJ c = new ClientePJ(nome, telefone, endereco, email, cnpj, dataFund);
+		seguradora.cadastrarCliente(c);
+
+		return c;
 	}
 	
 	public static SeguroPF criarSeguroPF(Scanner sc, Seguradora seguradora, ClientePF cliente) 
-	throws InputMismatchException {
+	throws InputMismatchException, NameNotFoundException {
 		System.out.println("Insira os dados do Seguro...");
-			try {
-				LocalDate dataInicio = Leitura.lerData(sc, "Data de Início");
-				LocalDate dataFim = Leitura.lerData(sc, "Data de Fim");
-				Veiculo veiculo = cliente.procurarVeiculo(Leitura.lerPlaca(sc));
+		LocalDate dataInicio = Leitura.lerData(sc, "Data de Início");
+		LocalDate dataFim = Leitura.lerData(sc, "Data de Fim");
+		Veiculo veiculo = cliente.procurarVeiculo(Leitura.lerPlaca(sc));
 
-				SeguroPF s = new SeguroPF(dataInicio, dataFim, seguradora, veiculo, cliente);
-				return s;
-			} catch (Exception e) {
-				throw new InputMismatchException(e.getMessage());
-			}
+		SeguroPF s = new SeguroPF(dataInicio, dataFim, seguradora, veiculo, cliente);
+		return s;
 	}
 
 	public static SeguroPJ criarSeguroPJ(Scanner sc, Seguradora seguradora, ClientePJ cliente) 
-	throws InputMismatchException {
+	throws InputMismatchException, NameNotFoundException {
 		System.out.println("Insira os dados do Seguro...");
-            try {
-				LocalDate dataInicio = Leitura.lerData(sc, "Data de Início");
-				LocalDate dataFim = Leitura.lerData(sc, "Data de Fim");
-				Frota frota = cliente.procurarFrota(Leitura.lerString(sc, "Code"));
+		LocalDate dataInicio = Leitura.lerData(sc, "Data de Início");
+		LocalDate dataFim = Leitura.lerData(sc, "Data de Fim");
+		Frota frota = cliente.procurarFrota(Leitura.lerString(sc, "Code"));
 
-				SeguroPJ s = new SeguroPJ(dataInicio, dataFim, seguradora, frota, cliente);
-                return s;
-            } catch (Exception e) {
-                throw new InputMismatchException(e.getMessage());
-            }
+		SeguroPJ s = new SeguroPJ(dataInicio, dataFim, seguradora, frota, cliente);
+		
+		return s;
 	}
 
 	public static void cadastrarVeiculo(Scanner sc, ClientePF cliente) 
-	throws InputMismatchException {
+	throws InputMismatchException, NameAlreadyBoundException {
 		System.out.println("Insira os dados do Veículo...");
             try {
                 String placa = Leitura.lerPlaca(sc);
@@ -93,7 +77,7 @@ public class Main {
                 String modelo = Leitura.lerString(sc, "Modelo");
                 int anoFabricacao = Leitura.lerInteiro(sc, "Ano de Fabricação");
 				cliente.cadastrarVeiculo(placa, marca, modelo, anoFabricacao);
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 throw new InputMismatchException(e.getMessage());
             }
 	}
@@ -123,14 +107,10 @@ public class Main {
 	}
 
 	public static void cadastrarFrota(Scanner sc, ClientePJ cliente) 
-	throws InputMismatchException {
-		try {
-				System.out.print("Insira o code da frota: ");
-				String code = Leitura.lerString(sc, "Code");
-				cliente.cadastrarFrota(new Frota(code));
-            } catch (Exception e) {
-                throw new InputMismatchException(e.getMessage());
-            }
+	throws InputMismatchException, NameAlreadyBoundException {
+		System.out.print("Insira o code da frota: ");
+		String code = Leitura.lerString(sc, "Code");
+		cliente.cadastrarFrota(new Frota(code));
 	}
 
 	public static void autorizarCondutor(Scanner sc, Seguro seguro) 
@@ -155,34 +135,33 @@ public class Main {
 	public static Seguradora criarSeguradora(Scanner sc, ArrayList<Seguradora> seguradoras) 
 	throws InputMismatchException {
 		System.out.println("Insira os dados da Seguradora...");
-            try {
-                String cnpj = Leitura.lerCNPJ(sc);
-                String nome = Leitura.lerString(sc, "Nome");
-                String telefone = Leitura.lerTelefone(sc);
-                String endereco = Leitura.lerString(sc, "Endereço");
-                String email = Leitura.lerEmail(sc);
+		String cnpj = Leitura.lerCNPJ(sc);
+		String nome = Leitura.lerString(sc, "Nome");
+		String telefone = Leitura.lerTelefone(sc);
+		String endereco = Leitura.lerString(sc, "Endereço");
+		String email = Leitura.lerEmail(sc);
 
-				Seguradora s = new Seguradora(cnpj, nome, telefone, email, endereco);
-                seguradoras.add(s);
-                return s;
-            } catch (Exception e) {
-                throw new InputMismatchException(e.getMessage());
-            }
+		Seguradora s = new Seguradora(cnpj, nome, telefone, email, endereco);
+		seguradoras.add(s);
+
+		return s;
 	}
 
-	public static Seguro selecionarSeguro(Scanner sc, Menu origem, Seguradora seguradora, Cliente cliente) {
+	public static Seguro selecionarSeguro(Scanner sc, Seguradora seguradora, Cliente cliente) 
+	throws IndexOutOfBoundsException {
 		ArrayList<Seguro> segurosDoCliente = seguradora.getSegurosPorCliente(cliente);
-		Menu menu = Menu.SelecaoSeguro(segurosDoCliente, origem);
+		Menu menu = Menu.SelecaoSeguro(segurosDoCliente);
 		Opcao opcaoSelecionada = menu.selecionarOpcao(sc);
 		for (Opcao opcao : menu.getOpcoes()) {
 			if (opcao == opcaoSelecionada) {
 				return segurosDoCliente.get(opcao.getCodigo() - 1);
 			}
 		}
-		throw new InputMismatchException();
+		throw new IndexOutOfBoundsException();
 	}
 
-	public static void desautorizarCondutor(Scanner sc, Seguro seguro) {
+	public static void desautorizarCondutor(Scanner sc, Seguro seguro) 
+	throws IndexOutOfBoundsException {
 		Menu painel = Menu.selecaoCondutores(seguro, "Selecione o condutor a ser desautorizado");
 		painel.mostrar();
 		Opcao opcaoSelecionada = painel.selecionarOpcao(sc);
@@ -195,7 +174,7 @@ public class Main {
 	}
 
 	public static void gerarSinistro(Scanner sc, Seguro seguro) 
-	throws NameNotFoundException, InputMismatchException {
+	throws NameNotFoundException, InputMismatchException, IndexOutOfBoundsException {
 		Menu painel = Menu.selecaoCondutores(seguro, "Selecione o condutor responsável");
 		painel.mostrar();
 		Opcao opcaoSelecionada = painel.selecionarOpcao(sc);
@@ -210,7 +189,7 @@ public class Main {
 	}
 
 	public static void abrirPainelCondutores(Scanner sc, Seguro seguro) {
-		Menu painel;
+		Menu painel, sinistros;
 		Opcao opcaoSelecionada;
 		while (true) {
 			painel = Menu.PainelCondutor(seguro);
@@ -225,7 +204,15 @@ public class Main {
 					}
 					break;
 				case DESAUTORIZAR:
+				try {
 					desautorizarCondutor(sc, seguro);
+				} catch (IndexOutOfBoundsException e) {
+					
+				}
+					break;
+				case PAINEL_SINISTRO:
+					sinistros = Menu.PainelSinistro(seguro);
+					sinistros.mostrar();
 					break;
 				default:
 					return;
@@ -233,11 +220,11 @@ public class Main {
 		}
 	}
 
-	public static void abrirPainelSeguro(Scanner sc, Menu origem, Seguro seguro) {
+	public static void abrirPainelSeguro(Scanner sc, Seguro seguro) {
 		Menu painel, sinistros;
 		Opcao opcaoSelecionada;
 		while (true) {
-			painel = Menu.PainelSeguro(seguro, origem);
+			painel = Menu.PainelSeguro(seguro);
 			painel.mostrar(seguro);
 			opcaoSelecionada = painel.selecionarOpcao(sc);
 			switch(opcaoSelecionada.getOperacao()) {
@@ -246,11 +233,13 @@ public class Main {
 					break;
 				case PAINEL_SINISTRO:
 					sinistros = Menu.PainelSinistro(seguro);
-					sinistros.mostrar(seguro.getListaSinistros());
+					sinistros.mostrar();
 					break;
 				case GERAR_SINISTRO:
 					try {
 						gerarSinistro(sc, seguro);
+					} catch (IndexOutOfBoundsException e) {
+						
 					} catch (Exception e) {
 						System.out.println(e);
 					}
@@ -261,20 +250,20 @@ public class Main {
 		}
 	}
 
-	public static void abrirPainelCliente(Scanner sc, Menu origem, Seguradora seguradora, String identificacao) 
+	public static void abrirPainelCliente(Scanner sc, Seguradora seguradora, String identificacao) 
 	throws InputMismatchException {
-		Menu painel;
+		Menu painel, sinistros;
 		Opcao opcaoSelecionada;
 		Cliente cliente;
 		try {
 			while (true) {
 				if (Validacao.validaCPF(identificacao)) {
 					cliente = seguradora.procurarClientePF(identificacao);
-					painel = Menu.PainelClientePF((ClientePF)cliente);
+					painel = Menu.PainelClientePF(seguradora, (ClientePF)cliente);
 				}
 				else if (Validacao.validaCNPJ(identificacao)) {
 					cliente = seguradora.procurarClientePJ(identificacao);
-					painel = Menu.PainelClientePJ((ClientePJ)cliente);
+					painel = Menu.PainelClientePJ(seguradora, (ClientePJ)cliente);
 				}
 				else {
 					throw new InputMismatchException("Entrada inválida: " + identificacao);
@@ -283,10 +272,18 @@ public class Main {
 				opcaoSelecionada = painel.selecionarOpcao(sc);
 				switch (opcaoSelecionada.getOperacao()) {
 					case CADASTRAR_VEICULO:
-						cadastrarVeiculo(sc, (ClientePF)cliente);
+						try {
+							cadastrarVeiculo(sc, (ClientePF)cliente);
+						} catch (Exception e) {
+							System.out.println(e);
+						}
 						break;
 					case CADASTRAR_FROTA:
-						cadastrarFrota(sc, (ClientePJ)cliente);
+						try {
+							cadastrarFrota(sc, (ClientePJ)cliente);
+						} catch (Exception e) {
+							System.out.println(e);
+						}
 						break;
 					case REMOVER_VEICULO:
 						removerVeiculo(sc, (ClientePF)cliente);
@@ -297,26 +294,32 @@ public class Main {
 					case CRIAR_SEGURO_PF:
 						try {
 							SeguroPF s = criarSeguroPF(sc, seguradora, (ClientePF)cliente);
-							abrirPainelSeguro(sc, painel, s);
-						} catch (InputMismatchException e) {
+							abrirPainelSeguro(sc, s);
+						} catch (Exception e) {
 							System.out.println(e);
 						}
 						break;
 					case CRIAR_SEGURO_PJ:
 						try {
 							SeguroPJ s = criarSeguroPJ(sc, seguradora, (ClientePJ)cliente);
-							abrirPainelSeguro(sc, painel, s);
-						} catch (InputMismatchException e) {
+							abrirPainelSeguro(sc, s);
+						} catch (Exception e) {
 							System.out.println(e);
 						}
 						break;
 					case PAINEL_SEGURO:
 						try {
-							Seguro s = selecionarSeguro(sc, painel, seguradora, cliente);
-							abrirPainelSeguro(sc, painel, s);
-						} catch (InputMismatchException e) {
-							System.out.println(e);
+							Seguro s = selecionarSeguro(sc, seguradora, cliente);
+							abrirPainelSeguro(sc, s);
+						} catch (IndexOutOfBoundsException e) {
+							
 						}
+						break;
+					case PAINEL_SINISTRO:
+						sinistros = Menu.PainelSinistro(cliente, seguradora);
+						sinistros.mostrar();
+						break;
+					case ALTERAR_FROTA:
 						break;
 					default:
 						return;
@@ -328,31 +331,35 @@ public class Main {
 		}
 	}
 
-	public static void abrirPainelSeguradora(Scanner sc, Menu origem, Seguradora seguradora) {
-		Menu painel = Menu.PainelSeguradora(seguradora, origem);
+	public static void abrirPainelSeguradora(Scanner sc, Seguradora seguradora) {
+		Menu painel;
+		Opcao opcaoSelecionada;
 		while (true) {
+			painel = Menu.PainelSeguradora(seguradora);
 			painel.mostrar(seguradora);
-			Opcao opcaoSelecionada = painel.selecionarOpcao(sc);
+			opcaoSelecionada = painel.selecionarOpcao(sc);
 			switch (opcaoSelecionada.getOperacao()) {
 				case CRIAR_CLIENTE_PF:
 					try {
 						ClientePF c = criarClientePF(sc, seguradora);
-						abrirPainelCliente(sc, painel, seguradora, c.getCPF());
+						abrirPainelCliente(sc, seguradora, c.getCPF());
 					} catch (InputMismatchException e) {
 						System.out.println(e);
 					}
 					break;
 				case CRIAR_CLIENTE_PJ:
-				try {
-					ClientePJ c = criarClientePJ(sc, seguradora);
-					abrirPainelCliente(sc, painel, seguradora, c.getCNPJ());
-				} catch (InputMismatchException e) {
-					System.out.println(e);
-				}
+					try {
+						ClientePJ c = criarClientePJ(sc, seguradora);
+						abrirPainelCliente(sc, seguradora, c.getCNPJ());
+					} catch (InputMismatchException e) {
+						System.out.println(e);
+					}
+					break;
 				case PAINEL_CLIENTE:
 					System.out.print("Insira o CPF/CNPJ: ");
 					String identificacao = sc.nextLine();
-					abrirPainelCliente(sc, painel, seguradora, identificacao);
+					abrirPainelCliente(sc, seguradora, identificacao);
+					break;
 				default:
 					return;
 			}
@@ -363,18 +370,19 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		ArrayList<Seguradora> seguradoras = new ArrayList<Seguradora>();
 		Opcao opcaoSelecionada;
+		Menu menu;
 		
 		execucao:
 		while (true) {
-			Menu menuPrincipal = Menu.MenuPrincipal(seguradoras);
-			menuPrincipal.mostrar();
-			opcaoSelecionada = menuPrincipal.selecionarOpcao(sc);
-			for (Opcao opcao : menuPrincipal.getOpcoes()) {
+			menu = Menu.MenuPrincipal(seguradoras);
+			menu.mostrar();
+			opcaoSelecionada = menu.selecionarOpcao(sc);
+			for (Opcao opcao : menu.getOpcoes()) {
 				if (opcao == opcaoSelecionada) {
 					if (opcao.getOperacao() == Operacao.CRIAR_SEGURADORA) {
 						try {
 							Seguradora s = criarSeguradora(sc, seguradoras);
-							abrirPainelSeguradora(sc, menuPrincipal, s);
+							abrirPainelSeguradora(sc, s);
 						} catch (InputMismatchException e) {
 							System.out.println(e);
 						}
@@ -382,12 +390,14 @@ public class Main {
 					}
 					else if (opcao.getOperacao() == Operacao.PAINEL_SEGURADORA) {
 						Seguradora s = seguradoras.get(opcao.getCodigo() - 1);
-						abrirPainelSeguradora(sc, menuPrincipal, s);
+						abrirPainelSeguradora(sc, s);
 						continue execucao;
 					}
 				}
 			}
 			break execucao;
 		}
+
+		sc.close();
 	}
 }
