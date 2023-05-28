@@ -17,7 +17,7 @@ public abstract class Seguro {
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
         this.seguradora = seguradora;
-        this.valorMensal = calcularValor();
+        seguradora.getListaSeguros().add(this);
     }
 
     public int getId() {
@@ -65,6 +65,7 @@ public abstract class Seguro {
     }
 
     public double getValorMensal() {
+        setValorMensal(calcularValor());
         return this.valorMensal;
     }
 
@@ -122,7 +123,7 @@ public abstract class Seguro {
         return "[Seguro '" + getId() + "']\n" +
 			   "Início: " + getDataInicio() + "\n" +
 			   "Fim: " + getDataFim() + "\n" +
-			   "Seguradora: " + getSeguradora() + "\n" +
-               "Valor Mensal: " + getValorMensal();
+			   "Seguradora: " + getSeguradora().getNome() + "\n" +
+               "Valor Mensal: R$ " + calcularValor();
     }
 }

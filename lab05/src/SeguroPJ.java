@@ -10,6 +10,7 @@ public class SeguroPJ extends Seguro {
         super(dataInicio, dataFim, seguradora);
         this.frota = frota;
         this.cliente = clientePJ;
+        this.setValorMensal(calcularValor()); 
     }
 
     public Frota getFrota() {
@@ -44,17 +45,13 @@ public class SeguroPJ extends Seguro {
                                           .stream()
                                           .collect(Collectors.summingInt(condutor -> condutor.getListaSinistros().size()));
         
-        return (CalcSeguro.VALOR_BASE() *
-               (1 + 1 / (quantidadeVeiculos + 2)) *
-               (1 + 1 / ( AnosPosFundacao +2) ) *
-               (2 + quantidadeSinistrosCliente /10) *
-               (5 + quantidadeSinistrosCondutor /10));
+        return (CalcSeguro.VALOR_BASE() * (1 + 1 / (quantidadeVeiculos + 2)) * (1 + 1 / ( AnosPosFundacao + 2) ) * (2 + quantidadeSinistrosCliente / 10) * (5 + quantidadeSinistrosCondutor / 10));
     }
 
     @Override
     public String toString() {
         return super.toString() + "\n" +
-               "Frota: " + frota.getCode() +
+               "Frota: " + frota.getCode() + "\n" +
                "Cliente: " + cliente.getCNPJ();
     }
 }

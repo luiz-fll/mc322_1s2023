@@ -1,0 +1,62 @@
+1
+43.315.290/0001-75
+Seguradora LTDA
+(11)
+1
+43.315.290/0001-75
+Seguradora LTDA
+(11)4002-8922
+Campinas
+email@email.com
+0
+2
+0
+1
+2
+52.818.773/0001-83
+Empresa Inc.
+(15)4444-4444
+Florianopolis
+email@empresa.com
+2007-10-10
+1
+codigo
+3
+1
+0
+3
+1
+1
+AAA-1234
+Honda
+Civic
+2017
+2
+BBB-4321
+Toyota
+Corolla
+2014
+1
+0
+1
+codigo
+1
+novafrota
+5
+2018-03-03
+2022-04-04
+codigo
+1
+1
+477.678.349-56
+Fulano de Tal de Não sei o que
+(11)91234-5678
+São Paulo
+fulano@empresa.com
+2001-10-10
+2027-02-02
+0
+2
+1
+2021-10-12
+Campinas

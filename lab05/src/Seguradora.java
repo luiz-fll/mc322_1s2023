@@ -149,9 +149,9 @@ public class Seguradora {
 	}
 
 	public ArrayList<Seguro> getSegurosPorCliente(Cliente cliente) {
-		return new ArrayList<Seguro>((listaSeguros
+		return new ArrayList<Seguro>(listaSeguros
 		                              .stream()
-									  .filter(seguro -> seguro.getCliente().equals(cliente)))
+									  .filter(seguro -> seguro.getCliente().equals(cliente))
 									  .collect(Collectors.toList()));
 	}
 

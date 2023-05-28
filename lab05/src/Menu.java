@@ -7,7 +7,7 @@ public class Menu {
     private String titulo;
 
     public Menu(String titulo) {
-        this.titulo = titulo;
+        this.titulo = "\n" + titulo;
     }
 
     public ArrayList<Opcao> getOpcoes() {
@@ -122,8 +122,12 @@ public class Menu {
         Menu menu = new Menu(seguro.toString());
         
         menu.novaOpcao("Condutores", Operacao.PAINEL_CONDUTOR);
-        menu.novaOpcao("Sinistros do Seguro", Operacao.PAINEL_SINISTRO);
-        menu.novaOpcao("Gerar Sinistro", Operacao.GERAR_SINISTRO);
+        if (!seguro.getListaSinistros().isEmpty()) {
+            menu.novaOpcao("Sinistros do Seguro", Operacao.PAINEL_SINISTRO);
+        }
+        if (!seguro.getListaCondutores().isEmpty()) {
+            menu.novaOpcao("Gerar Sinistro", Operacao.GERAR_SINISTRO);
+        }
 
         return menu;
     }
@@ -156,11 +160,24 @@ public class Menu {
     }
 
     public static Menu PainelCondutor(Seguro seguro) {
-        Menu menu = new Menu("Condutores do Seguro de " + seguro.getCliente().getNome());
+        String titulo;
+        if (seguro.getListaCondutores().isEmpty()) {
+            titulo = "Não há condutores no seguro " + seguro.getId() + " ainda. Deseja autorizar um?";
+        } else {
+            titulo = "Condutores do Seguro de " + seguro.getCliente().getNome() + ": ";
+            for (Condutor condutor : seguro.getListaCondutores()) {
+                titulo += "\n" + condutor;
+            }
+        }
+        Menu menu = new Menu(titulo);
         
         menu.novaOpcao("Autorizar Condutor...", Operacao.AUTORIZAR);
-        menu.novaOpcao("Desautorizar Condutor...", Operacao.DESAUTORIZAR);
-        menu.novaOpcao("Sinistros do Condutor", Operacao.PAINEL_SINISTRO);
+        if (!seguro.getListaCondutores().isEmpty()) {
+            menu.novaOpcao("Desautorizar Condutor...", Operacao.DESAUTORIZAR);
+        }
+        if (!seguro.getListaSinistros().isEmpty()) {
+            menu.novaOpcao("Sinistros por Condutor", Operacao.PAINEL_SINISTRO);
+        }
 
         return menu;
     }

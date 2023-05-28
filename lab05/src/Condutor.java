@@ -87,12 +87,12 @@ public class Condutor {
 
     @Override
     public String toString() {
-        return "[Condutor '" + getNome() + "']\n" +
-			   "CPF: " + getCPF() + "\n" +
-			   "Telefone: " + getTelefone() + "\n" +
-			   "E-mail: " + getEmail() + "\n" +
-			   "Endereço: " + getEndereco() + "\n" +
-			   "Data de Nascimento: " + getDataNasc() + "\n" +
-			   "Validade da CNH: " + getValidadeCNH();
+        return "[" + getNome() +
+			   " / " + getCPF() +
+			   " / " + getTelefone() +
+			   " / " + getEmail() +
+			   " / " + getEndereco() +
+			   " / Nasc. " + getDataNasc() +
+			   " / CNH " + getValidadeCNH() + "]";
     }
 }

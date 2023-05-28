@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -122,8 +124,7 @@ public class Main {
 
 	public static void cadastrarFrota(Scanner sc, ClientePJ cliente) 
 	throws InputMismatchException, NameAlreadyBoundException {
-		System.out.print("Insira o code da frota: ");
-		String code = Leitura.lerString(sc, "Code");
+		String code = Leitura.lerString(sc, "Code da frota");
 		cliente.cadastrarFrota(new Frota(code));
 	}
 
@@ -424,37 +425,42 @@ public class Main {
 	}
 
 	public static void executarMenuInterativo() {
-		Scanner sc = new Scanner(System.in);
-		ArrayList<Seguradora> seguradoras = new ArrayList<Seguradora>();
-		Opcao opcaoSelecionada;
-		Menu menu;
-		
-		execucao:
-		while (true) {
-			menu = Menu.selecaoSeguradora(seguradoras);
-			menu.mostrar();
-			opcaoSelecionada = menu.selecionarOpcao(sc);
-			for (Opcao opcao : menu.getOpcoes()) {
-				if (opcao == opcaoSelecionada) {
-					if (opcao.getOperacao() == Operacao.CRIAR_SEGURADORA) {
-						try {
-							Seguradora s = criarSeguradora(sc, seguradoras);
-							abrirPainelSeguradora(sc, s);
-						} catch (InputMismatchException e) {
-							System.out.println(e);
+		try {
+			Scanner sc = new Scanner(new FileReader("auto.txt"));
+			ArrayList<Seguradora> seguradoras = new ArrayList<Seguradora>();
+			Opcao opcaoSelecionada;
+			Menu menu;
+			
+			execucao:
+			while (true) {
+				menu = Menu.selecaoSeguradora(seguradoras);
+				menu.mostrar();
+				opcaoSelecionada = menu.selecionarOpcao(sc);
+				for (Opcao opcao : menu.getOpcoes()) {
+					if (opcao == opcaoSelecionada) {
+						if (opcao.getOperacao() == Operacao.CRIAR_SEGURADORA) {
+							try {
+								Seguradora s = criarSeguradora(sc, seguradoras);
+								abrirPainelSeguradora(sc, s);
+							} catch (InputMismatchException e) {
+								System.out.println(e);
+							}
+							continue execucao;
 						}
-						continue execucao;
-					}
-					else if (opcao.getOperacao() == Operacao.PAINEL_SEGURADORA) {
-						Seguradora s = seguradoras.get(opcao.getCodigo() - 1);
-						abrirPainelSeguradora(sc, s);
-						continue execucao;
+						else if (opcao.getOperacao() == Operacao.PAINEL_SEGURADORA) {
+							Seguradora s = seguradoras.get(opcao.getCodigo() - 1);
+							abrirPainelSeguradora(sc, s);
+							continue execucao;
+						}
 					}
 				}
+				break execucao;
 			}
-			break execucao;
+	
+			sc.close();
+		} catch (FileNotFoundException e) {
+			System.out.println(e);
+			return;
 		}
-
-		sc.close();
 	}
 }
