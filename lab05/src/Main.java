@@ -82,6 +82,20 @@ public class Main {
             }
 	}
 
+	public static void cadastrarVeiculo(Scanner sc, Frota frota) 
+	throws InputMismatchException, NameAlreadyBoundException {
+		System.out.println("Insira os dados do Veículo...");
+            try {
+                String placa = Leitura.lerPlaca(sc);
+                String marca = Leitura.lerString(sc, "Marca");
+                String modelo = Leitura.lerString(sc, "Modelo");
+                int anoFabricacao = Leitura.lerInteiro(sc, "Ano de Fabricação");
+				frota.addVeiculo(placa, marca, modelo, anoFabricacao);
+            } catch (NumberFormatException e) {
+                throw new InputMismatchException(e.getMessage());
+            }
+	}
+
 	public static void removerVeiculo(Scanner sc, ClientePF cliente) {
 		System.out.print("Placa do veículo: ");
 		String placa = sc.nextLine();
@@ -150,7 +164,7 @@ public class Main {
 	public static Seguro selecionarSeguro(Scanner sc, Seguradora seguradora, Cliente cliente) 
 	throws IndexOutOfBoundsException {
 		ArrayList<Seguro> segurosDoCliente = seguradora.getSegurosPorCliente(cliente);
-		Menu menu = Menu.SelecaoSeguro(segurosDoCliente);
+		Menu menu = Menu.selecaoSeguro(segurosDoCliente);
 		Opcao opcaoSelecionada = menu.selecionarOpcao(sc);
 		for (Opcao opcao : menu.getOpcoes()) {
 			if (opcao == opcaoSelecionada) {
@@ -184,8 +198,49 @@ public class Main {
 				LocalDate data = Leitura.lerData(sc, "Data");
 				String endereco = Leitura.lerString(sc, "Endereço");
 				seguro.gerarSinistro(data, endereco, condutor.getCPF());
+				return;
 			}
 		}
+	}
+
+	public static Frota selecionarFrota(Scanner sc, ClientePJ cliente) 
+	throws IndexOutOfBoundsException {
+		Menu painel = Menu.selecaoFrota(cliente, "Selecione a frota");
+		painel.mostrar();
+		Opcao opcaoSelecionada = painel.selecionarOpcao(sc);
+		for (Opcao opcao : painel.getOpcoes()) {
+			if (opcao == opcaoSelecionada) {
+				Frota frota = cliente.getListaFrota().get(opcao.getCodigo() - 1);
+				return frota;
+			}
+		}
+
+		throw new IndexOutOfBoundsException();
+	}
+
+	public static void abrirPainelFrota(Scanner sc, Frota frota) {
+		Menu painel;
+		Opcao opcaoSelecionada;
+		while (true) {
+			painel = Menu.painelFrota(frota, "Painel frota");
+			painel.mostrar();
+			opcaoSelecionada = painel.selecionarOpcao(sc);
+			switch(opcaoSelecionada.getOperacao()) {
+				case REMOVER_VEICULO:
+					frota.removeVeiculo(frota.getListaVeiculos().get(opcaoSelecionada.getCodigo() - 1));
+					break;
+				case CADASTRAR_VEICULO:
+					try {
+						cadastrarVeiculo(sc, frota);
+					} catch (Exception e) {
+						System.out.println(e);
+					}
+					break;
+				default:
+					return;
+			}
+		}
+
 	}
 
 	public static void abrirPainelCondutores(Scanner sc, Seguro seguro) {
@@ -211,7 +266,7 @@ public class Main {
 				}
 					break;
 				case PAINEL_SINISTRO:
-					sinistros = Menu.PainelSinistro(seguro);
+					sinistros = Menu.painelSinistro(seguro);
 					sinistros.mostrar();
 					break;
 				default:
@@ -224,15 +279,15 @@ public class Main {
 		Menu painel, sinistros;
 		Opcao opcaoSelecionada;
 		while (true) {
-			painel = Menu.PainelSeguro(seguro);
-			painel.mostrar(seguro);
+			painel = Menu.painelSeguro(seguro);
+			painel.mostrar();
 			opcaoSelecionada = painel.selecionarOpcao(sc);
 			switch(opcaoSelecionada.getOperacao()) {
 				case PAINEL_CONDUTOR:
 					abrirPainelCondutores(sc, seguro);
 					break;
 				case PAINEL_SINISTRO:
-					sinistros = Menu.PainelSinistro(seguro);
+					sinistros = Menu.painelSinistro(seguro);
 					sinistros.mostrar();
 					break;
 				case GERAR_SINISTRO:
@@ -259,11 +314,11 @@ public class Main {
 			while (true) {
 				if (Validacao.validaCPF(identificacao)) {
 					cliente = seguradora.procurarClientePF(identificacao);
-					painel = Menu.PainelClientePF(seguradora, (ClientePF)cliente);
+					painel = Menu.painelClientePF(seguradora, (ClientePF)cliente);
 				}
 				else if (Validacao.validaCNPJ(identificacao)) {
 					cliente = seguradora.procurarClientePJ(identificacao);
-					painel = Menu.PainelClientePJ(seguradora, (ClientePJ)cliente);
+					painel = Menu.painelClientePJ(seguradora, (ClientePJ)cliente);
 				}
 				else {
 					throw new InputMismatchException("Entrada inválida: " + identificacao);
@@ -316,10 +371,12 @@ public class Main {
 						}
 						break;
 					case PAINEL_SINISTRO:
-						sinistros = Menu.PainelSinistro(cliente, seguradora);
+						sinistros = Menu.painelSinistro(cliente, seguradora);
 						sinistros.mostrar();
 						break;
 					case ALTERAR_FROTA:
+						Frota f = selecionarFrota(sc, (ClientePJ)cliente);
+						abrirPainelFrota(sc, f);
 						break;
 					default:
 						return;
@@ -335,8 +392,8 @@ public class Main {
 		Menu painel;
 		Opcao opcaoSelecionada;
 		while (true) {
-			painel = Menu.PainelSeguradora(seguradora);
-			painel.mostrar(seguradora);
+			painel = Menu.painelSeguradora(seguradora);
+			painel.mostrar();
 			opcaoSelecionada = painel.selecionarOpcao(sc);
 			switch (opcaoSelecionada.getOperacao()) {
 				case CRIAR_CLIENTE_PF:
@@ -374,7 +431,7 @@ public class Main {
 		
 		execucao:
 		while (true) {
-			menu = Menu.MenuPrincipal(seguradoras);
+			menu = Menu.selecaoSeguradora(seguradoras);
 			menu.mostrar();
 			opcaoSelecionada = menu.selecionarOpcao(sc);
 			for (Opcao opcao : menu.getOpcoes()) {

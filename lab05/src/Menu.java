@@ -38,16 +38,7 @@ public class Menu {
         System.out.println("\nPressione outras teclas para voltar...");
     }
 
-    public void mostrar(Object info) {
-        System.out.println(titulo);
-        System.out.println(info.toString());
-        for (Opcao opcao : opcoes) {
-            opcao.mostrar();
-        }
-        System.out.println("\nPressione outras teclas para voltar...");
-    }
-
-    public static Menu MenuPrincipal(ArrayList<Seguradora> seguradoras) {
+    public static Menu selecaoSeguradora(ArrayList<Seguradora> seguradoras) {
         Menu menu = new Menu("Selecionar Seguradora");
         for (Seguradora seguradora : seguradoras) {
             menu.novaOpcao(seguradora.getNome(), Operacao.PAINEL_SEGURADORA);
@@ -57,7 +48,7 @@ public class Menu {
         return menu;
     }
 
-    public static Menu PainelSeguradora(Seguradora seguradora) {
+    public static Menu painelSeguradora(Seguradora seguradora) {
         Menu menu = new Menu(seguradora.toString());
         
         menu.novaOpcao("Criar Cliente PF", Operacao.CRIAR_CLIENTE_PF);
@@ -69,7 +60,7 @@ public class Menu {
         return menu;
     }
 
-    public static Menu PainelClientePF(Seguradora seguradora, ClientePF cliente) {
+    public static Menu painelClientePF(Seguradora seguradora, ClientePF cliente) {
         Menu menu = new Menu(cliente.toString());
         
         menu.novaOpcao("Cadastrar Veículo", Operacao.CADASTRAR_VEICULO);
@@ -93,7 +84,7 @@ public class Menu {
         return menu;
     }
 
-    public static Menu PainelClientePJ(Seguradora seguradora, ClientePJ cliente) {
+    public static Menu painelClientePJ(Seguradora seguradora, ClientePJ cliente) {
         Menu menu = new Menu(cliente.toString());
         
         menu.novaOpcao("Cadastrar Frota", Operacao.CADASTRAR_FROTA);
@@ -118,16 +109,16 @@ public class Menu {
         return menu;
     }
 
-    public static Menu SelecaoSeguro(ArrayList<Seguro> seguros) {
+    public static Menu selecaoSeguro(ArrayList<Seguro> seguros) {
         Menu menu = new Menu("Selecione o Seguro");
         for (Seguro seguro : seguros) {
-            menu.novaOpcao(seguro.toString(), Operacao.PAINEL_SEGURO);
+            menu.novaOpcao(seguro.toString(), Operacao.SELECIONAR);
         }
 
         return menu;
     }
     
-    public static Menu PainelSeguro(Seguro seguro) {
+    public static Menu painelSeguro(Seguro seguro) {
         Menu menu = new Menu(seguro.toString());
         
         menu.novaOpcao("Condutores", Operacao.PAINEL_CONDUTOR);
@@ -137,8 +128,8 @@ public class Menu {
         return menu;
     }
 
-    public static Menu PainelSinistro(Seguro seguro) {
-        Menu menu = new Menu("Sinistros");
+    public static Menu painelSinistro(Seguro seguro) {
+        Menu menu = new Menu("Sinistros no Seguro de " + seguro.getCliente().getNome());
         for (Sinistro sinistro : seguro.getListaSinistros()) {
             menu.novaOpcao(sinistro.toString(), Operacao.VOLTAR);
         }
@@ -146,8 +137,8 @@ public class Menu {
         return menu;
     }
 
-    public static Menu PainelSinistro(Cliente cliente, Seguradora seguradora) {
-        Menu menu = new Menu("Sinistros");
+    public static Menu painelSinistro(Cliente cliente, Seguradora seguradora) {
+        Menu menu = new Menu("Sinistros do Cliente " + cliente.getNome());
         for (Sinistro sinistro : seguradora.getSinistrosPorCliente(cliente)) {
             menu.novaOpcao(sinistro.toString(), Operacao.VOLTAR);
         }
@@ -155,8 +146,8 @@ public class Menu {
         return menu;
     }
 
-    public static Menu PainelSinistro(Condutor condutor) {
-        Menu menu = new Menu("Sinistros");
+    public static Menu painelSinistro(Condutor condutor) {
+        Menu menu = new Menu("Sinistros do condutor " + condutor.getCPF());
         for (Sinistro sinistro : condutor.getListaSinistros()) {
             menu.novaOpcao(sinistro.toString(), Operacao.VOLTAR);
         }
@@ -165,7 +156,7 @@ public class Menu {
     }
 
     public static Menu PainelCondutor(Seguro seguro) {
-        Menu menu = new Menu(seguro.getListaCondutores().toString());
+        Menu menu = new Menu("Condutores do Seguro de " + seguro.getCliente().getNome());
         
         menu.novaOpcao("Autorizar Condutor...", Operacao.AUTORIZAR);
         menu.novaOpcao("Desautorizar Condutor...", Operacao.DESAUTORIZAR);
@@ -177,9 +168,29 @@ public class Menu {
     public static Menu selecaoCondutores(Seguro seguro, String titulo) {
         Menu menu = new Menu(titulo);
         for (Condutor condutor : seguro.getListaCondutores()) {
-            menu.novaOpcao(condutor.toString(), Operacao.VOLTAR);
+            menu.novaOpcao(condutor.toString(), Operacao.SELECIONAR);
         }
 
+        return menu;
+    }
+
+    public static Menu selecaoFrota(ClientePJ cliente, String titulo) {
+        Menu menu = new Menu(titulo);
+
+        for (Frota frota : cliente.getListaFrota()) {
+            menu.novaOpcao(frota.toString(), Operacao.SELECIONAR);
+        }
+
+        return menu;
+    }
+
+    public static Menu painelFrota(Frota frota, String titulo) {
+        Menu menu = new Menu(titulo);
+        for (Veiculo veiculo : frota.getListaVeiculos()) {
+            menu.novaOpcao("Remover " + veiculo.toString(), Operacao.REMOVER_VEICULO);
+        }
+        menu.novaOpcao("Adicionar Veiculo", Operacao.CADASTRAR_VEICULO);
+        
         return menu;
     }
 

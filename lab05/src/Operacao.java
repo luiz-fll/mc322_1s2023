@@ -19,6 +19,6 @@ public enum Operacao {
     DESAUTORIZAR,
     PAINEL_SINISTRO,
     GERAR_SINISTRO,
-    VOLTAR,
-    SAIR;
+    SELECIONAR,
+    VOLTAR;
 }

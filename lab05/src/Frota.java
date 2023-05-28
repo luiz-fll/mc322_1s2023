@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import javax.naming.NameAlreadyBoundException;
 import javax.naming.NameNotFoundException;
 
 public class Frota {
@@ -37,15 +38,19 @@ public class Frota {
         .orElseThrow(() -> new NameNotFoundException("Veículo não encontrado: " + placa));
     }
 
-    public boolean addVeiculo(String placa, String marca, String modelo, int anoFabricacao) {
-        Veiculo v = new Veiculo(placa, marca, modelo, anoFabricacao);
-        return listaVeiculos.add(v);
+    public boolean addVeiculo(String placa, String marca, String modelo, int anoFabricacao) 
+    throws NameAlreadyBoundException {
+        try {
+            procurarVeiculo(placa);
+            throw new NameAlreadyBoundException("Veículo já existe: " + placa);
+        } catch (NameNotFoundException e) {
+            Veiculo v = new Veiculo(placa, marca, modelo, anoFabricacao);
+            return listaVeiculos.add(v);
+        }
     }
 
-    public boolean removeVeiculo(String placa) 
-    throws NameNotFoundException {
-        Veiculo v = procurarVeiculo(placa);
-        return listaVeiculos.remove(v);
+    public boolean removeVeiculo(Veiculo veiculo) {
+        return listaVeiculos.remove(veiculo);
     }
 
     @Override
