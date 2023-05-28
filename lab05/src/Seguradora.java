@@ -75,7 +75,7 @@ public class Seguradora {
 		this.listaSeguros = listaSeguros;
 	}
 
-	// Lista os clientes, podendo ser todos, somente os PF ou somente os PJ. O tipoCliente vem do input da função main.
+	
 	public ArrayList<ClientePF> listarClientesPF() {
 		return listaClientes
 			   .stream()
@@ -140,7 +140,7 @@ public class Seguradora {
 			   .orElseThrow(() -> new NameNotFoundException("Cliente não encontrado: " + CNPJ));
 	}
 
-	// Operações com clientes
+	
 	public boolean cadastrarCliente(Cliente cliente) {
 		return listaClientes.add(cliente);
 	}
@@ -162,18 +162,9 @@ public class Seguradora {
 		ArrayList<Seguro> segurosCliente = getSegurosPorCliente(cliente);
 		ArrayList<Sinistro> sinistrosCliente = new ArrayList<Sinistro>();
 
-		/*
-		 * Stream API
-		 * ArrayList<Sinistro> sinistrosCliente = new ArrayList<Sinistro>(segurosCliente
-		 *										  .stream()
-		 *										  .flatMap(seguro -> seguro.getListaSinistros().stream())
-		 *										  .collect(Collectors.toList()));
-		 */
-
 		for (Seguro seguro : segurosCliente) {
 			sinistrosCliente.addAll(seguro.getListaSinistros());
 		}
-
 		
 		return sinistrosCliente;
 	}

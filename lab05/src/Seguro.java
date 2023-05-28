@@ -73,6 +73,7 @@ public abstract class Seguro {
         this.valorMensal = valorMensal;
     }
     
+    // Autorização do Condutor analisa se a CNH não está vencida
     public boolean autorizarCondutor(Condutor condutor) 
     throws NameAlreadyBoundException {
         if (condutor.getValidadeCNH().isBefore(LocalDate.now())) {
@@ -84,6 +85,7 @@ public abstract class Seguro {
         return listaCondutores.add(condutor);
     }
 
+    // Desautorização remove o condutor do Seguro
     public boolean desautorizarCondutor(Condutor condutor) {
         listaSinistros.removeIf(sinistro -> sinistro.getCondutor().equals(condutor));
         return listaCondutores.remove(condutor);
