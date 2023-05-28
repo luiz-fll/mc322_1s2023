@@ -9,6 +9,17 @@ import javax.naming.NameAlreadyBoundException;
 import javax.naming.NameNotFoundException;
 
 public class Main {
+	/*
+	 * Está muito difícil navegar neste arquivo. Abaixo temos a main, que só escolhe que tipo de teste executar.
+	 * Depois temos uma série de funções relacionadas ao menu interativo:
+	 * -> Primeiro vem as funções de cadastro, geração de sinistros, criação de classes, etc.
+	 * -> Depois vem as funções de remoção, desautorização...
+	 * -> Depois vem as funções do menu de seleção para escolher o objeto de uma operação
+	 * -> Enfim, temos os paineis, que é onde escolhemos as operações a executar
+	 * A última função é o teste de classe, onde eu instancio um monte de coisa conforme orientado no lab05.
+	 * 
+	 * Leia o README para ver uma explicação sobre o menu interativo.
+	 */
 	public static void main(String args[]) 
 	throws FileNotFoundException {
 		Scanner sc = new Scanner(System.in);
@@ -121,27 +132,7 @@ public class Main {
                 throw new InputMismatchException(e.getMessage());
             }
 	}
-
-	public static void removerVeiculo(Scanner sc, ClientePF cliente) {
-		System.out.print("Placa do veículo: ");
-		String placa = sc.nextLine();
-		if (cliente.removerVeiculo(placa)) {
-			System.out.println(placa + "removido com sucesso.");
-		} else {
-			System.out.println("Não foi possível remover " + placa);
-		}
-	}
-
-	public static void removerFrota(Scanner sc, ClientePJ cliente) {
-		System.out.print("Code da frota: ");
-		String code = sc.nextLine();
-		try {
-			cliente.atualizarFrota(code);
-		} catch (NameNotFoundException e) {
-			System.out.println(code + "Não encontrada");
-		}
-	}
-
+	
 	public static void cadastrarFrota(Scanner sc, ClientePJ cliente) 
 	throws InputMismatchException, NameAlreadyBoundException {
 		String code = Leitura.lerString(sc, "Code da frota");
@@ -182,33 +173,6 @@ public class Main {
 		return s;
 	}
 
-	public static Seguro selecionarSeguro(Scanner sc, Seguradora seguradora, Cliente cliente) 
-	throws IndexOutOfBoundsException {
-		ArrayList<Seguro> segurosDoCliente = seguradora.getSegurosPorCliente(cliente);
-		Menu menu = Menu.selecaoSeguro(segurosDoCliente);
-		menu.mostrar();
-		Opcao opcaoSelecionada = menu.selecionarOpcao(sc);
-		for (Opcao opcao : menu.getOpcoes()) {
-			if (opcao == opcaoSelecionada) {
-				return segurosDoCliente.get(opcao.getCodigo() - 1);
-			}
-		}
-		throw new IndexOutOfBoundsException();
-	}
-
-	public static void desautorizarCondutor(Scanner sc, Seguro seguro) 
-	throws IndexOutOfBoundsException {
-		Menu painel = Menu.selecaoCondutores(seguro, "Selecione o condutor a ser desautorizado");
-		painel.mostrar();
-		Opcao opcaoSelecionada = painel.selecionarOpcao(sc);
-		for (Opcao opcao : painel.getOpcoes()) {
-			if (opcao == opcaoSelecionada) {
-				seguro.desautorizarCondutor(seguro.getListaCondutores().get(opcao.getCodigo() - 1));
-				return;
-			}
-		}
-	}
-
 	public static void gerarSinistro(Scanner sc, Seguro seguro) 
 	throws NameNotFoundException, InputMismatchException, IndexOutOfBoundsException {
 		Menu painel = Menu.selecaoCondutores(seguro, "Selecione o condutor responsável");
@@ -223,6 +187,53 @@ public class Main {
 				return;
 			}
 		}
+	}
+	
+	public static void removerVeiculo(Scanner sc, ClientePF cliente) {
+		System.out.print("Placa do veículo: ");
+		String placa = sc.nextLine();
+		if (cliente.removerVeiculo(placa)) {
+			System.out.println(placa + "removido com sucesso.");
+		} else {
+			System.out.println("Não foi possível remover " + placa);
+		}
+	}
+
+	public static void removerFrota(Scanner sc, ClientePJ cliente) {
+		System.out.print("Code da frota: ");
+		String code = sc.nextLine();
+		try {
+			cliente.atualizarFrota(code);
+		} catch (NameNotFoundException e) {
+			System.out.println(code + "Não encontrada");
+		}
+	}
+	
+	public static void desautorizarCondutor(Scanner sc, Seguro seguro) 
+	throws IndexOutOfBoundsException {
+		Menu painel = Menu.selecaoCondutores(seguro, "Selecione o condutor a ser desautorizado");
+		painel.mostrar();
+		Opcao opcaoSelecionada = painel.selecionarOpcao(sc);
+		for (Opcao opcao : painel.getOpcoes()) {
+			if (opcao == opcaoSelecionada) {
+				seguro.desautorizarCondutor(seguro.getListaCondutores().get(opcao.getCodigo() - 1));
+				return;
+			}
+		}
+	}
+
+	public static Seguro selecionarSeguro(Scanner sc, Seguradora seguradora, Cliente cliente) 
+	throws IndexOutOfBoundsException {
+		ArrayList<Seguro> segurosDoCliente = seguradora.getSegurosPorCliente(cliente);
+		Menu menu = Menu.selecaoSeguro(segurosDoCliente);
+		menu.mostrar();
+		Opcao opcaoSelecionada = menu.selecionarOpcao(sc);
+		for (Opcao opcao : menu.getOpcoes()) {
+			if (opcao == opcaoSelecionada) {
+				return segurosDoCliente.get(opcao.getCodigo() - 1);
+			}
+		}
+		throw new IndexOutOfBoundsException();
 	}
 
 	public static Frota selecionarFrota(Scanner sc, ClientePJ cliente) 
