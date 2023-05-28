@@ -55,7 +55,7 @@ A `Main.java` possui dezenas de métodos que efetivamente realizam as operaçõe
 
 ## `auto.txt`
 
-Este arquivo de texto foi feito para passear pelos menus a procura de bugs. Eu não fiz testes extensivos com ele, mas pelo menos nos casos deste arquivo o funcionamento do menu interativo parece normal. Eu consegui criar, selecionar e remover objetos, testar validade dos inputs e fazer um uso básico dele. Não garanto que esteja livre de bugs.
+Este arquivo de texto foi feito para passear pelos menus a procura de bugs. Eu não fiz testes extensivos com ele, mas pelo menos nos casos deste arquivo o funcionamento do menu interativo parece normal. Eu consegui criar, selecionar e remover objetos, testar validade dos inputs e fazer um uso básico dele. Não garanto que esteja livre de bugs. Há duas cópias dele por causa de um bug da minha IDE ou sei lá.
 
 ## `Leitura`
 
