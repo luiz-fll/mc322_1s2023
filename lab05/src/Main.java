@@ -1,5 +1,5 @@
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -9,8 +9,32 @@ import javax.naming.NameAlreadyBoundException;
 import javax.naming.NameNotFoundException;
 
 public class Main {
-	public static void main(String args[]) throws NameAlreadyBoundException {
-		executarMenuInterativo();
+	public static void main(String args[]) 
+	throws FileNotFoundException {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("1 - Executar teste de classes");
+		System.out.println("2 - Executar teste automatizado do menu interativo");
+		System.out.println("3 - Executar menu interativo");
+		System.out.println("Demais teclas - sair");
+		String input = sc.nextLine();
+
+		switch (input) {
+			case "1":
+				sc.close();
+				testeClasses();
+				break;
+			case "2":
+				sc.close();
+				executarMenuInterativo(new Scanner(new FileInputStream("auto.txt")));
+			break;
+			case "3":
+				executarMenuInterativo(sc);
+				sc.close();
+				break;
+			default:
+				sc.close();
+				break;
+		}
 	}
 
 	public static ClientePF criarClientePF(Scanner sc, Seguradora seguradora) 
@@ -444,43 +468,173 @@ public class Main {
 		}
 	}
 
-	public static void executarMenuInterativo() {
-		try {
-			Scanner sc = new Scanner(new FileReader("auto.txt"));
-			ArrayList<Seguradora> seguradoras = new ArrayList<Seguradora>();
-			Opcao opcaoSelecionada;
-			Menu menu;
-			
-			execucao:
-			while (true) {
-				menu = Menu.selecaoSeguradora(seguradoras);
-				menu.mostrar();
-				opcaoSelecionada = menu.selecionarOpcao(sc);
-				for (Opcao opcao : menu.getOpcoes()) {
-					if (opcao == opcaoSelecionada) {
-						if (opcao.getOperacao() == Operacao.CRIAR_SEGURADORA) {
-							try {
-								Seguradora s = criarSeguradora(sc, seguradoras);
-								abrirPainelSeguradora(sc, s);
-							} catch (InputMismatchException e) {
-								System.out.println(e.getMessage());
-							}
-							continue execucao;
-						}
-						else if (opcao.getOperacao() == Operacao.PAINEL_SEGURADORA) {
-							Seguradora s = seguradoras.get(opcao.getCodigo() - 1);
+	public static void executarMenuInterativo(Scanner sc) {
+		ArrayList<Seguradora> seguradoras = new ArrayList<Seguradora>();
+		Opcao opcaoSelecionada;
+		Menu menu;
+		
+		execucao:
+		while (true) {
+			menu = Menu.selecaoSeguradora(seguradoras);
+			menu.mostrar();
+			opcaoSelecionada = menu.selecionarOpcao(sc);
+			for (Opcao opcao : menu.getOpcoes()) {
+				if (opcao == opcaoSelecionada) {
+					if (opcao.getOperacao() == Operacao.CRIAR_SEGURADORA) {
+						try {
+							Seguradora s = criarSeguradora(sc, seguradoras);
 							abrirPainelSeguradora(sc, s);
-							continue execucao;
+						} catch (InputMismatchException e) {
+							System.out.println(e.getMessage());
 						}
+						continue execucao;
+					}
+					else if (opcao.getOperacao() == Operacao.PAINEL_SEGURADORA) {
+						Seguradora s = seguradoras.get(opcao.getCodigo() - 1);
+						abrirPainelSeguradora(sc, s);
+						continue execucao;
 					}
 				}
-				break execucao;
 			}
-	
-			sc.close();
-		} catch (FileNotFoundException e) {
-			System.out.println(e.getMessage());
-			return;
+			break execucao;
 		}
+
+		sc.close();
+	}
+
+	public static void testeClasses() {
+		String telefone = "853.161.830-45";
+		String email = "email@email.com";
+		String marca = "Honda";
+		String modelo = "Civic";
+
+		// Seguradora
+		Seguradora seguradora = new Seguradora("73.913.193/0001-45", "Teste Seguradora", 
+										   "(11)1234-5678", email, "Campinas");
+
+		// Clientes
+		ClientePF carlos = new ClientePF("Carlos", "(11)1234-5678", 
+				  "São Paulo", email, "873.990.571-33", "Masculino", 
+		          "Ensino Médio", LocalDate.of(2001, 10, 10));
+
+		ClientePF jose = new ClientePF("José", "(11)1234-5678", 
+				"Curitiba", email, "853.161.830-45", "Masculino", 
+				"Ensino Superior", LocalDate.of(2000, 9, 10));
+
+		ClientePJ empresa = new ClientePJ("Empresa Teste", telefone, "Manaus", 
+							email, "64.261.346/0001-26", LocalDate.of(2004, 12, 12));
+
+		ClientePJ grupo = new ClientePJ("Grupo Teste", telefone, "Belém", 
+						  email, "81.031.364/0001-30", LocalDate.of(2012, 4, 9));
+
+		seguradora.cadastrarCliente(carlos);
+		seguradora.cadastrarCliente(jose);									  
+		seguradora.cadastrarCliente(empresa);
+		seguradora.cadastrarCliente(grupo);
+
+		// Veículos e frotas
+		Frota[] frotas = {new Frota("empresaCarros"), new Frota("empresaMotos"),
+				   		  new Frota("grupoCarros"), new Frota("grupoMotos")};
+
+		try {
+			frotas[0].addVeiculo("EEE-1234", marca, modelo, 2013);
+			frotas[0].addVeiculo("FFF-1234", marca, modelo, 2014);
+			frotas[1].addVeiculo("GGG-1234", marca, modelo, 2015);
+			frotas[1].addVeiculo("HHH-1234", marca, modelo, 2016);
+			frotas[2].addVeiculo("III-1234", marca, modelo, 2017);
+			frotas[2].addVeiculo("JJJ-1234", marca, modelo, 2018);
+			frotas[3].addVeiculo("KKK-1234", marca, modelo, 2019);
+			frotas[3].addVeiculo("LLL-1234", marca, modelo, 2020);
+
+			carlos.cadastrarVeiculo("AAA-1234", marca , modelo, 2009);
+			carlos.cadastrarVeiculo("BBB-1234", marca, modelo, 2010);
+			jose.cadastrarVeiculo("CCC-1234", marca, modelo, 2011);
+			jose.cadastrarVeiculo("DDD-1234", marca, modelo, 2012);
+			empresa.cadastrarFrota(frotas[0]);
+			empresa.cadastrarFrota(frotas[1]);
+			grupo.cadastrarFrota(frotas[2]);
+			grupo.cadastrarFrota(frotas[3]);
+		} catch (NameAlreadyBoundException e) {
+			e.printStackTrace();
+		}
+		
+		// Seguros
+		try {
+			seguradora.gerarSeguro(LocalDate.of(2017, 10, 3), 
+								   LocalDate.of(2028, 1, 1), 
+								   carlos.procurarVeiculo("AAA-1234"), carlos);
+	
+			seguradora.gerarSeguro(LocalDate.of(2017, 10, 3), 
+								   LocalDate.of(2028, 1, 1), 
+								   carlos.procurarVeiculo("BBB-1234"), carlos);
+	
+			seguradora.gerarSeguro(LocalDate.of(2017, 10, 3), 
+								   LocalDate.of(2028, 1, 1), 
+								   jose.procurarVeiculo("CCC-1234"), jose);
+			seguradora.gerarSeguro(LocalDate.of(2017, 10, 3), 
+								   LocalDate.of(2028, 1, 1), 
+								   jose.procurarVeiculo("DDD-1234"), jose);
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		seguradora.gerarSeguro(LocalDate.of(2017, 10, 3), 
+							   LocalDate.of(2028, 1, 1), 
+							   frotas[0], empresa);
+
+		seguradora.gerarSeguro(LocalDate.of(2017, 10, 3), 
+							   LocalDate.of(2028, 1, 1), 
+							   frotas[1], empresa);
+
+		seguradora.gerarSeguro(LocalDate.of(2017, 10, 3), 
+							   LocalDate.of(2028, 1, 1), 
+							   frotas[2], grupo);
+
+		seguradora.gerarSeguro(LocalDate.of(2017, 10, 3), 
+							   LocalDate.of(2028, 1, 1), 
+							   frotas[3], grupo);
+
+		// Condutores e Sinistros
+		Condutor[] condutores = {new Condutor("748.053.318-79", "filhoCarlos", telefone, "Santos", email, 
+								 LocalDate.of(2003, 10, 10), 
+								 LocalDate.of(2030, 10, 10)), 
+								 new Condutor("828.535.401-62", "maeCarlos", telefone, "Santos", email, 
+								 LocalDate.of(2003, 10, 10), 
+								 LocalDate.of(2030, 10, 10)),
+								 new Condutor("213.368.795-56", "paiCarlos", telefone, "Santos", email, 
+								 LocalDate.of(2003, 10, 10), 
+								 LocalDate.of(2030, 10, 10)),
+								 new Condutor("243.243.453-68", "irmaCarlos", telefone, "Santos", email, 
+								 LocalDate.of(2003, 10, 10), 
+								 LocalDate.of(2030, 10, 10)),};
+		
+		try {
+			ArrayList<Seguro> segurosCarlos = seguradora.getSegurosPorCliente(carlos);
+			segurosCarlos.get(0).autorizarCondutor(condutores[0]);
+			segurosCarlos.get(0).autorizarCondutor(condutores[1]);
+			segurosCarlos.get(1).autorizarCondutor(condutores[2]);
+			segurosCarlos.get(1).autorizarCondutor(condutores[3]);
+			
+			segurosCarlos.get(1).gerarSinistro(LocalDate.of(2019, 10, 10), "Porto Alegre", condutores[3].getCPF());
+			segurosCarlos.get(0).gerarSinistro(LocalDate.of(2019, 10, 10), "Porto Alegre", condutores[1].getCPF());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// toString()
+		System.out.println("\n\n##### INFO SEGURADORA #####\n");
+		System.out.println(seguradora);
+		System.out.println("\n\n##### INFO CLIENTES #####\n");
+		seguradora.getListaClientes().forEach(System.out::println);
+		System.out.println("\n\n##### INFO SEGUROS #####\n");
+		seguradora.getListaSeguros().forEach(System.out::println);
+		System.out.println("\n\n##### INFO VEÍCULOS CARLOS #####\n");
+		carlos.getListaVeiculos().forEach(System.out::println);
+		System.out.println("\n\n##### INFO FROTAS EMPRESA #####\n");
+		empresa.getListaFrota().forEach(System.out::println);
+		System.out.println("\n\n##### INFO SINISTROS CARLOS #####\n");
+		seguradora.getSinistrosPorCliente(carlos).forEach(System.out::println);
+		System.out.println("\n\n##### INFO CONDUTOR #####\n");
+		System.out.println(seguradora.getSegurosPorCliente(carlos).get(0).getListaCondutores().get(0));
 	}
 }

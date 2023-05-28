@@ -67,7 +67,7 @@ public class Leitura {
 
     public static LocalDate lerData(Scanner sc, String tipoData) 
     throws InputMismatchException {
-        System.out.print(tipoData + ": ");
+        System.out.print(tipoData + " (AAAA-MM-DD): ");
         String dataString = sc.nextLine();
         if (Validacao.validaData(dataString)) {
             return LocalDate.parse(dataString);

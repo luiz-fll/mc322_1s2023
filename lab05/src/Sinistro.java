@@ -56,6 +56,12 @@ public class Sinistro {
 	private static int gerarID() {
 		long tempoMilissegundos1970 = System.currentTimeMillis(); // Sempre positivo (ACHO)
 		
+		try {
+			Thread.sleep(1);
+		} catch (InterruptedException e) {
+			return (int)(Integer.MIN_VALUE + tempoMilissegundos1970 + 1); 
+		}
+		
 		// Os long positivo possuem o mesmo tanto de bit que os int (ACHO)
 		// Logo, eu posso fazer casting a partir do mínimo int sem risco de overflow (ACHO)
 		return (int)(Integer.MIN_VALUE + tempoMilissegundos1970); 

@@ -96,14 +96,16 @@ public class Seguradora {
 		if (!listaClientes.contains(cliente)) {
 			listaClientes.add(cliente);
 		}
-		return listaSeguros.add(new SeguroPF(dataInicio, dataFim, this, veiculo, cliente));
+		Seguro s = new SeguroPF(dataInicio, dataFim, this, veiculo, cliente);
+		return listaSeguros.contains(s);
 	}
 
 	public boolean gerarSeguro(LocalDate dataInicio, LocalDate dataFim, Frota frota, ClientePJ cliente) {
 		if (!listaClientes.contains(cliente)) {
 			listaClientes.add(cliente);
 		}
-		return listaSeguros.add(new SeguroPJ(dataInicio, dataFim, this, frota, cliente));
+		Seguro s = new SeguroPJ(dataInicio, dataFim, this, frota, cliente);
+		return listaSeguros.contains(s);
 	}
 
 	public boolean cancelarSeguro(int id) 
