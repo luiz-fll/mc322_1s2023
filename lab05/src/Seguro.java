@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import javax.naming.NameAlreadyBoundException;
 import javax.naming.NameNotFoundException;
 
 public abstract class Seguro {
@@ -71,9 +72,13 @@ public abstract class Seguro {
         this.valorMensal = valorMensal;
     }
     
-    public boolean autorizarCondutor(Condutor condutor) {
+    public boolean autorizarCondutor(Condutor condutor) 
+    throws NameAlreadyBoundException {
         if (condutor.getValidadeCNH().isBefore(LocalDate.now())) {
             return false;
+        }
+        if (listaCondutores.contains(condutor)) {
+            throw new NameAlreadyBoundException("Condutor já autorizado: " + condutor.getCPF());
         }
         return listaCondutores.add(condutor);
     }

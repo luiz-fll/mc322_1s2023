@@ -76,28 +76,20 @@ public class Seguradora {
 	}
 
 	// Lista os clientes, podendo ser todos, somente os PF ou somente os PJ. O tipoCliente vem do input da função main.
-	public ArrayList<Cliente> listarClientes(String tipoCliente) {
-		if (tipoCliente.equals("PF")) {
-			ArrayList<Cliente> clientesPF = new ArrayList<Cliente>();
-			for (Cliente cliente : this.listaClientes) {
-				if (cliente.getClass() == ClientePF.class) {
-					clientesPF.add(cliente);
-				}
-			}
-			return clientesPF;
-		}
-		else if (tipoCliente.equals("PJ")) {
-			ArrayList<Cliente> clientesPJ = new ArrayList<Cliente>();
-			for (Cliente cliente : this.listaClientes) {
-				if (cliente.getClass() == ClientePJ.class) {
-					clientesPJ.add(cliente);
-				}
-			}
-			return clientesPJ;
-		}
-		else {
-			return this.listaClientes;
-		}
+	public ArrayList<ClientePF> listarClientesPF() {
+		return listaClientes
+			   .stream()
+			   .filter(cliente -> cliente instanceof ClientePF)
+			   .map(cliente -> (ClientePF)cliente)
+			   .collect(Collectors.toCollection(ArrayList::new));
+	}
+
+	public ArrayList<ClientePJ> listarClientesPJ() {
+		return listaClientes
+			   .stream()
+			   .filter(cliente -> cliente instanceof ClientePJ)
+			   .map(cliente -> (ClientePJ)cliente)
+			   .collect(Collectors.toCollection(ArrayList::new));
 	}
 
 	public boolean gerarSeguro(LocalDate dataInicio, LocalDate dataFim, Veiculo veiculo, ClientePF cliente) {
@@ -126,6 +118,24 @@ public class Seguradora {
 			   .filter(seguro -> seguro.getId() == id)
 			   .findAny()
 			   .orElseThrow(() -> new NameNotFoundException("Seguro não encontrado: " + id));
+	}
+
+	public ClientePF procurarClientePF(String CPF) 
+	throws NameNotFoundException {
+		return listarClientesPF()
+			   .stream()
+			   .filter(cliente -> cliente.getCPF().equals(CPF))
+			   .findAny()
+			   .orElseThrow(() -> new NameNotFoundException("Cliente não encontrado: " + CPF));
+	}
+
+	public ClientePJ procurarClientePJ(String CNPJ) 
+	throws NameNotFoundException {
+		return listarClientesPJ()
+			   .stream()
+			   .filter(cliente -> cliente.getCNPJ().equals(CNPJ))
+			   .findAny()
+			   .orElseThrow(() -> new NameNotFoundException("Cliente não encontrado: " + CNPJ));
 	}
 
 	// Operações com clientes
