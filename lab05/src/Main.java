@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
@@ -27,6 +28,7 @@ public class Main {
 		System.out.println("2 - Executar teste automatizado do menu interativo");
 		System.out.println("3 - Executar menu interativo");
 		System.out.println("Demais teclas - sair");
+		System.out.println(new File(".").getAbsolutePath());
 		String input = sc.nextLine();
 
 		switch (input) {
