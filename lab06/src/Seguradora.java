@@ -4,7 +4,7 @@ import java.util.stream.Collectors;
 
 import javax.naming.NameNotFoundException;
 
-public class Seguradora {
+public class Seguradora implements I_Arquivo {
 	private final String CNPJ;
 	private String nome;
 	private String telefone;
@@ -173,6 +173,14 @@ public class Seguradora {
 		return listaSeguros
 			   .stream()
 			   .collect(Collectors.summingDouble(seguro -> seguro.calcularValor()));
+	}
+
+	public boolean gravarArquivo() {
+		return true;
+	}
+
+	public String lerArquivo() {
+		return null;
 	}
 
 	@Override
