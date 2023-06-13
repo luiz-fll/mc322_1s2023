@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -179,8 +182,14 @@ public class Seguradora implements I_Arquivo {
 		return true;
 	}
 
-	public String lerArquivo() {
-		return null;
+	public String lerArquivo(String caminho) 
+	throws IOException {
+		BufferedReader reader = new BufferedReader(new FileReader(caminho));
+
+		String conteudo = reader.lines().collect(Collectors.joining("\n"));
+		reader.close();
+
+		return conteudo;
 	}
 
 	@Override
